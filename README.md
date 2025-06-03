@@ -97,9 +97,4 @@ Solana Uptime Validator is a **decentralized website monitoring platform**. Thin
 
 ---
 
-## 📞 Need Help?
-- Open an issue or contact the maintainer.
-
----
-
 **This project is building the next generation of website monitoring — decentralized, transparent, and powered by the community.**
