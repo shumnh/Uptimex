@@ -1,0 +1,59 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8" />
+  <title>Phantom Sign & bs58 Encode</title>
+
+  <!-- Solana Web3 -->
+  <script src="https://unpkg.com/@solana/web3.js@1.98.2/lib/index.iife.js"></script>
+</head>
+<body>
+  <h2>🖋 Sign Message with Phantom + bs58 Encode</h2>
+
+  <input
+    id="msg"
+    value="Login to Solana Uptime Validator at 2025-06-04T16:00:00"
+    size="60"
+  />
+  <br /><br />
+
+  <button id="sign-btn">Sign Message</button>
+
+  <pre id="output" style="white-space: pre-wrap; margin-top: 20px;"></pre>
+
+  <!-- ✅ Use ES module script to import bs58 and bind the button -->
+  <script type="module">
+    import bs58 from 'https://cdn.jsdelivr.net/npm/bs58@6.0.0/+esm';
+
+    document.getElementById('sign-btn').addEventListener('click', async () => {
+      const provider = window.solana;
+      const output = document.getElementById('output');
+
+      if (!provider || !provider.isPhantom) {
+        output.textContent = '❌ Phantom Wallet not found.';
+        return;
+      }
+
+      try {
+        await provider.connect();
+        const wallet = provider.publicKey.toString();
+
+        const message = document.getElementById('msg').value;
+        const encodedMessage = new TextEncoder().encode(message);
+
+        const signed = await provider.signMessage(encodedMessage, 'utf8');
+
+        const base58Signature = bs58.encode(signed.signature);
+
+        output.textContent =
+          'Wallet Address:\n' + wallet + '\n\n' +
+          'Signed Message:\n' + message + '\n\n' +
+          'Signature (bs58):\n' + base58Signature;
+
+      } catch (e) {
+        output.textContent = '❌ Error:\n' + e.message;
+      }
+    });
+  </script>
+</body>
+</html>
