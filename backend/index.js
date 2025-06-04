@@ -5,6 +5,7 @@ const connectDB = require('./config/db');
 const authRoutes = require('./routes/auth');
 const websiteRoutes = require('./routes/websites');
 const checkRoutes = require('./routes/checks');
+const usersRoutes = require('./routes/users');
 
 const app = express();
 const PORT = process.env.PORT;
@@ -23,6 +24,7 @@ connectDB();
 app.use('/api/auth', authRoutes);
 app.use('/api/websites', websiteRoutes);
 app.use('/api/checks', checkRoutes);
+app.use('/api/users', usersRoutes);
 
 app.listen(PORT, () => {
   console.log(`Server running on port ${PORT}`);
