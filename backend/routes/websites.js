@@ -1,10 +1,20 @@
 const express = require('express');
 const router = express.Router();
 const auth = require('../middleware/auth');
-const { createWebsite } = require('../controllers/websiteController');
+const { createWebsite, getUserWebsites, getWebsiteStats, getWebsiteHistory } = require('../controllers/websiteController');
 const Check = require('../models/Check');
 
+// POST /api/websites - Create a new website
 router.post('/', auth, createWebsite);
+
+// GET /api/websites - Get all websites for logged-in user
+router.get('/', auth, getUserWebsites);
+
+// GET /api/websites/:websiteId/stats - Get website statistics (uptime, latency)
+router.get('/:websiteId/stats', auth, getWebsiteStats);
+
+// GET /api/websites/:websiteId/history - Get website check history for charts
+router.get('/:websiteId/history', auth, getWebsiteHistory);
 
 // GET /api/websites/:websiteId/validators - Get validators who checked this website
 router.get('/:websiteId/validators', auth, async (req, res) => {
@@ -25,7 +35,11 @@ router.get('/:websiteId/validators', auth, async (req, res) => {
       signature: check.signature
     }));
 
-    res.json(validators);
+    res.json({
+      success: true,
+      validators: validators,
+      count: validators.length
+    });
   } catch (err) {
     console.error('Error fetching validators:', err);
     res.status(500).json({ error: 'Failed to fetch validators' });

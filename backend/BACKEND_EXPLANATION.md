@@ -234,4 +234,4 @@ This backend is **ready for real users and real business** right now. The remain
 
 It combines the reliability of traditional web development with the trust and transparency of blockchain technology to create something that doesn't exist in the market today - a truly decentralized, trustworthy website monitoring platform.
 
-**Ready for launch. Ready for users. Ready for business.** 🌟
+**Ready for launch. Ready for users. Ready for business.** 🌟 

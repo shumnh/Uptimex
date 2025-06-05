@@ -2,7 +2,10 @@ import jwt from 'jsonwebtoken';
 import nacl from 'tweetnacl';
 import bs58 from 'bs58';
 import { PublicKey } from '@solana/web3.js';
-import User from '../models/User.js';
+import { createRequire } from 'module';
+
+const require = createRequire(import.meta.url);
+const User = require('../models/User.js');
 
 // Helper to verify Solana signature
 function verifySolanaSignature(message, signature, publicKey) {
@@ -22,33 +25,46 @@ export const loginWithWallet = async (req, res) => {
   if (!wallet || !message || !signature) {
     return res.status(400).json({ error: 'Missing wallet, message, or signature' });
   }
-  // Verify signature
-  const valid = verifySolanaSignature(message, signature, wallet);
-  if (!valid) {
-    return res.status(401).json({ error: 'Invalid signature' });
-  }
-  // Find or create user
-  let user = await User.findOne({ solanaWallet: wallet });
-  if (!user) {
-    user = await User.create({
-      username: wallet,
-      solanaWallet: wallet,
-      role: 'validator'
-      // No email needed for validators
-    });
-  }
-  // Issue JWT
-  const token = jwt.sign(
-    { id: user._id, wallet: user.solanaWallet, role: user.role },
-    process.env.JWT_SECRET,
-    { expiresIn: '7d' }
-  );
-  res.json({
-    token,
-    user: {
-      id: user._id,
-      wallet: user.solanaWallet,
-      role: user.role
+  
+  try {
+    // Verify signature
+    const valid = verifySolanaSignature(message, signature, wallet);
+    if (!valid) {
+      return res.status(401).json({ error: 'Invalid signature' });
     }
-  });
+    
+    // Find or create user
+    let user = await User.findOne({ solanaWallet: wallet });
+    if (!user) {
+      user = await User.create({
+        username: wallet.slice(-8), // Use last 8 chars as username for readability
+        solanaWallet: wallet,
+        role: 'validator'
+        // No email or password needed for validators
+      });
+      console.log(`✅ New validator registered: ${wallet}`);
+    } else {
+      console.log(`✅ Existing validator logged in: ${wallet}`);
+    }
+    
+    // Issue JWT
+    const token = jwt.sign(
+      { id: user._id, wallet: user.solanaWallet, role: user.role },
+      process.env.JWT_SECRET,
+      { expiresIn: '7d' }
+    );
+    
+    res.json({
+      token,
+      user: {
+        id: user._id,
+        username: user.username,
+        wallet: user.solanaWallet,
+        role: user.role
+      }
+    });
+  } catch (error) {
+    console.error('Wallet login error:', error);
+    res.status(500).json({ error: 'Login failed' });
+  }
 }; 
