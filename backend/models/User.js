@@ -14,7 +14,7 @@ const UserSchema = new mongoose.Schema({
     required: function() { return this.role === 'user'; }, // Only required for website owners
     lowercase: true,
     trim: true,
-    match: [/^\w+([.-]?\w+)*@\w+([.-]?\w+)*(\.\w{2,3})+$/, 'Please enter a valid email']
+    match: [/^\w+([.-]?\w+)*@\w+([.-]?\w+)*(\.\w{2,5})+$/, 'Please enter a valid email']
   },
   passwordHash: {
     type: String,

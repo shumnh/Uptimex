@@ -6,7 +6,7 @@ const { hashPassword, comparePassword, validatePasswordStrength } = require('../
 
 // POST /api/auth/register
 router.post('/register', async (req, res) => {
-  const { username, email, password, role } = req.body;
+  const { username, email, password, role, solanaWallet } = req.body;
   if (!username || !email || !password) {
     return res.status(400).json({ error: 'Username, email, and password are required' });
   }
@@ -21,30 +21,56 @@ router.post('/register', async (req, res) => {
   }
   
   try {
-    const existingUser = await User.findOne({ email });
-    if (existingUser) {
+    // Check for existing user by email
+    const existingUserByEmail = await User.findOne({ email });
+    if (existingUserByEmail) {
       return res.status(400).json({ error: 'Email already registered' });
+    }
+    
+    // Check for existing user by wallet address (if provided)
+    if (solanaWallet) {
+      const existingUserByWallet = await User.findOne({ solanaWallet });
+      if (existingUserByWallet) {
+        return res.status(400).json({ error: 'Wallet address already registered' });
+      }
     }
     
     // Hash the password using utility function
     const passwordHash = await hashPassword(password);
     
-    const user = await User.create({
+    const userData = {
       username,
       email,
       passwordHash,
       role: role || 'user'
-    });
+    };
     
-    console.log(`✅ New user registered: ${email} with role: ${user.role}`);
+    // Add wallet address if provided
+    if (solanaWallet) {
+      userData.solanaWallet = solanaWallet;
+    }
+    
+    const user = await User.create(userData);
+    
+    console.log(`✅ New user registered: ${email} with role: ${user.role}${solanaWallet ? ` and wallet: ${solanaWallet}` : ''}`);
+    
+    // Create JWT token
+    const token = jwt.sign({ 
+      id: user._id, 
+      email: user.email, 
+      role: user.role,
+      solanaWallet: user.solanaWallet
+    }, process.env.JWT_SECRET, { expiresIn: '7d' });
     
     res.status(201).json({ 
-      message: 'User registered successfully', 
+      message: 'User registered successfully',
+      token,
       user: { 
         id: user._id, 
         email: user.email, 
         username: user.username,
-        role: user.role 
+        role: user.role,
+        solanaWallet: user.solanaWallet
       } 
     });
   } catch (err) {
@@ -104,10 +130,56 @@ import('../controllers/authController.mjs').then(module => {
 });
 
 router.post('/wallet-login', async (req, res) => {
-  if (!loginWithWallet) {
-    return res.status(500).json({ error: 'Module not loaded yet' });
+  const { walletAddress, userType } = req.body;
+  
+  // For validators, use the signature-based authentication
+  if (userType === 'validator') {
+    if (!loginWithWallet) {
+      return res.status(500).json({ error: 'Module not loaded yet' });
+    }
+    return loginWithWallet(req, res);
   }
-  return loginWithWallet(req, res);
+  
+  // For website owners (users), use simplified wallet authentication
+  if (userType === 'user') {
+    if (!walletAddress) {
+      return res.status(400).json({ error: 'Wallet address is required' });
+    }
+    
+    try {
+      // Find user by wallet address
+      const user = await User.findOne({ solanaWallet: walletAddress, role: 'user' });
+      if (!user) {
+        return res.status(404).json({ error: 'User not found with this wallet address' });
+      }
+      
+      // Create JWT token
+      const token = jwt.sign({ 
+        id: user._id, 
+        email: user.email, 
+        role: user.role,
+        solanaWallet: user.solanaWallet
+      }, process.env.JWT_SECRET, { expiresIn: '7d' });
+      
+      console.log(`✅ Website owner logged in with wallet: ${walletAddress}`);
+      
+      res.json({ 
+        token, 
+        user: { 
+          id: user._id, 
+          email: user.email, 
+          username: user.username,
+          role: user.role,
+          solanaWallet: user.solanaWallet 
+        } 
+      });
+    } catch (err) {
+      console.error('Wallet login error:', err);
+      res.status(500).json({ error: 'Login failed' });
+    }
+  } else {
+    return res.status(400).json({ error: 'Invalid user type' });
+  }
 });
 
 module.exports = router; 
