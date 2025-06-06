@@ -27,9 +27,12 @@ async function createAssignments() {
     const websites = await Website.find({});
     console.log(`📊 Found ${websites.length} websites to monitor`);
     
-    // Get all active validators
+    // Get all active validators (including website owners who can also validate)
     const validators = await User.find({ 
-      role: 'validator',
+      $or: [
+        { role: 'validator' },
+        { role: 'user', solanaWallet: { $exists: true, $ne: null } }
+      ],
       solanaWallet: { $exists: true, $ne: null }
     });
     console.log(`👥 Found ${validators.length} active validators`);

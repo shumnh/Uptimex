@@ -3,27 +3,43 @@ import { useNavigate } from 'react-router-dom';
 
 interface User {
   id: string;
-  email: string;
-  userType: string;
+  email?: string;
+  username: string;
+  role: string;
   solanaWallet?: string;
   createdAt: string;
 }
 
 interface Website {
-  id: string;
+  _id: string;
   url: string;
-  name: string;
-  status: 'active' | 'inactive' | 'error';
-  lastCheck: string;
+  name?: string;
+  owner: string;
+  createdAt: string;
+  updatedAt: string;
+}
+
+interface WebsiteStats {
   uptime: number;
+  totalChecks: number;
+  averageLatency: number;
+  currentStatus: 'up' | 'down' | 'unknown';
+  timeframe: string;
+  lastChecked: string | null;
+}
+
+interface WebsiteWithStats extends Website {
+  stats?: WebsiteStats;
 }
 
 function DashboardPage() {
   const [user, setUser] = useState<User | null>(null);
-  const [websites, setWebsites] = useState<Website[]>([]);
+  const [websites, setWebsites] = useState<WebsiteWithStats[]>([]);
   const [isLoading, setIsLoading] = useState(true);
   const [showAddWebsite, setShowAddWebsite] = useState(false);
   const [newWebsite, setNewWebsite] = useState({ name: '', url: '' });
+  const [addingWebsite, setAddingWebsite] = useState(false);
+  const [selectedTimeframe, setSelectedTimeframe] = useState('24h');
   const navigate = useNavigate();
 
   useEffect(() => {
@@ -55,7 +71,39 @@ function DashboardPage() {
 
       if (response.ok) {
         const data = await response.json();
-        setWebsites(data);
+        if (data.success && data.websites) {
+          const websitesWithStats = await Promise.all(
+            data.websites.map(async (website: Website) => {
+              try {
+                const statsResponse = await fetch(
+                  `http://localhost:4000/api/websites/${website._id}/stats?timeframe=${selectedTimeframe}`,
+                  {
+                    headers: {
+                      'Authorization': `Bearer ${token}`,
+                      'Content-Type': 'application/json',
+                    },
+                  }
+                );
+                
+                if (statsResponse.ok) {
+                  const statsData = await statsResponse.json();
+                  return {
+                    ...website,
+                    stats: statsData.success ? statsData.stats : undefined
+                  };
+                }
+              } catch (error) {
+                console.error(`Failed to load stats for ${website.url}:`, error);
+              }
+              
+              return website;
+            })
+          );
+          
+          setWebsites(websitesWithStats);
+        }
+      } else {
+        console.error('Failed to load websites:', response.status);
       }
     } catch (error) {
       console.error('Failed to load websites:', error);
@@ -66,6 +114,7 @@ function DashboardPage() {
 
   const handleAddWebsite = async (e: React.FormEvent) => {
     e.preventDefault();
+    setAddingWebsite(true);
     
     try {
       const token = localStorage.getItem('token');
@@ -82,9 +131,15 @@ function DashboardPage() {
         setNewWebsite({ name: '', url: '' });
         setShowAddWebsite(false);
         loadWebsites(); // Reload websites list
+      } else {
+        const errorData = await response.json();
+        alert(`Failed to add website: ${errorData.error || 'Unknown error'}`);
       }
     } catch (error) {
       console.error('Failed to add website:', error);
+      alert('Network error. Please try again.');
+    } finally {
+      setAddingWebsite(false);
     }
   };
 
@@ -94,32 +149,70 @@ function DashboardPage() {
     navigate('/');
   };
 
-  const getStatusColor = (status: string) => {
+  const getStatusColor = (status?: string) => {
     switch (status) {
-      case 'active': return 'text-green-400';
-      case 'inactive': return 'text-red-400';
-      case 'error': return 'text-yellow-400';
+      case 'up': return 'text-green-400';
+      case 'down': return 'text-red-400';
+      case 'unknown': return 'text-yellow-400';
       default: return 'text-gray-400';
     }
   };
 
-  const getStatusIcon = (status: string) => {
+  const getStatusIcon = (status?: string) => {
     switch (status) {
-      case 'active': return '✅';
-      case 'inactive': return '❌';
-      case 'error': return '⚠️';
+      case 'up': return '✅';
+      case 'down': return '❌';
+      case 'unknown': return '⚠️';
       default: return '❓';
     }
   };
 
+  const getStatusText = (status?: string) => {
+    switch (status) {
+      case 'up': return 'Online';
+      case 'down': return 'Offline';
+      case 'unknown': return 'Unknown';
+      default: return 'No Data';
+    }
+  };
+
+  const formatLatency = (latency?: number) => {
+    if (!latency) return 'N/A';
+    return `${latency}ms`;
+  };
+
+  const formatLastChecked = (lastChecked?: string | null) => {
+    if (!lastChecked) return 'Never';
+    const date = new Date(lastChecked);
+    const now = new Date();
+    const diffMs = now.getTime() - date.getTime();
+    const diffMins = Math.floor(diffMs / 60000);
+    
+    if (diffMins < 1) return 'Just now';
+    if (diffMins < 60) return `${diffMins}m ago`;
+    if (diffMins < 1440) return `${Math.floor(diffMins / 60)}h ago`;
+    return date.toLocaleDateString();
+  };
+
+  // Calculate overall statistics
+  const totalWebsites = websites.length;
+  const activeWebsites = websites.filter(w => w.stats?.currentStatus === 'up').length;
+  const averageUptime = websites.length > 0 
+    ? Math.round(websites.reduce((acc, w) => acc + (w.stats?.uptime || 0), 0) / websites.length)
+    : 0;
+
   if (isLoading) {
     return (
       <div className="min-h-screen bg-gradient-to-br from-slate-900 via-purple-900 to-slate-900 flex items-center justify-center">
-        <div className="text-white">Loading...</div>
+        <div className="text-center">
+          <div className="animate-spin rounded-full h-12 w-12 border-b-2 border-white mx-auto mb-4"></div>
+          <div className="text-white">Loading your dashboard...</div>
+        </div>
       </div>
     );
   }
 
+  const displayName = user?.username || user?.email?.split('@')[0] || 'User';
   const isWalletUser = user?.solanaWallet;
 
   return (
@@ -139,7 +232,7 @@ function DashboardPage() {
               <h1 className="text-2xl font-bold text-white">Website Monitoring Dashboard</h1>
               <div className="flex items-center mt-2 space-x-4">
                 <p className="text-gray-300">
-                  Welcome back, {user?.email?.split('@')[0] || 'User'}
+                  Welcome back, {displayName}
                 </p>
                 {isWalletUser && (
                   <div className="flex items-center bg-purple-500/20 px-3 py-1 rounded-full border border-purple-500/30">
@@ -151,12 +244,28 @@ function DashboardPage() {
                 )}
               </div>
             </div>
-            <button
-              onClick={handleLogout}
-              className="bg-white/10 hover:bg-white/20 text-white px-4 py-2 rounded-xl border border-white/20 transition-all duration-300"
-            >
-              Logout
-            </button>
+            <div className="flex items-center space-x-4">
+              {/* Timeframe Selector */}
+              <select
+                value={selectedTimeframe}
+                onChange={(e) => {
+                  setSelectedTimeframe(e.target.value);
+                  setTimeout(() => loadWebsites(), 100); // Reload with new timeframe
+                }}
+                className="bg-white/10 border border-white/20 rounded-xl text-white px-3 py-2 text-sm focus:outline-none focus:ring-2 focus:ring-blue-500"
+              >
+                <option value="24h" className="bg-slate-800">Last 24 Hours</option>
+                <option value="7d" className="bg-slate-800">Last 7 Days</option>
+                <option value="30d" className="bg-slate-800">Last 30 Days</option>
+              </select>
+              
+              <button
+                onClick={handleLogout}
+                className="bg-white/10 hover:bg-white/20 text-white px-4 py-2 rounded-xl border border-white/20 transition-all duration-300"
+              >
+                Logout
+              </button>
+            </div>
           </div>
         </header>
 
@@ -168,7 +277,7 @@ function DashboardPage() {
                 <div className="flex items-center justify-between">
                   <div>
                     <p className="text-gray-300 text-sm">Total Websites</p>
-                    <p className="text-3xl font-bold text-white">{websites.length}</p>
+                    <p className="text-3xl font-bold text-white">{totalWebsites}</p>
                   </div>
                   <div className="text-4xl">🌐</div>
                 </div>
@@ -177,9 +286,10 @@ function DashboardPage() {
               <div className="bg-white/10 backdrop-blur-md rounded-2xl p-6 border border-white/20">
                 <div className="flex items-center justify-between">
                   <div>
-                    <p className="text-gray-300 text-sm">Active Sites</p>
-                    <p className="text-3xl font-bold text-green-400">
-                      {websites.filter(w => w.status === 'active').length}
+                    <p className="text-gray-300 text-sm">Online Now</p>
+                    <p className="text-3xl font-bold text-green-400">{activeWebsites}</p>
+                    <p className="text-xs text-gray-400">
+                      {totalWebsites > 0 ? Math.round((activeWebsites / totalWebsites) * 100) : 0}% of total
                     </p>
                   </div>
                   <div className="text-4xl">✅</div>
@@ -190,10 +300,10 @@ function DashboardPage() {
                 <div className="flex items-center justify-between">
                   <div>
                     <p className="text-gray-300 text-sm">Average Uptime</p>
-                    <p className="text-3xl font-bold text-blue-400">
-                      {websites.length > 0 
-                        ? Math.round(websites.reduce((acc, w) => acc + w.uptime, 0) / websites.length)
-                        : 0}%
+                    <p className="text-3xl font-bold text-blue-400">{averageUptime}%</p>
+                    <p className="text-xs text-gray-400">
+                      {selectedTimeframe === '24h' ? 'Last 24 hours' : 
+                       selectedTimeframe === '7d' ? 'Last 7 days' : 'Last 30 days'}
                     </p>
                   </div>
                   <div className="text-4xl">📊</div>
@@ -207,9 +317,10 @@ function DashboardPage() {
                 <h2 className="text-xl font-bold text-white">Your Websites</h2>
                 <button
                   onClick={() => setShowAddWebsite(true)}
-                  className="bg-gradient-to-r from-blue-600 to-purple-600 text-white px-4 py-2 rounded-xl hover:shadow-lg transition-all duration-300"
+                  className="bg-gradient-to-r from-blue-600 to-purple-600 text-white px-4 py-2 rounded-xl hover:shadow-lg transition-all duration-300 flex items-center"
                 >
-                  + Add Website
+                  <span className="mr-2">+</span>
+                  Add Website
                 </button>
               </div>
 
@@ -217,7 +328,7 @@ function DashboardPage() {
                 <div className="text-center py-12">
                   <div className="text-6xl mb-4">🌐</div>
                   <h3 className="text-xl font-semibold text-white mb-2">No websites yet</h3>
-                  <p className="text-gray-300 mb-6">Add your first website to start monitoring</p>
+                  <p className="text-gray-300 mb-6">Add your first website to start monitoring its uptime and performance</p>
                   <button
                     onClick={() => setShowAddWebsite(true)}
                     className="bg-gradient-to-r from-blue-600 to-purple-600 text-white px-6 py-3 rounded-xl hover:shadow-lg transition-all duration-300"
@@ -228,23 +339,58 @@ function DashboardPage() {
               ) : (
                 <div className="grid gap-4">
                   {websites.map((website) => (
-                    <div key={website.id} className="bg-white/5 rounded-xl p-4 border border-white/10">
-                      <div className="flex justify-between items-center">
+                    <div key={website._id} className="bg-white/5 rounded-xl p-6 border border-white/10 hover:bg-white/10 transition-all duration-300">
+                      <div className="flex justify-between items-start">
                         <div className="flex-1">
-                          <div className="flex items-center">
-                            <h3 className="text-lg font-semibold text-white mr-3">{website.name}</h3>
-                            <span className={`flex items-center ${getStatusColor(website.status)}`}>
-                              <span className="mr-1">{getStatusIcon(website.status)}</span>
-                              {website.status}
+                          <div className="flex items-center mb-2">
+                            <h3 className="text-lg font-semibold text-white mr-3">
+                              {website.name || 'Unnamed Website'}
+                            </h3>
+                            <span className={`flex items-center ${getStatusColor(website.stats?.currentStatus)} bg-white/10 px-2 py-1 rounded-full text-sm`}>
+                              <span className="mr-1">{getStatusIcon(website.stats?.currentStatus)}</span>
+                              {getStatusText(website.stats?.currentStatus)}
                             </span>
                           </div>
-                          <p className="text-gray-300 text-sm mt-1">{website.url}</p>
-                          <p className="text-gray-400 text-xs mt-2">
-                            Last checked: {new Date(website.lastCheck).toLocaleString()}
+                          
+                          <p className="text-blue-300 text-sm mb-2 hover:text-blue-200 cursor-pointer">
+                            {website.url}
                           </p>
+                          
+                          <div className="grid grid-cols-2 md:grid-cols-4 gap-4 text-sm">
+                            <div>
+                              <span className="text-gray-400">Uptime:</span>
+                              <span className="text-white ml-1 font-semibold">
+                                {website.stats?.uptime?.toFixed(1) || 0}%
+                              </span>
+                            </div>
+                            <div>
+                              <span className="text-gray-400">Avg Latency:</span>
+                              <span className="text-white ml-1 font-semibold">
+                                {formatLatency(website.stats?.averageLatency)}
+                              </span>
+                            </div>
+                            <div>
+                              <span className="text-gray-400">Total Checks:</span>
+                              <span className="text-white ml-1 font-semibold">
+                                {website.stats?.totalChecks || 0}
+                              </span>
+                            </div>
+                            <div>
+                              <span className="text-gray-400">Last Check:</span>
+                              <span className="text-white ml-1 font-semibold">
+                                {formatLastChecked(website.stats?.lastChecked)}
+                              </span>
+                            </div>
+                          </div>
                         </div>
-                        <div className="text-right">
-                          <div className="text-2xl font-bold text-white">{website.uptime}%</div>
+                        
+                        <div className="text-right ml-6">
+                          <div className={`text-3xl font-bold ${
+                            (website.stats?.uptime || 0) >= 99 ? 'text-green-400' :
+                            (website.stats?.uptime || 0) >= 95 ? 'text-yellow-400' : 'text-red-400'
+                          }`}>
+                            {website.stats?.uptime?.toFixed(1) || 0}%
+                          </div>
                           <div className="text-xs text-gray-400">Uptime</div>
                         </div>
                       </div>
@@ -275,6 +421,7 @@ function DashboardPage() {
                     placeholder="My Website"
                     required
                   />
+                  <p className="text-gray-400 text-xs mt-1">A friendly name for your website</p>
                 </div>
                 
                 <div>
@@ -289,6 +436,7 @@ function DashboardPage() {
                     placeholder="https://example.com"
                     required
                   />
+                  <p className="text-gray-400 text-xs mt-1">Must include http:// or https://</p>
                 </div>
                 
                 <div className="flex space-x-3 pt-4">
@@ -296,14 +444,23 @@ function DashboardPage() {
                     type="button"
                     onClick={() => setShowAddWebsite(false)}
                     className="flex-1 bg-white/10 text-white py-3 px-4 rounded-xl border border-white/20 hover:bg-white/20 transition-all duration-300"
+                    disabled={addingWebsite}
                   >
                     Cancel
                   </button>
                   <button
                     type="submit"
-                    className="flex-1 bg-gradient-to-r from-blue-600 to-purple-600 text-white py-3 px-4 rounded-xl hover:shadow-lg transition-all duration-300"
+                    disabled={addingWebsite}
+                    className="flex-1 bg-gradient-to-r from-blue-600 to-purple-600 text-white py-3 px-4 rounded-xl hover:shadow-lg transition-all duration-300 disabled:opacity-50 disabled:cursor-not-allowed flex items-center justify-center"
                   >
-                    Add Website
+                    {addingWebsite ? (
+                      <>
+                        <div className="animate-spin rounded-full h-4 w-4 border-b-2 border-white mr-2"></div>
+                        Adding...
+                      </>
+                    ) : (
+                      'Add Website'
+                    )}
                   </button>
                 </div>
               </form>

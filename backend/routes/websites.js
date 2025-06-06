@@ -10,6 +10,74 @@ router.post('/', auth, createWebsite);
 // GET /api/websites - Get all websites for logged-in user
 router.get('/', auth, getUserWebsites);
 
+// GET /api/websites/marketplace - Get all websites for validator marketplace (MUST BE BEFORE :websiteId routes)
+router.get('/marketplace', auth, async (req, res) => {
+  try {
+    const Website = require('../models/Website');
+    
+    // Get all websites with their recent check statistics
+    const websites = await Website.find({}).populate('owner', 'username');
+    
+    const websitesWithStats = await Promise.all(websites.map(async (website) => {
+      // Get recent checks (last 24 hours)
+      const recentChecks = await Check.find({
+        website: website._id,
+        timestamp: { $gt: new Date(Date.now() - 24 * 60 * 60 * 1000) }
+      }).sort({ timestamp: -1 });
+      
+      // Get last check by current validator (to prevent spam)
+      const lastCheckByValidator = await Check.findOne({
+        website: website._id,
+        validator: req.user.id
+      }).sort({ timestamp: -1 });
+      
+      // Calculate time since last check by this validator
+      const timeSinceLastCheck = lastCheckByValidator 
+        ? Date.now() - new Date(lastCheckByValidator.timestamp).getTime()
+        : Infinity;
+      
+      // Calculate recent activity stats
+      const totalChecks = recentChecks.length;
+      const upChecks = recentChecks.filter(check => check.status === 'up').length;
+      const avgLatency = recentChecks.length > 0 
+        ? Math.round(recentChecks.reduce((sum, check) => sum + (check.latency || 0), 0) / recentChecks.length)
+        : 0;
+      
+      return {
+        id: website._id,
+        url: website.url,
+        name: website.name,
+        owner: website.owner.username,
+        createdAt: website.createdAt,
+        recentStats: {
+          totalChecks,
+          uptime: totalChecks > 0 ? Math.round((upChecks / totalChecks) * 100) : 0,
+          avgLatency,
+          lastChecked: recentChecks[0]?.timestamp || null
+        },
+        canCheck: timeSinceLastCheck > 2 * 60 * 1000, // Can check if last check was >2 minutes ago
+        lastCheckByValidator: lastCheckByValidator?.timestamp || null
+      };
+    }));
+    
+    // Sort by most recently needed (least recently checked overall)
+    websitesWithStats.sort((a, b) => {
+      const aLastCheck = a.recentStats.lastChecked ? new Date(a.recentStats.lastChecked).getTime() : 0;
+      const bLastCheck = b.recentStats.lastChecked ? new Date(b.recentStats.lastChecked).getTime() : 0;
+      return aLastCheck - bLastCheck; // Oldest first (needs checking most)
+    });
+    
+    res.json({
+      success: true,
+      websites: websitesWithStats,
+      count: websitesWithStats.length
+    });
+  } catch (err) {
+    console.error('Error fetching marketplace websites:', err);
+    res.status(500).json({ error: 'Failed to fetch marketplace websites' });
+  }
+});
+
 // GET /api/websites/:websiteId/stats - Get website statistics (uptime, latency)
 router.get('/:websiteId/stats', auth, getWebsiteStats);
 
@@ -45,5 +113,7 @@ router.get('/:websiteId/validators', auth, async (req, res) => {
     res.status(500).json({ error: 'Failed to fetch validators' });
   }
 });
+
+
 
 module.exports = router; 

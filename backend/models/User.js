@@ -9,6 +9,11 @@ const UserSchema = new mongoose.Schema({
     minlength: [3, 'Username must be at least 3 characters long'],
     maxlength: [30, 'Username cannot exceed 30 characters']
   },
+  name: {
+    type: String,
+    trim: true,
+    maxlength: [50, 'Name cannot exceed 50 characters']
+  },
   email: {
     type: String,
     required: function() { return this.role === 'user'; }, // Only required for website owners

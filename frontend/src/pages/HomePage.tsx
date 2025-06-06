@@ -179,14 +179,27 @@ function HomePage() {
                   </div>
 
                   <div className="space-y-3">
+                    <div className="text-center text-sm text-purple-200 mb-4 px-3 py-2 bg-purple-500/20 border border-purple-500/50 rounded-lg">
+                      💰 Earn SOL • Choose Your Work • No KYC Required
+                    </div>
+                    
                     <Link 
-                      to="/validator"
+                      to="/validator-register"
                       className="block w-full bg-gradient-to-r from-purple-600 to-pink-600 text-white font-semibold py-4 px-6 rounded-xl text-center hover:shadow-lg transition-all duration-300"
                     >
-                      🔗 Connect Wallet
+                      <span className="text-xl mr-2">🚀</span>
+                      Start Earning as Validator
                     </Link>
-                    <div className="text-sm text-gray-400 text-center">
-                      Validators use wallet-only authentication
+                    
+                    <Link 
+                      to="/validator-login"
+                      className="block w-full bg-white/10 backdrop-blur-md text-white font-semibold py-3 px-6 rounded-xl text-center border border-white/20 hover:bg-white/20 transition-all duration-300"
+                    >
+                      Already Registered? Login
+                    </Link>
+                    
+                    <div className="text-xs text-gray-400 text-center">
+                      🔐 Wallet Authentication • Instant Payments
                     </div>
                   </div>
                 </div>

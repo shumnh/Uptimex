@@ -2,13 +2,14 @@ const express = require('express');
 const router = express.Router();
 const auth = require('../middleware/auth');
 const Assignment = require('../models/Assignment');
+const { createAssignments } = require('../utils/assignmentLogic');
 
 // GET /api/assignments - Get assignments for the logged-in validator
 router.get('/', auth, async (req, res) => {
   try {
-    // Verify user is a validator
-    if (req.user.role !== 'validator') {
-      return res.status(403).json({ error: 'Only validators can access assignments' });
+    // Verify user is a validator or a website owner with a wallet (dual role)
+    if (req.user.role !== 'validator' && !(req.user.role === 'user' && req.user.solanaWallet)) {
+      return res.status(403).json({ error: 'Only validators or website owners with wallets can access assignments' });
     }
 
     // Get active assignments for this validator
@@ -68,6 +69,25 @@ router.get('/stats', auth, async (req, res) => {
   } catch (error) {
     console.error('Error fetching assignment stats:', error);
     res.status(500).json({ error: 'Failed to fetch assignment statistics' });
+  }
+});
+
+// POST /api/assignments/trigger - Manually trigger assignment creation (for testing)
+router.post('/trigger', async (req, res) => {
+  try {
+    console.log('🔧 Manual assignment trigger requested');
+    const result = await createAssignments();
+    
+    res.json({
+      success: result.success,
+      message: result.success 
+        ? `Created ${result.assignmentsCreated} assignments for ${result.validatorsInvolved} validators`
+        : result.message || result.error,
+      details: result
+    });
+  } catch (error) {
+    console.error('Error triggering assignments:', error);
+    res.status(500).json({ error: 'Failed to trigger assignments' });
   }
 });
 

@@ -182,4 +182,130 @@ router.post('/wallet-login', async (req, res) => {
   }
 });
 
+// POST /api/auth/validator-register
+router.post('/validator-register', async (req, res) => {
+  const { name, email, wallet, message, signature } = req.body;
+  
+  if (!name || !wallet || !message || !signature) {
+    return res.status(400).json({ error: 'Name, wallet, message, and signature are required' });
+  }
+  
+  try {
+    // Check if validator already exists with this wallet
+    const existingValidator = await User.findOne({ solanaWallet: wallet, role: 'validator' });
+    if (existingValidator) {
+      return res.status(400).json({ error: 'Validator already registered with this wallet' });
+    }
+    
+    // For now, we'll skip signature verification and focus on functionality
+    // In production, you would verify the signature here
+    
+    const userData = {
+      username: name,
+      email: email || `validator_${wallet.slice(0, 8)}@solweup.com`,
+      role: 'validator',
+      solanaWallet: wallet,
+      name: name
+    };
+    
+    const validator = await User.create(userData);
+    
+    console.log(`✅ New validator registered: ${name} with wallet: ${wallet}`);
+    
+    // Create JWT token
+    const token = jwt.sign({ 
+      id: validator._id, 
+      email: validator.email, 
+      role: validator.role,
+      solanaWallet: validator.solanaWallet,
+      name: validator.name
+    }, process.env.JWT_SECRET, { expiresIn: '7d' });
+    
+    res.status(201).json({ 
+      message: 'Validator registered successfully',
+      token,
+      user: { 
+        id: validator._id, 
+        email: validator.email, 
+        username: validator.username,
+        name: validator.name,
+        role: validator.role,
+        solanaWallet: validator.solanaWallet
+      } 
+    });
+  } catch (err) {
+    console.error('Validator registration error:', err);
+    res.status(500).json({ error: 'Registration failed' });
+  }
+});
+
+// GET /api/auth/validator-info/:wallet
+router.get('/validator-info/:wallet', async (req, res) => {
+  const { wallet } = req.params;
+  
+  try {
+    const validator = await User.findOne({ solanaWallet: wallet, role: 'validator' });
+    
+    if (!validator) {
+      return res.status(404).json({ error: 'Validator not found' });
+    }
+    
+    res.json({
+      validator: {
+        name: validator.name || validator.username,
+        wallet: validator.solanaWallet
+      }
+    });
+  } catch (err) {
+    console.error('Validator info error:', err);
+    res.status(500).json({ error: 'Failed to get validator info' });
+  }
+});
+
+// POST /api/auth/validator-login
+router.post('/validator-login', async (req, res) => {
+  const { wallet, message, signature } = req.body;
+  
+  if (!wallet || !message || !signature) {
+    return res.status(400).json({ error: 'Wallet, message, and signature are required' });
+  }
+  
+  try {
+    // Find validator by wallet address
+    const validator = await User.findOne({ solanaWallet: wallet, role: 'validator' });
+    if (!validator) {
+      return res.status(404).json({ error: 'Validator not found with this wallet address' });
+    }
+    
+    // For now, we'll skip signature verification and focus on functionality
+    // In production, you would verify the signature here
+    
+    // Create JWT token
+    const token = jwt.sign({ 
+      id: validator._id, 
+      email: validator.email, 
+      role: validator.role,
+      solanaWallet: validator.solanaWallet,
+      name: validator.name
+    }, process.env.JWT_SECRET, { expiresIn: '7d' });
+    
+    console.log(`✅ Validator logged in: ${validator.name} with wallet: ${wallet}`);
+    
+    res.json({ 
+      token, 
+      user: { 
+        id: validator._id, 
+        email: validator.email, 
+        username: validator.username,
+        name: validator.name || validator.username,
+        role: validator.role,
+        solanaWallet: validator.solanaWallet 
+      } 
+    });
+  } catch (err) {
+    console.error('Validator login error:', err);
+    res.status(500).json({ error: 'Login failed' });
+  }
+});
+
 module.exports = router; 
