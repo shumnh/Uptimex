@@ -66,12 +66,12 @@ function HomePage() {
                 Trust verified by blockchain. Monitoring powered by a global network of independent validators earning real SOL rewards.
               </p>
 
-              {/* CTA Buttons */}
+            {/* CTA Buttons */}
               <div className="flex flex-col sm:flex-row gap-6 justify-center lg:justify-start mb-16">
-                <Link 
-                  to="/register"
+              <Link 
+                to="/register"
                   className="group relative px-8 py-4 bg-gradient-to-r from-indigo-600 to-purple-600 text-white font-bold rounded-2xl shadow-2xl hover:shadow-indigo-500/25 transition-all duration-300 transform hover:-translate-y-1 hover:scale-105"
-                >
+              >
                   <span className="relative z-10 flex items-center justify-center">
                     Start Monitoring
                     <svg className="w-5 h-5 ml-2 group-hover:translate-x-1 transition-transform" fill="none" stroke="currentColor" viewBox="0 0 24 24">
@@ -79,30 +79,30 @@ function HomePage() {
                     </svg>
                   </span>
                   <div className="absolute inset-0 bg-gradient-to-r from-indigo-700 to-purple-700 rounded-2xl opacity-0 group-hover:opacity-100 transition-opacity duration-300"></div>
-                </Link>
+              </Link>
                 
-                <Link 
+              <Link 
                   to="/validator-register"
                   className="group px-8 py-4 bg-white/80 backdrop-blur-md text-slate-900 font-bold rounded-2xl border-2 border-indigo-200 hover:border-indigo-300 shadow-lg hover:shadow-xl transition-all duration-300 transform hover:-translate-y-1"
-                >
+              >
                   <span className="flex items-center justify-center">
                     Earn as Validator
                     <span className="ml-2 text-green-600 font-black">+ SOL</span>
                   </span>
-                </Link>
-              </div>
+              </Link>
+            </div>
 
-              {/* Trust Indicators */}
+            {/* Trust Indicators */}
               <div className="grid grid-cols-3 gap-8 max-w-md mx-auto lg:mx-0">
                 <div className="text-center">
                   <div className="text-3xl lg:text-4xl font-black text-slate-900 mb-2">99.9%</div>
                   <div className="text-slate-500 text-sm font-medium uppercase tracking-wide">Accuracy</div>
                 </div>
-                <div className="text-center">
+              <div className="text-center">
                   <div className="text-3xl lg:text-4xl font-black text-slate-900 mb-2">24/7</div>
                   <div className="text-slate-500 text-sm font-medium uppercase tracking-wide">Monitoring</div>
-                </div>
-                <div className="text-center">
+              </div>
+              <div className="text-center">
                   <div className="text-3xl lg:text-4xl font-black text-slate-900 mb-2">Global</div>
                   <div className="text-slate-500 text-sm font-medium uppercase tracking-wide">Network</div>
                 </div>
@@ -210,8 +210,8 @@ function HomePage() {
                       🚀 Professional Web3 Monitoring • Wallet-Only Authentication
                     </div>
                     
-                    <Link 
-                      to="/wallet-connect"
+                      <Link 
+                        to="/wallet-connect"
                       className="block w-full bg-gradient-to-r from-indigo-600 to-purple-600 text-white font-bold py-4 px-6 rounded-2xl text-center shadow-2xl hover:shadow-indigo-500/25 transition-all duration-300 transform hover:-translate-y-1"
                     >
                       <span className="flex items-center justify-center">
@@ -220,7 +220,7 @@ function HomePage() {
                         </svg>
                         Connect Wallet
                       </span>
-                    </Link>
+                      </Link>
                     
                     <Link 
                       to="/register"

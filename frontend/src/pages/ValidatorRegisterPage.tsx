@@ -25,6 +25,21 @@ const steps: RegistrationStep[] = [
   }
 ];
 
+// Dynamic import for bs58
+let bs58: any = null;
+
+const loadBs58 = async () => {
+  if (!bs58) {
+    try {
+      bs58 = await import('https://cdn.jsdelivr.net/npm/bs58@6.0.0/+esm');
+    } catch (error) {
+      console.error('Failed to load bs58:', error);
+      throw new Error('bs58 library not available');
+    }
+  }
+  return bs58;
+};
+
 declare global {
   interface Window {
     solana?: {
@@ -33,6 +48,7 @@ declare global {
       disconnect(): Promise<void>;
       isConnected: boolean;
       publicKey?: { toString(): string };
+      signMessage(encodedMessage: Uint8Array, display?: string): Promise<{ signature: Uint8Array }>;
     };
   }
 }
@@ -82,6 +98,19 @@ function ValidatorRegisterPage() {
       setIsRegistering(true);
       setError('');
 
+      // Load bs58 library
+      const bs58Module = await loadBs58();
+      
+      // Create message to sign
+      const message = `Validator registration for ${name} with wallet ${walletAddress} at ${Date.now()}`;
+      
+      // Request signature from wallet
+      const encodedMessage = new TextEncoder().encode(message);
+      const signedMessage = await window.solana!.signMessage(encodedMessage, 'utf8');
+      
+      // Convert signature to base58
+      const signature = bs58Module.default.encode(signedMessage.signature);
+
       const response = await fetch('http://localhost:4000/api/auth/validator-register', {
         method: 'POST',
         headers: {
@@ -89,7 +118,9 @@ function ValidatorRegisterPage() {
         },
         body: JSON.stringify({
           name: name.trim(),
-          wallet: walletAddress
+          wallet: walletAddress,
+          message: message,
+          signature: signature
         }),
       });
 
@@ -102,8 +133,9 @@ function ValidatorRegisterPage() {
       } else {
         setError(data.error || 'Registration failed');
       }
-    } catch (err) {
-      setError('Network error. Please try again.');
+    } catch (err: any) {
+      console.error('Registration error:', err);
+      setError(err.message || 'Registration failed. Please try again.');
     } finally {
       setIsRegistering(false);
     }
@@ -114,13 +146,13 @@ function ValidatorRegisterPage() {
       case 1:
         return (
           <div className="space-y-8">
-            <div className="text-center">
+            <div className="text-center mb-10">
               <div className="w-24 h-24 bg-gradient-to-r from-green-500 to-emerald-500 rounded-3xl flex items-center justify-center mx-auto mb-8 shadow-2xl">
                 <svg className="w-12 h-12 text-white" fill="none" stroke="currentColor" viewBox="0 0 24 24">
                   <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M16 7a4 4 0 11-8 0 4 4 0 018 0zM12 14a7 7 0 00-7 7h14a7 7 0 00-7-7z" />
                 </svg>
               </div>
-              <h2 className="text-3xl font-black text-slate-900 mb-4">
+              <h2 className="text-4xl font-black text-slate-900 mb-4">
                 What should we call you?
               </h2>
               <p className="text-xl text-slate-600 leading-relaxed font-medium">
@@ -128,10 +160,10 @@ function ValidatorRegisterPage() {
               </p>
             </div>
 
-            <form onSubmit={handleNameSubmit} className="space-y-6">
+            <form onSubmit={handleNameSubmit} className="space-y-8">
               <div>
-                <label htmlFor="name" className="block text-lg font-bold text-slate-900 mb-3">
-                  Your Name
+                <label htmlFor="name" className="block text-lg font-bold text-slate-900 mb-4">
+                  Your Validator Name
                 </label>
                 <input
                   type="text"
@@ -139,21 +171,21 @@ function ValidatorRegisterPage() {
                   value={name}
                   onChange={(e) => setName(e.target.value)}
                   placeholder="Enter your name or pseudonym"
-                  className="w-full px-6 py-4 bg-white/80 backdrop-blur-md border border-slate-200 rounded-xl text-slate-900 placeholder-slate-500 focus:outline-none focus:ring-2 focus:ring-green-500 focus:border-transparent transition-all duration-300 font-medium text-lg"
+                  className="w-full px-6 py-5 bg-white/80 backdrop-blur-md border border-slate-200 rounded-xl text-slate-900 placeholder-slate-500 focus:outline-none focus:ring-2 focus:ring-green-500 focus:border-transparent transition-all duration-300 font-medium text-lg"
                   required
                 />
-                <p className="text-slate-500 text-sm mt-2 font-medium">
+                <p className="text-slate-500 text-sm mt-3 font-medium">
                   This can be your real name, username, or any identifier you prefer
                 </p>
               </div>
 
               <button
                 type="submit"
-                className="group relative w-full bg-gradient-to-r from-green-600 to-emerald-600 text-white font-bold py-4 px-8 rounded-2xl shadow-2xl hover:shadow-green-500/25 transition-all duration-300 transform hover:-translate-y-1 hover:scale-105"
+                className="group relative w-full bg-gradient-to-r from-green-600 to-emerald-600 text-white font-bold py-6 px-8 rounded-2xl shadow-2xl hover:shadow-green-500/25 transition-all duration-300 transform hover:-translate-y-1 hover:scale-105"
               >
-                <span className="relative z-10 flex items-center justify-center text-lg">
-                  Continue
-                  <svg className="w-6 h-6 ml-2" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                <span className="relative z-10 flex items-center justify-center text-xl">
+                  Continue to Wallet Connection
+                  <svg className="w-6 h-6 ml-3" fill="none" stroke="currentColor" viewBox="0 0 24 24">
                     <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M17 8l4 4m0 0l-4 4m4-4H3" />
                   </svg>
                 </span>
@@ -166,11 +198,11 @@ function ValidatorRegisterPage() {
       case 2:
         return (
           <div className="space-y-8">
-            <div className="text-center">
+            <div className="text-center mb-10">
               <div className="w-24 h-24 bg-gradient-to-r from-blue-500 to-indigo-500 rounded-3xl flex items-center justify-center mx-auto mb-8 shadow-2xl">
                 <span className="text-4xl">👻</span>
               </div>
-              <h2 className="text-3xl font-black text-slate-900 mb-4">
+              <h2 className="text-4xl font-black text-slate-900 mb-4">
                 Connect Your Wallet
               </h2>
               <p className="text-xl text-slate-600 leading-relaxed font-medium">
@@ -178,47 +210,57 @@ function ValidatorRegisterPage() {
               </p>
             </div>
 
-            <div className="bg-gradient-to-r from-green-50 to-emerald-50 border border-green-200 rounded-2xl p-6">
+            <div className="bg-gradient-to-r from-green-50 to-emerald-50 border border-green-200 rounded-2xl p-8">
               <div className="flex items-center mb-4">
-                <div className="w-3 h-3 bg-green-500 rounded-full mr-3 animate-pulse"></div>
-                <span className="text-green-800 font-bold">Hello, {name}! 👋</span>
+                <div className="w-4 h-4 bg-green-500 rounded-full mr-4 animate-pulse"></div>
+                <span className="text-green-800 font-black text-xl">Hello, {name}! 👋</span>
               </div>
-              <p className="text-green-700 font-medium">
-                Now let's connect your Phantom wallet to secure your validator account.
+              <p className="text-green-700 font-medium text-lg">
+                Now let's connect your Phantom wallet to secure your validator account and enable reward payments.
               </p>
             </div>
 
             <button
               onClick={connectWallet}
               disabled={isConnecting}
-              className="group relative w-full bg-gradient-to-r from-blue-600 to-indigo-600 text-white font-bold py-5 px-8 rounded-2xl shadow-2xl hover:shadow-blue-500/25 transition-all duration-300 disabled:opacity-50 disabled:cursor-not-allowed transform hover:-translate-y-1 hover:scale-105"
+              className="group relative w-full bg-gradient-to-r from-blue-600 to-indigo-600 text-white font-bold py-6 px-8 rounded-2xl shadow-2xl hover:shadow-blue-500/25 transition-all duration-300 disabled:opacity-50 disabled:cursor-not-allowed transform hover:-translate-y-1 hover:scale-105"
             >
-              <span className="relative z-10 flex items-center justify-center">
+              <span className="relative z-10 flex items-center justify-center text-xl">
                 {isConnecting ? (
                   <>
-                    <div className="animate-spin rounded-full h-6 w-6 border-b-2 border-white mr-3"></div>
-                    <span className="text-lg">Connecting Wallet...</span>
+                    <div className="animate-spin rounded-full h-6 w-6 border-b-2 border-white mr-4"></div>
+                    Connecting Wallet...
                   </>
                 ) : (
                   <>
-                    <span className="text-3xl mr-3">👻</span>
-                    <span className="text-lg">Connect Phantom Wallet</span>
+                    <span className="text-3xl mr-4">👻</span>
+                    Connect Phantom Wallet
                   </>
                 )}
               </span>
               <div className="absolute inset-0 bg-gradient-to-r from-blue-700 to-indigo-700 rounded-2xl opacity-0 group-hover:opacity-100 transition-opacity duration-300"></div>
             </button>
 
-            <div className="flex items-center justify-center">
-              <button
-                onClick={() => setCurrentStep(1)}
-                className="inline-flex items-center text-slate-600 hover:text-slate-900 transition-colors font-medium"
-              >
-                <svg className="w-5 h-5 mr-2" fill="none" stroke="currentColor" viewBox="0 0 24 24">
-                  <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M15 19l-7-7 7-7" />
-                </svg>
-                Back to Name
-              </button>
+            <div className="grid grid-cols-1 sm:grid-cols-2 gap-6">
+              <div className="bg-white/70 backdrop-blur-md rounded-2xl p-6 border border-white/50">
+                <div className="w-12 h-12 bg-gradient-to-r from-purple-500 to-pink-500 rounded-xl flex items-center justify-center mb-4">
+                  <svg className="w-6 h-6 text-white" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                    <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M12 15v2m-6 4h12a2 2 0 002-2v-6a2 2 0 00-2-2H6a2 2 0 00-2 2v6a2 2 0 002 2zm10-10V7a4 4 0 00-8 0v4h8z" />
+                  </svg>
+                </div>
+                <h3 className="text-slate-900 font-bold text-lg mb-2">Secure Identity</h3>
+                <p className="text-slate-600 text-sm">Your wallet serves as your unique validator identity on the network.</p>
+              </div>
+
+              <div className="bg-white/70 backdrop-blur-md rounded-2xl p-6 border border-white/50">
+                <div className="w-12 h-12 bg-gradient-to-r from-green-500 to-emerald-500 rounded-xl flex items-center justify-center mb-4">
+                  <svg className="w-6 h-6 text-white" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                    <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M12 8c-1.657 0-3 .895-3 2s1.343 2 3 2 3 .895 3 2-1.343 2-3 2m0-8c1.11 0 2.08.402 2.599 1M12 8V7m0 1v8m0 0v1m0-1c-1.11 0-2.08-.402-2.599-1" />
+                  </svg>
+                </div>
+                <h3 className="text-slate-900 font-bold text-lg mb-2">Earn SOL</h3>
+                <p className="text-slate-600 text-sm">Receive SOL rewards directly to your wallet for monitoring websites.</p>
+              </div>
             </div>
           </div>
         );
@@ -226,95 +268,75 @@ function ValidatorRegisterPage() {
       case 3:
         return (
           <div className="space-y-8">
-            <div className="text-center">
-              <div className="w-24 h-24 bg-gradient-to-r from-purple-500 to-pink-500 rounded-3xl flex items-center justify-center mx-auto mb-8 shadow-2xl">
+            <div className="text-center mb-10">
+              <div className="w-24 h-24 bg-gradient-to-r from-emerald-500 to-green-500 rounded-3xl flex items-center justify-center mx-auto mb-8 shadow-2xl">
                 <svg className="w-12 h-12 text-white" fill="none" stroke="currentColor" viewBox="0 0 24 24">
                   <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M9 12l2 2 4-4m6 2a9 9 0 11-18 0 9 9 0 0118 0z" />
                 </svg>
               </div>
-              <h2 className="text-3xl font-black text-slate-900 mb-4">
-                You're All Set!
+              <h2 className="text-4xl font-black text-slate-900 mb-4">
+                Complete Your Setup
               </h2>
               <p className="text-xl text-slate-600 leading-relaxed font-medium">
-                Complete your validator registration and start earning SOL
+                You're all set! Let's finalize your validator registration
               </p>
             </div>
 
-            <div className="space-y-6">
-              <div className="bg-gradient-to-r from-green-50 to-emerald-50 border border-green-200 rounded-2xl p-6">
-                <h3 className="text-lg font-bold text-green-800 mb-4">Registration Summary</h3>
-                <div className="space-y-3">
-                  <div className="flex items-center justify-between">
-                    <span className="text-green-700 font-medium">Name:</span>
-                    <span className="text-green-800 font-bold">{name}</span>
-                  </div>
-                  <div className="flex items-center justify-between">
-                    <span className="text-green-700 font-medium">Wallet:</span>
-                    <span className="text-green-800 font-mono text-sm">
-                      {walletAddress.slice(0, 8)}...{walletAddress.slice(-8)}
-                    </span>
-                  </div>
-                  <div className="flex items-center justify-between">
-                    <span className="text-green-700 font-medium">Role:</span>
-                    <span className="text-green-800 font-bold">Validator</span>
-                  </div>
+            <div className="bg-gradient-to-r from-green-50 to-emerald-50 border border-green-200 rounded-2xl p-8">
+              <div className="space-y-4">
+                <div className="flex items-center justify-between">
+                  <span className="text-green-800 font-bold">Validator Name:</span>
+                  <span className="text-green-700 font-medium">{name}</span>
+                </div>
+                <div className="flex items-center justify-between">
+                  <span className="text-green-800 font-bold">Wallet Address:</span>
+                  <span className="text-green-700 font-mono text-sm bg-green-100 px-3 py-1 rounded-lg">
+                    {walletAddress.slice(0, 8)}...{walletAddress.slice(-8)}
+                  </span>
+                </div>
+                <div className="flex items-center justify-between">
+                  <span className="text-green-800 font-bold">Role:</span>
+                  <span className="text-green-700 font-medium">Website Validator</span>
                 </div>
               </div>
+            </div>
 
-              <div className="bg-gradient-to-r from-blue-50 to-indigo-50 border border-blue-200 rounded-2xl p-6">
-                <h3 className="text-lg font-bold text-blue-800 mb-4">What's Next?</h3>
-                <ul className="space-y-3">
-                  {[
-                    'Browse available websites to validate',
-                    'Earn SOL for each verification you complete',
-                    'Build your reputation in the network',
-                    'Track your earnings and performance'
-                  ].map((item, index) => (
-                    <li key={index} className="flex items-center text-blue-700">
-                      <div className="w-6 h-6 bg-blue-500 rounded-full flex items-center justify-center mr-3 flex-shrink-0">
-                        <svg className="w-3 h-3 text-white" fill="none" stroke="currentColor" strokeWidth={3} viewBox="0 0 24 24">
-                          <path strokeLinecap="round" strokeLinejoin="round" d="M5 13l4 4L19 7" />
-                        </svg>
-                      </div>
-                      <span className="font-medium">{item}</span>
-                    </li>
-                  ))}
-                </ul>
-              </div>
-
-              <button
-                onClick={handleRegistration}
-                disabled={isRegistering}
-                className="group relative w-full bg-gradient-to-r from-purple-600 to-pink-600 text-white font-bold py-5 px-8 rounded-2xl shadow-2xl hover:shadow-purple-500/25 transition-all duration-300 disabled:opacity-50 disabled:cursor-not-allowed transform hover:-translate-y-1 hover:scale-105"
-              >
-                <span className="relative z-10 flex items-center justify-center">
-                  {isRegistering ? (
-                    <>
-                      <div className="animate-spin rounded-full h-6 w-6 border-b-2 border-white mr-3"></div>
-                      <span className="text-lg">Creating Account...</span>
-                    </>
-                  ) : (
-                    <>
-                      <span className="text-2xl mr-3">🚀</span>
-                      <span className="text-lg">Complete Registration</span>
-                    </>
-                  )}
-                </span>
-                <div className="absolute inset-0 bg-gradient-to-r from-purple-700 to-pink-700 rounded-2xl opacity-0 group-hover:opacity-100 transition-opacity duration-300"></div>
-              </button>
-
-              <div className="flex items-center justify-center">
-                <button
-                  onClick={() => setCurrentStep(2)}
-                  className="inline-flex items-center text-slate-600 hover:text-slate-900 transition-colors font-medium"
-                >
-                  <svg className="w-5 h-5 mr-2" fill="none" stroke="currentColor" viewBox="0 0 24 24">
-                    <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M15 19l-7-7 7-7" />
+            <div className="bg-blue-50 border border-blue-200 rounded-2xl p-6">
+              <div className="flex items-start">
+                <div className="w-8 h-8 bg-blue-600 rounded-full flex items-center justify-center mr-4 flex-shrink-0">
+                  <svg className="w-4 h-4 text-white" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                    <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M13 16h-1v-4h-1m1-4h.01M21 12a9 9 0 11-18 0 9 9 0 0118 0z" />
                   </svg>
-                  Back to Wallet
-                </button>
+                </div>
+                <div className="flex-1">
+                  <h3 className="text-blue-800 font-semibold mb-2">Secure Registration</h3>
+                  <p className="text-blue-700 text-sm leading-relaxed">
+                    When you click "Become a Validator", you'll be asked to sign a message with your wallet to prove ownership. This is completely secure and doesn't cost any SOL.
+                  </p>
+                </div>
               </div>
             </div>
+
+            <button
+              onClick={handleRegistration}
+              disabled={isRegistering}
+              className="group relative w-full bg-gradient-to-r from-emerald-600 to-green-600 text-white font-bold py-6 px-8 rounded-2xl shadow-2xl hover:shadow-emerald-500/25 transition-all duration-300 disabled:opacity-50 disabled:cursor-not-allowed transform hover:-translate-y-1 hover:scale-105"
+            >
+              <span className="relative z-10 flex items-center justify-center text-xl">
+                {isRegistering ? (
+                  <>
+                    <div className="animate-spin rounded-full h-6 w-6 border-b-2 border-white mr-4"></div>
+                    Creating Validator Account...
+                  </>
+                ) : (
+                  <>
+                    <span className="text-2xl mr-4">🚀</span>
+                    Become a Validator
+                  </>
+                )}
+              </span>
+              <div className="absolute inset-0 bg-gradient-to-r from-emerald-700 to-green-700 rounded-2xl opacity-0 group-hover:opacity-100 transition-opacity duration-300"></div>
+            </button>
           </div>
         );
 
@@ -324,98 +346,191 @@ function ValidatorRegisterPage() {
   };
 
   return (
-    <div className="min-h-screen bg-gradient-to-br from-slate-50 via-blue-50 to-indigo-50 relative overflow-hidden">
+    <div className="min-h-screen bg-gradient-to-br from-emerald-50 via-green-50 to-teal-50 relative overflow-hidden">
       {/* Premium Background Pattern */}
-      <div className="absolute inset-0 bg-[url('data:image/svg+xml,%3Csvg%20width%3D%2260%22%20height%3D%2260%22%20viewBox%3D%220%200%2060%2060%22%20xmlns%3D%22http%3A//www.w3.org/2000/svg%22%3E%3Cg%20fill%3D%22none%22%20fill-rule%3D%22evenodd%22%3E%3Cg%20fill%3D%22%236366f1%22%20fill-opacity%3D%220.03%22%3E%3Ccircle%20cx%3D%2230%22%20cy%3D%2230%22%20r%3D%221.5%22/%3E%3C/g%3E%3C/g%3E%3C/svg%3E')] opacity-40"></div>
+      <div className="absolute inset-0 bg-[url('data:image/svg+xml,%3Csvg%20width%3D%2260%22%20height%3D%2260%22%20viewBox%3D%220%200%2060%2060%22%20xmlns%3D%22http%3A//www.w3.org/2000/svg%22%3E%3Cg%20fill%3D%22none%22%20fill-rule%3D%22evenodd%22%3E%3Cg%20fill%3D%22%2310b981%22%20fill-opacity%3D%220.04%22%3E%3Ccircle%20cx%3D%2230%22%20cy%3D%2230%22%20r%3D%221.5%22/%3E%3C/g%3E%3C/g%3E%3C/svg%3E')] opacity-60"></div>
       
       {/* Floating Elements */}
-      <div className="absolute top-20 left-10 w-64 h-64 bg-gradient-to-r from-green-400/10 to-emerald-400/10 rounded-full blur-3xl animate-pulse"></div>
-      <div className="absolute bottom-20 right-10 w-80 h-80 bg-gradient-to-r from-purple-400/10 to-pink-400/10 rounded-full blur-3xl animate-pulse animation-delay-2000"></div>
+      <div className="absolute top-20 left-10 w-80 h-80 bg-gradient-to-r from-green-400/10 to-emerald-400/10 rounded-full blur-3xl animate-pulse"></div>
+      <div className="absolute bottom-20 right-10 w-96 h-96 bg-gradient-to-r from-teal-400/10 to-green-400/10 rounded-full blur-3xl animate-pulse animation-delay-2000"></div>
+      <div className="absolute top-1/2 left-1/3 w-64 h-64 bg-gradient-to-r from-emerald-400/10 to-cyan-400/10 rounded-full blur-3xl animate-pulse animation-delay-4000"></div>
 
-      <div className="relative z-10 min-h-screen flex items-center justify-center px-6 py-12">
-        <div className="max-w-lg w-full">
-          {/* Back Button */}
-          <Link 
-            to="/"
-            className="inline-flex items-center text-slate-600 hover:text-slate-900 mb-8 transition-colors group font-medium"
-          >
-            <svg className="w-5 h-5 mr-2 transform group-hover:-translate-x-1 transition-transform" fill="none" stroke="currentColor" viewBox="0 0 24 24">
-              <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M15 19l-7-7 7-7" />
-            </svg>
-            Back to Home
-          </Link>
+      <div className="relative z-10 min-h-screen flex items-center justify-center px-8 py-12">
+        <div className="max-w-7xl w-full">
+          {/* Navigation */}
+          <div className="flex justify-between items-center mb-12">
+            <Link 
+              to="/"
+              className="inline-flex items-center text-slate-600 hover:text-slate-900 transition-colors group font-medium text-lg"
+            >
+              <svg className="w-6 h-6 mr-3 transform group-hover:-translate-x-1 transition-transform" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M15 19l-7-7 7-7" />
+              </svg>
+              Back to Home
+            </Link>
 
-          {/* Progress Steps */}
-          <div className="mb-10">
-            <div className="flex items-center justify-between mb-6">
-              {steps.map((step) => (
-                <div key={step.id} className="flex items-center flex-1">
-                  <div className={`w-10 h-10 rounded-full flex items-center justify-center text-sm font-bold transition-all duration-300 ${
-                    currentStep >= step.id 
-                      ? 'bg-gradient-to-r from-indigo-600 to-purple-600 text-white shadow-lg' 
-                      : 'bg-slate-200 text-slate-500'
-                  }`}>
-                    {currentStep > step.id ? (
-                      <svg className="w-5 h-5" fill="none" stroke="currentColor" viewBox="0 0 24 24">
-                        <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={3} d="M5 13l4 4L19 7" />
-                      </svg>
-                    ) : (
-                      step.id
-                    )}
-                  </div>
-                  {step.id < steps.length && (
-                    <div className={`flex-1 h-1 mx-3 rounded-full transition-all duration-300 ${
-                      currentStep > step.id ? 'bg-gradient-to-r from-indigo-600 to-purple-600' : 'bg-slate-200'
-                    }`} />
-                  )}
-                </div>
-              ))}
-            </div>
-            
-            <div className="text-center">
-              <h1 className="text-4xl font-black text-slate-900 mb-2 tracking-tight">
-                Become a Validator
-              </h1>
-              <p className="text-lg text-slate-600 font-medium">
-                {steps.find(s => s.id === currentStep)?.description}
-              </p>
+            <div className="flex space-x-4">
+              <Link
+                to="/register"
+                className="px-6 py-3 bg-white/70 backdrop-blur-md text-slate-700 rounded-xl hover:bg-white/90 transition-all duration-300 border border-white/50 font-medium"
+              >
+                Website Owner
+              </Link>
+              <Link
+                to="/validator-login"
+                className="px-6 py-3 bg-gradient-to-r from-blue-600 to-indigo-600 text-white rounded-xl hover:shadow-lg transition-all duration-300 font-medium"
+              >
+                Validator Login
+              </Link>
             </div>
           </div>
 
-          {/* Main Card */}
-          <div className="bg-white/70 backdrop-blur-xl rounded-3xl p-10 border border-white/50 shadow-2xl">
-            {error && (
-              <div className="bg-red-50 border border-red-200 rounded-2xl p-6 mb-8">
-                <div className="flex items-start">
-                  <svg className="w-6 h-6 text-red-500 mr-3 mt-0.5" fill="none" stroke="currentColor" viewBox="0 0 24 24">
-                    <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M12 8v4m0 4h.01M21 12a9 9 0 11-18 0 9 9 0 0118 0z" />
-                  </svg>
-                  <p className="text-red-800 font-medium">{error}</p>
+          {/* Main Content Grid */}
+          <div className="grid lg:grid-cols-2 gap-20 items-center">
+            {/* Left Side - Information */}
+            <div className="space-y-10">
+              <div>
+                <div className="inline-flex items-center px-4 py-2 bg-green-100 border border-green-200 rounded-full mb-8">
+                  <div className="w-2 h-2 bg-green-500 rounded-full mr-3 animate-pulse"></div>
+                  <span className="text-green-700 text-sm font-bold">Validator Registration</span>
+                </div>
+                
+                <h1 className="text-5xl lg:text-7xl font-black text-slate-900 mb-8 leading-tight">
+                  Become a
+                  <span className="bg-gradient-to-r from-green-600 to-emerald-600 bg-clip-text text-transparent"> Validator</span>
+                </h1>
+                
+                <p className="text-2xl text-slate-600 leading-relaxed font-medium mb-10">
+                  Join our decentralized network of validators and earn SOL rewards by monitoring websites around the clock. Make the internet more reliable.
+                </p>
+              </div>
+
+              {/* Validator Benefits */}
+              <div className="grid grid-cols-1 sm:grid-cols-2 gap-8">
+                <div className="bg-white/70 backdrop-blur-xl rounded-3xl p-8 border border-white/50 shadow-xl">
+                  <div className="w-16 h-16 bg-gradient-to-r from-green-500 to-emerald-500 rounded-2xl flex items-center justify-center mb-6 shadow-lg">
+                    <svg className="w-8 h-8 text-white" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                      <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M12 8c-1.657 0-3 .895-3 2s1.343 2 3 2 3 .895 3 2-1.343 2-3 2m0-8c1.11 0 2.08.402 2.599 1M12 8V7m0 1v8m0 0v1m0-1c-1.11 0-2.08-.402-2.599-1" />
+                    </svg>
+                  </div>
+                  <h3 className="text-slate-900 font-black text-xl mb-3">Earn SOL Rewards</h3>
+                  <p className="text-slate-600 font-medium leading-relaxed">Get paid in SOL tokens for every website check you perform. Passive income through validation.</p>
+                </div>
+
+                <div className="bg-white/70 backdrop-blur-xl rounded-3xl p-8 border border-white/50 shadow-xl">
+                  <div className="w-16 h-16 bg-gradient-to-r from-blue-500 to-indigo-500 rounded-2xl flex items-center justify-center mb-6 shadow-lg">
+                    <svg className="w-8 h-8 text-white" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                      <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M13 10V3L4 14h7v7l9-11h-7" />
+                    </svg>
+                  </div>
+                  <h3 className="text-slate-900 font-black text-xl mb-3">Automated Process</h3>
+                  <p className="text-slate-600 font-medium leading-relaxed">Our system automatically assigns website checks to you. No manual work required.</p>
+                </div>
+
+                <div className="bg-white/70 backdrop-blur-xl rounded-3xl p-8 border border-white/50 shadow-xl">
+                  <div className="w-16 h-16 bg-gradient-to-r from-purple-500 to-pink-500 rounded-2xl flex items-center justify-center mb-6 shadow-lg">
+                    <svg className="w-8 h-8 text-white" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                      <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M9 12l2 2 4-4m6 2a9 9 0 11-18 0 9 9 0 0118 0z" />
+                    </svg>
+                  </div>
+                  <h3 className="text-slate-900 font-black text-xl mb-3">High Reputation</h3>
+                  <p className="text-slate-600 font-medium leading-relaxed">Build your validator reputation and earn more assignments as you prove reliability.</p>
+                </div>
+
+                <div className="bg-white/70 backdrop-blur-xl rounded-3xl p-8 border border-white/50 shadow-xl">
+                  <div className="w-16 h-16 bg-gradient-to-r from-orange-500 to-red-500 rounded-2xl flex items-center justify-center mb-6 shadow-lg">
+                    <svg className="w-8 h-8 text-white" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                      <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M3.055 11H5a2 2 0 012 2v1a2 2 0 002 2 2 2 0 012 2v2.945M8 3.935V5.5A2.5 2.5 0 0010.5 8h.5a2 2 0 012 2 2 2 0 104 0 2 2 0 012-2h1.064M15 20.488V18a2 2 0 012-2h3.064M21 12a9 9 0 11-18 0 9 9 0 0118 0z" />
+                    </svg>
+                  </div>
+                  <h3 className="text-slate-900 font-black text-xl mb-3">Global Network</h3>
+                  <p className="text-slate-600 font-medium leading-relaxed">Join validators worldwide in creating the most reliable website monitoring network.</p>
                 </div>
               </div>
-            )}
 
-            {renderStepContent()}
-          </div>
-
-          {/* Benefits Preview */}
-          <div className="mt-8 bg-white/50 backdrop-blur-md rounded-2xl p-6 border border-white/30">
-            <h3 className="text-lg font-bold text-slate-900 text-center mb-4">
-              Validator Benefits
-            </h3>
-            <div className="grid grid-cols-2 gap-4">
-              {[
-                { icon: '💰', title: 'Earn SOL', desc: 'Get paid for each validation' },
-                { icon: '⚡', title: 'Instant Payments', desc: 'Receive rewards immediately' },
-                { icon: '🎯', title: 'Choose Sites', desc: 'Pick which websites to monitor' },
-                { icon: '📊', title: 'Track Progress', desc: 'See your performance stats' }
-              ].map((benefit, index) => (
-                <div key={index} className="text-center p-3">
-                  <div className="text-2xl mb-2">{benefit.icon}</div>
-                  <div className="font-bold text-slate-900 text-sm">{benefit.title}</div>
-                  <div className="text-slate-600 text-xs">{benefit.desc}</div>
+              {/* Earnings Info */}
+              <div className="bg-gradient-to-r from-green-50 to-emerald-50 border border-green-200 rounded-3xl p-8">
+                <div className="flex items-center mb-6">
+                  <div className="w-4 h-4 bg-green-500 rounded-full mr-4 animate-pulse"></div>
+                  <span className="text-green-700 font-black text-xl">Earning Potential</span>
                 </div>
-              ))}
+                <div className="grid grid-cols-1 md:grid-cols-3 gap-6">
+                  <div className="text-center">
+                    <div className="text-3xl font-black text-green-600 mb-2">0.01 SOL</div>
+                    <div className="text-green-700 font-medium">Per Website Check</div>
+                  </div>
+                  <div className="text-center">
+                    <div className="text-3xl font-black text-green-600 mb-2">100+</div>
+                    <div className="text-green-700 font-medium">Checks Per Day</div>
+                  </div>
+                  <div className="text-center">
+                    <div className="text-3xl font-black text-green-600 mb-2">1+ SOL</div>
+                    <div className="text-green-700 font-medium">Daily Potential</div>
+                  </div>
+                </div>
+                <p className="text-green-700 font-medium text-center mt-6">
+                  * Earnings depend on validator reputation and network activity
+                </p>
+              </div>
+            </div>
+
+            {/* Right Side - Registration Steps */}
+            <div className="bg-white/80 backdrop-blur-xl rounded-3xl p-12 border border-white/60 shadow-2xl">
+              {/* Progress Steps */}
+              <div className="flex justify-center mb-12">
+                <div className="flex items-center space-x-4">
+                  {steps.map((step) => (
+                    <div key={step.id} className="flex items-center">
+                      <div
+                        className={`w-10 h-10 rounded-full flex items-center justify-center text-sm font-bold transition-all duration-300 ${
+                          currentStep >= step.id
+                            ? 'bg-gradient-to-r from-green-500 to-emerald-500 text-white shadow-lg'
+                            : 'bg-slate-200 text-slate-500'
+                        }`}
+                      >
+                        {step.id}
+                      </div>
+                      {step.id < steps.length && (
+                        <div
+                          className={`w-16 h-1 mx-2 transition-all duration-300 ${
+                            currentStep > step.id ? 'bg-green-500' : 'bg-slate-200'
+                          }`}
+                        />
+                      )}
+                    </div>
+                  ))}
+                </div>
+              </div>
+
+              {/* Error Display */}
+              {error && (
+                <div className="bg-red-50 border border-red-200 rounded-2xl p-6 mb-8">
+                  <div className="flex items-start">
+                    <svg className="w-6 h-6 text-red-500 mr-3 mt-0.5 flex-shrink-0" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                      <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M12 8v4m0 4h.01M21 12a9 9 0 11-18 0 9 9 0 0118 0z" />
+                    </svg>
+                    <p className="text-red-800 font-medium">{error}</p>
+                  </div>
+                </div>
+              )}
+
+              {/* Step Content */}
+              {renderStepContent()}
+
+              {/* Navigation Buttons */}
+              {currentStep > 1 && currentStep < 3 && (
+                <div className="mt-8 pt-6 border-t border-slate-200">
+                  <button
+                    onClick={() => setCurrentStep(currentStep - 1)}
+                    className="flex items-center text-slate-600 hover:text-slate-900 font-medium transition-colors"
+                  >
+                    <svg className="w-5 h-5 mr-2" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                      <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M15 19l-7-7 7-7" />
+                    </svg>
+                    Go Back
+                  </button>
+                </div>
+              )}
             </div>
           </div>
         </div>

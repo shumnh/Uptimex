@@ -84,8 +84,8 @@ function LoginPage() {
       } else {
         if (data.message?.includes('not found')) {
           setError('No account found for this wallet. Would you like to create one?');
-        } else {
-          setError(data.message || 'Login failed');
+      } else {
+        setError(data.message || 'Login failed');
         }
       }
     } catch (err) {
@@ -164,18 +164,18 @@ function LoginPage() {
               {/* Wallet Connection */}
               <div className="space-y-6">
                 {!walletAddress ? (
-                  <button
+              <button
                     onClick={connectWallet}
                     disabled={isConnecting}
                     className="group relative w-full bg-gradient-to-r from-indigo-600 to-purple-600 text-white font-bold py-5 px-8 rounded-2xl shadow-2xl hover:shadow-indigo-500/25 transition-all duration-300 disabled:opacity-50 disabled:cursor-not-allowed transform hover:-translate-y-1 hover:scale-105"
                   >
                     <span className="relative z-10 flex items-center justify-center">
                       {isConnecting ? (
-                        <>
+                  <>
                           <div className="animate-spin rounded-full h-6 w-6 border-b-2 border-white mr-3"></div>
                           Connecting Wallet...
-                        </>
-                      ) : (
+                  </>
+                ) : (
                         <>
                           <span className="text-3xl mr-3">👻</span>
                           <span className="text-lg">Connect Phantom Wallet</span>
@@ -192,15 +192,15 @@ function LoginPage() {
                           <svg className="w-6 h-6 text-white" fill="none" stroke="currentColor" strokeWidth={3} viewBox="0 0 24 24">
                             <path strokeLinecap="round" strokeLinejoin="round" d="M5 13l4 4L19 7" />
                           </svg>
-                        </div>
+                </div>
                         <div className="flex-1">
                           <p className="text-green-800 font-bold text-lg">Wallet Connected</p>
                           <p className="text-green-600 font-mono text-sm mt-1">
                             {walletAddress.slice(0, 8)}...{walletAddress.slice(-8)}
                           </p>
-                        </div>
-                      </div>
-                    </div>
+                </div>
+              </div>
+            </div>
 
                     {isLoggingIn && (
                       <div className="bg-gradient-to-r from-blue-50 to-indigo-50 border border-blue-200 rounded-2xl p-6">
@@ -208,9 +208,9 @@ function LoginPage() {
                           <div className="animate-spin rounded-full h-6 w-6 border-b-2 border-blue-600 mr-4"></div>
                           <p className="text-blue-800 font-bold">
                             Authenticating your account...
-                          </p>
-                        </div>
-                      </div>
+              </p>
+            </div>
+          </div>
                     )}
                   </div>
                 )}
@@ -236,7 +236,7 @@ function LoginPage() {
                       </div>
                     </div>
                   ))}
-                </div>
+            </div>
               </div>
 
               {/* Alternative Actions */}
