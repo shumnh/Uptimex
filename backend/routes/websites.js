@@ -114,6 +114,74 @@ router.get('/:websiteId/validators', auth, async (req, res) => {
   }
 });
 
+// DELETE /api/websites/:websiteId - Delete a website (owner only)
+router.delete('/:websiteId', auth, async (req, res) => {
+  try {
+    const Website = require('../models/Website');
+    
+    // Find the website and verify ownership
+    const website = await Website.findOne({
+      _id: req.params.websiteId,
+      owner: req.user.id
+    });
+    
+    if (!website) {
+      return res.status(404).json({ error: 'Website not found or you do not have permission to delete it' });
+    }
+    
+    // Delete all associated checks first
+    await Check.deleteMany({ website: req.params.websiteId });
+    
+    // Delete the website
+    await Website.findByIdAndDelete(req.params.websiteId);
+    
+    console.log(`✅ Website deleted: ${website.url} by user ${req.user.id}`);
+    
+    res.json({
+      success: true,
+      message: 'Website and all associated data deleted successfully'
+    });
+  } catch (err) {
+    console.error('Error deleting website:', err);
+    res.status(500).json({ error: 'Failed to delete website' });
+  }
+});
 
+// PUT /api/websites/:websiteId/reward-settings - Update reward settings for a website
+router.put('/:websiteId/reward-settings', auth, async (req, res) => {
+  try {
+    const Website = require('../models/Website');
+    const { rewardPerCheck, autoPayments, walletBalance } = req.body;
+    
+    // Find the website and verify ownership
+    const website = await Website.findOne({
+      _id: req.params.websiteId,
+      owner: req.user.id
+    });
+    
+    if (!website) {
+      return res.status(404).json({ error: 'Website not found or you do not have permission to modify it' });
+    }
+    
+    // Update reward settings
+    const updateData = {};
+    if (rewardPerCheck !== undefined) updateData.rewardPerCheck = rewardPerCheck;
+    if (autoPayments !== undefined) updateData.autoPayments = autoPayments;
+    if (walletBalance !== undefined) updateData.walletBalance = walletBalance;
+    
+    await Website.findByIdAndUpdate(req.params.websiteId, updateData);
+    
+    console.log(`✅ Reward settings updated for website: ${website.url}`);
+    
+    res.json({
+      success: true,
+      message: 'Reward settings updated successfully',
+      settings: updateData
+    });
+  } catch (err) {
+    console.error('Error updating reward settings:', err);
+    res.status(500).json({ error: 'Failed to update reward settings' });
+  }
+});
 
 module.exports = router; 

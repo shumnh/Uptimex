@@ -109,95 +109,112 @@ function RegisterPage() {
   };
 
   return (
-    <div className="min-h-screen bg-gradient-to-br from-slate-900 via-purple-900 to-slate-900 relative overflow-hidden">
-      {/* Animated Background Elements */}
-      <div className="absolute inset-0">
-        <div className="absolute top-0 left-0 w-72 h-72 bg-purple-500 rounded-full mix-blend-multiply filter blur-xl opacity-20 animate-pulse"></div>
-        <div className="absolute top-0 right-0 w-72 h-72 bg-blue-500 rounded-full mix-blend-multiply filter blur-xl opacity-20 animate-pulse animation-delay-2000"></div>
-        <div className="absolute bottom-0 left-1/2 w-72 h-72 bg-pink-500 rounded-full mix-blend-multiply filter blur-xl opacity-20 animate-pulse animation-delay-4000"></div>
-      </div>
+    <div className="min-h-screen bg-gradient-to-br from-slate-50 via-blue-50 to-indigo-50 relative overflow-hidden">
+      {/* Premium Background Pattern */}
+      <div className="absolute inset-0 bg-[url('data:image/svg+xml,%3Csvg%20width%3D%2260%22%20height%3D%2260%22%20viewBox%3D%220%200%2060%2060%22%20xmlns%3D%22http%3A//www.w3.org/2000/svg%22%3E%3Cg%20fill%3D%22none%22%20fill-rule%3D%22evenodd%22%3E%3Cg%20fill%3D%22%236366f1%22%20fill-opacity%3D%220.03%22%3E%3Ccircle%20cx%3D%2230%22%20cy%3D%2230%22%20r%3D%221.5%22/%3E%3C/g%3E%3C/g%3E%3C/svg%3E')] opacity-40"></div>
+      
+      {/* Floating Elements */}
+      <div className="absolute top-20 left-10 w-64 h-64 bg-gradient-to-r from-purple-400/10 to-pink-400/10 rounded-full blur-3xl animate-pulse"></div>
+      <div className="absolute bottom-20 right-10 w-80 h-80 bg-gradient-to-r from-indigo-400/10 to-purple-400/10 rounded-full blur-3xl animate-pulse animation-delay-2000"></div>
 
-      <div className="relative z-10 min-h-screen flex items-center justify-center px-4 py-12">
+      <div className="relative z-10 min-h-screen flex items-center justify-center px-6 py-12">
         <div className="max-w-md w-full">
           {/* Back Button */}
           <Link 
             to="/"
-            className="inline-flex items-center text-gray-400 hover:text-white mb-8 transition-colors group"
+            className="inline-flex items-center text-slate-600 hover:text-slate-900 mb-8 transition-colors group font-medium"
           >
-            <span className="mr-2 transform group-hover:-translate-x-1 transition-transform">←</span>
+            <svg className="w-5 h-5 mr-2 transform group-hover:-translate-x-1 transition-transform" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+              <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M15 19l-7-7 7-7" />
+            </svg>
             Back to Home
           </Link>
 
           {/* Main Card */}
-          <div className="bg-white/10 backdrop-blur-md rounded-2xl p-8 border border-white/20 shadow-2xl">
-            <div className="text-center mb-8">
-              <div className="w-20 h-20 bg-gradient-to-r from-purple-500 to-pink-500 rounded-2xl flex items-center justify-center mx-auto mb-6">
-                <span className="text-3xl">🔗</span>
+          <div className="bg-white/70 backdrop-blur-xl rounded-3xl p-10 border border-white/50 shadow-2xl">
+            <div className="text-center mb-10">
+              <div className="w-24 h-24 bg-gradient-to-r from-purple-600 to-pink-600 rounded-3xl flex items-center justify-center mx-auto mb-8 shadow-2xl">
+                <svg className="w-12 h-12 text-white" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                  <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M13 10V3L4 14h7v7l9-11h-7z" />
+                </svg>
               </div>
-              <h1 className="text-3xl font-bold text-white mb-2">
-                Join Our Platform
+              <h1 className="text-4xl font-black text-slate-900 mb-4 tracking-tight">
+                Join Uptimex
               </h1>
-              <p className="text-gray-300">
-                Connect your Solana wallet to start monitoring websites
+              <p className="text-xl text-slate-600 leading-relaxed font-medium">
+                Connect your Solana wallet to start monitoring websites with our decentralized platform
               </p>
-              <div className="mt-4 px-4 py-2 bg-blue-500/20 border border-blue-500/50 rounded-lg">
-                <p className="text-blue-200 text-sm font-semibold">
-                  🌟 Fully Decentralized • Web3 Native • No Passwords
-                </p>
+              <div className="mt-6 inline-flex items-center px-6 py-3 bg-gradient-to-r from-purple-50 to-pink-50 border border-purple-200 rounded-2xl">
+                <div className="w-3 h-3 bg-purple-500 rounded-full mr-3 animate-pulse"></div>
+                <span className="text-purple-700 text-sm font-bold">
+                  Fully Decentralized • Web3 Native • No Passwords
+                </span>
               </div>
             </div>
 
             {error && (
-              <div className="bg-red-500/20 border border-red-500/50 rounded-xl p-4 mb-6">
-                <p className="text-red-200 text-sm">{error}</p>
-                {(error.includes('already registered') || error.includes('Wallet address already registered')) && (
-                  <Link
-                    to="/wallet-connect"
-                    className="mt-3 inline-block w-full bg-blue-600 hover:bg-blue-700 text-white font-semibold py-2 px-4 rounded-lg text-center text-sm transition-colors"
-                  >
-                    Go to Wallet Login
-                  </Link>
-                )}
+              <div className="bg-red-50 border border-red-200 rounded-2xl p-6 mb-8">
+                <div className="flex items-start">
+                  <svg className="w-6 h-6 text-red-500 mr-3 mt-0.5" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                    <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M12 8v4m0 4h.01M21 12a9 9 0 11-18 0 9 9 0 0118 0z" />
+                  </svg>
+                  <div className="flex-1">
+                    <p className="text-red-800 font-medium">{error}</p>
+                    {(error.includes('already registered') || error.includes('Wallet address already registered')) && (
+                      <Link
+                        to="/wallet-connect"
+                        className="mt-4 inline-block w-full bg-gradient-to-r from-blue-600 to-indigo-600 text-white font-bold py-3 px-6 rounded-xl text-center transition-all duration-300 transform hover:-translate-y-1 hover:shadow-lg"
+                      >
+                        Go to Login
+                      </Link>
+                    )}
+                  </div>
+                </div>
               </div>
             )}
 
-            <div className="space-y-6">
+            <div className="space-y-8">
               {/* Step 1: Connect Wallet */}
-              <div className="space-y-4">
-                <div className="flex items-center text-gray-300 text-sm">
-                  <div className="w-6 h-6 bg-purple-500 rounded-full flex items-center justify-center mr-3 text-white text-xs font-bold">
+              <div className="space-y-6">
+                <div className="flex items-center text-slate-700 font-medium">
+                  <div className="w-8 h-8 bg-gradient-to-r from-purple-600 to-pink-600 rounded-full flex items-center justify-center mr-4 text-white text-sm font-bold shadow-lg">
                     1
                   </div>
-                  <span>Connect Your Solana Wallet</span>
+                  <span className="text-lg">Connect Your Solana Wallet</span>
                 </div>
                 
                 {!walletAddress ? (
                   <button
                     onClick={connectWallet}
                     disabled={isConnecting}
-                    className="w-full bg-gradient-to-r from-purple-600 to-pink-600 text-white font-semibold py-4 px-6 rounded-xl hover:shadow-lg transition-all duration-300 disabled:opacity-50 disabled:cursor-not-allowed flex items-center justify-center"
+                    className="group relative w-full bg-gradient-to-r from-purple-600 to-pink-600 text-white font-bold py-5 px-8 rounded-2xl shadow-2xl hover:shadow-purple-500/25 transition-all duration-300 disabled:opacity-50 disabled:cursor-not-allowed transform hover:-translate-y-1 hover:scale-105"
                   >
-                    {isConnecting ? (
-                      <>
-                        <div className="animate-spin rounded-full h-5 w-5 border-b-2 border-white mr-3"></div>
-                        Connecting...
-                      </>
-                    ) : (
-                      <>
-                        <span className="text-2xl mr-3">👻</span>
-                        Connect Phantom Wallet
-                      </>
-                    )}
+                    <span className="relative z-10 flex items-center justify-center">
+                      {isConnecting ? (
+                        <>
+                          <div className="animate-spin rounded-full h-6 w-6 border-b-2 border-white mr-3"></div>
+                          Connecting Wallet...
+                        </>
+                      ) : (
+                        <>
+                          <span className="text-3xl mr-3">👻</span>
+                          <span className="text-lg">Connect Phantom Wallet</span>
+                        </>
+                      )}
+                    </span>
+                    <div className="absolute inset-0 bg-gradient-to-r from-purple-700 to-pink-700 rounded-2xl opacity-0 group-hover:opacity-100 transition-opacity duration-300"></div>
                   </button>
                 ) : (
-                  <div className="bg-green-500/20 border border-green-500/50 rounded-xl p-4">
+                  <div className="bg-gradient-to-r from-green-50 to-emerald-50 border border-green-200 rounded-2xl p-6">
                     <div className="flex items-center">
-                      <div className="w-6 h-6 bg-green-500 rounded-full flex items-center justify-center mr-3">
-                        <span className="text-white text-xs">✓</span>
+                      <div className="w-12 h-12 bg-gradient-to-r from-green-500 to-emerald-500 rounded-2xl flex items-center justify-center mr-4 shadow-lg">
+                        <svg className="w-6 h-6 text-white" fill="none" stroke="currentColor" strokeWidth={3} viewBox="0 0 24 24">
+                          <path strokeLinecap="round" strokeLinejoin="round" d="M5 13l4 4L19 7" />
+                        </svg>
                       </div>
-                      <div>
-                        <p className="text-green-200 text-sm font-semibold">Wallet Connected</p>
-                        <p className="text-green-200/80 text-xs font-mono">
+                      <div className="flex-1">
+                        <p className="text-green-800 font-bold text-lg">Wallet Connected</p>
+                        <p className="text-green-600 font-mono text-sm mt-1">
                           {walletAddress.slice(0, 8)}...{walletAddress.slice(-8)}
                         </p>
                       </div>
@@ -208,159 +225,123 @@ function RegisterPage() {
 
               {/* Step 2: Optional Email */}
               {walletAddress && (
-                <div className="space-y-4">
-                  <div className="flex items-center text-gray-300 text-sm">
-                    <div className="w-6 h-6 bg-blue-500 rounded-full flex items-center justify-center mr-3 text-white text-xs font-bold">
+                <div className="space-y-6">
+                  <div className="flex items-center text-slate-700 font-medium">
+                    <div className="w-8 h-8 bg-gradient-to-r from-blue-600 to-indigo-600 rounded-full flex items-center justify-center mr-4 text-white text-sm font-bold shadow-lg">
                       2
                     </div>
-                    <span>Email for Notifications (Optional)</span>
+                    <span className="text-lg">Email (Optional)</span>
                   </div>
                   
-                  <div>
+                  <div className="space-y-3">
                     <input
                       type="email"
+                      placeholder="your.email@example.com"
                       value={email}
                       onChange={(e) => setEmail(e.target.value)}
-                      className="w-full px-4 py-3 bg-white/10 border border-white/20 rounded-xl text-white placeholder-gray-400 focus:outline-none focus:ring-2 focus:ring-blue-500 focus:border-transparent transition-all duration-300"
-                      placeholder="your.email@example.com (optional)"
+                      className="w-full px-6 py-4 bg-white/80 backdrop-blur-md border border-slate-200 rounded-xl text-slate-900 placeholder-slate-500 focus:outline-none focus:ring-2 focus:ring-purple-500 focus:border-transparent transition-all duration-300 font-medium"
                     />
-                    <p className="text-gray-400 text-xs mt-2">
-                      📧 Get uptime alerts, security notifications, and platform updates
+                    <p className="text-slate-500 text-sm font-medium">
+                      Optional: Receive important notifications via email
                     </p>
                   </div>
                 </div>
               )}
 
-              {/* Step 3: Terms and Register */}
+              {/* Step 3: Terms & Create Account */}
               {walletAddress && (
-                <div className="space-y-4">
-                  <div className="flex items-center text-gray-300 text-sm">
-                    <div className="w-6 h-6 bg-green-500 rounded-full flex items-center justify-center mr-3 text-white text-xs font-bold">
+                <div className="space-y-6">
+                  <div className="flex items-center text-slate-700 font-medium">
+                    <div className="w-8 h-8 bg-gradient-to-r from-emerald-600 to-green-600 rounded-full flex items-center justify-center mr-4 text-white text-sm font-bold shadow-lg">
                       3
                     </div>
-                    <span>Complete Registration</span>
+                    <span className="text-lg">Complete Registration</span>
                   </div>
 
-                  <div className="flex items-start">
-                    <input
-                      type="checkbox"
-                      id="acceptTerms"
-                      checked={acceptTerms}
-                      onChange={(e) => setAcceptTerms(e.target.checked)}
-                      className="mt-1 w-4 h-4 bg-white/10 border border-white/20 rounded focus:ring-2 focus:ring-purple-500"
-                      required
-                    />
-                    <label htmlFor="acceptTerms" className="ml-3 text-gray-300 text-sm">
-                      I agree to the{' '}
-                      <a href="#" className="text-purple-400 hover:text-purple-300 underline">
-                        Terms of Service
-                      </a>{' '}
-                      and{' '}
-                      <a href="#" className="text-purple-400 hover:text-purple-300 underline">
-                        Privacy Policy
-                      </a>
+                  {/* Terms and Conditions */}
+                  <div className="bg-slate-50 border border-slate-200 rounded-2xl p-6">
+                    <label className="flex items-start cursor-pointer">
+                      <input
+                        type="checkbox"
+                        checked={acceptTerms}
+                        onChange={(e) => setAcceptTerms(e.target.checked)}
+                        className="mt-1 mr-4 w-5 h-5 text-purple-600 bg-white border-slate-300 rounded focus:ring-purple-500 focus:ring-2"
+                      />
+                      <div className="text-slate-700 text-sm leading-relaxed">
+                        <span className="font-medium">I agree to the </span>
+                        <a href="#" className="text-purple-600 font-bold hover:text-purple-700 underline">
+                          Terms of Service
+                        </a>
+                        <span className="font-medium"> and </span>
+                        <a href="#" className="text-purple-600 font-bold hover:text-purple-700 underline">
+                          Privacy Policy
+                        </a>
+                        <span className="font-medium">. I understand this is a decentralized platform and I'm responsible for my wallet security.</span>
+                      </div>
                     </label>
                   </div>
 
                   <button
                     onClick={handleRegistration}
                     disabled={isRegistering || !acceptTerms}
-                    className="w-full bg-gradient-to-r from-green-600 to-blue-600 text-white font-semibold py-4 px-6 rounded-xl hover:shadow-lg transition-all duration-300 disabled:opacity-50 disabled:cursor-not-allowed flex items-center justify-center"
+                    className="group relative w-full bg-gradient-to-r from-emerald-600 to-green-600 text-white font-bold py-5 px-8 rounded-2xl shadow-2xl hover:shadow-emerald-500/25 transition-all duration-300 disabled:opacity-50 disabled:cursor-not-allowed transform hover:-translate-y-1 hover:scale-105"
                   >
-                    {isRegistering ? (
-                      <>
-                        <div className="animate-spin rounded-full h-5 w-5 border-b-2 border-white mr-3"></div>
-                        Creating Account...
-                      </>
-                    ) : (
-                      <>
-                        <span className="text-xl mr-2">🚀</span>
-                        Start Monitoring
-                      </>
-                    )}
+                    <span className="relative z-10 flex items-center justify-center">
+                      {isRegistering ? (
+                        <>
+                          <div className="animate-spin rounded-full h-6 w-6 border-b-2 border-white mr-3"></div>
+                          Creating Your Account...
+                        </>
+                      ) : (
+                        <>
+                          <span className="text-2xl mr-3">🚀</span>
+                          <span className="text-lg">Create Account</span>
+                        </>
+                      )}
+                    </span>
+                    <div className="absolute inset-0 bg-gradient-to-r from-emerald-700 to-green-700 rounded-2xl opacity-0 group-hover:opacity-100 transition-opacity duration-300"></div>
                   </button>
                 </div>
               )}
-            </div>
 
-            {/* Wallet Detection Status */}
-            <div className="mt-8 bg-gray-500/10 border border-gray-500/20 rounded-xl p-4">
-              <div className="flex items-start">
-                <div className="w-6 h-6 bg-gray-500 rounded-full flex items-center justify-center mr-3 flex-shrink-0 mt-0.5">
-                  <span className="text-white text-xs">?</span>
-                </div>
-                <div>
-                  <h3 className="text-gray-200 font-semibold text-sm mb-1">Wallet Status</h3>
-                  <p className="text-gray-200/80 text-xs leading-relaxed">
-                    {typeof window !== 'undefined' && window.solana ? (
-                      window.solana.isPhantom ? (
-                        <span className="text-green-400">✅ Phantom wallet detected</span>
-                      ) : (
-                        <span className="text-yellow-400">⚠️ Solana wallet found but not Phantom</span>
-                      )
-                    ) : (
-                      <span className="text-red-400">❌ No Solana wallet detected</span>
-                    )}
-                  </p>
+              {/* Features Preview */}
+              <div className="border-t border-slate-200 pt-8">
+                <h3 className="text-lg font-bold text-slate-900 text-center mb-6">
+                  What you'll get with your account:
+                </h3>
+                <div className="grid grid-cols-1 gap-4">
+                  {[
+                    { icon: '🏗️', title: 'Website Monitoring', desc: 'Add unlimited websites to monitor' },
+                    { icon: '📈', title: 'Real-time Analytics', desc: 'Detailed uptime and performance metrics' },
+                    { icon: '🔔', title: 'Instant Notifications', desc: 'Get alerted immediately when issues occur' },
+                    { icon: '🌍', title: 'Global Validation', desc: 'Verified by our worldwide validator network' },
+                    { icon: '💰', title: 'SOL Rewards System', desc: 'Pay validators with SOL tokens' }
+                  ].map((feature, index) => (
+                    <div key={index} className="flex items-center p-4 bg-slate-50 rounded-xl border border-slate-200">
+                      <span className="text-2xl mr-4">{feature.icon}</span>
+                      <div>
+                        <h4 className="font-bold text-slate-900">{feature.title}</h4>
+                        <p className="text-slate-600 text-sm">{feature.desc}</p>
+                      </div>
+                    </div>
+                  ))}
                 </div>
               </div>
-            </div>
 
-            {/* Info Box */}
-            <div className="mt-6 bg-blue-500/20 border border-blue-500/50 rounded-xl p-4">
-              <div className="flex items-start">
-                <div className="w-6 h-6 bg-blue-500 rounded-full flex items-center justify-center mr-3 flex-shrink-0 mt-0.5">
-                  <span className="text-white text-xs">i</span>
-                </div>
-                <div>
-                  <h3 className="text-blue-200 font-semibold text-sm mb-1">New to Phantom?</h3>
-                  <p className="text-blue-200/80 text-xs leading-relaxed">
-                    Phantom is a secure Solana wallet. 
-                    <a 
-                      href="https://phantom.app/" 
-                      target="_blank" 
-                      rel="noopener noreferrer"
-                      className="underline hover:text-blue-200 ml-1"
-                    >
-                      Download it here
-                    </a>
-                  </p>
-                </div>
-              </div>
-            </div>
-
-            {/* Already have account */}
-            <div className="text-center pt-6 border-t border-white/10 mt-6">
-              <p className="text-gray-400 text-sm">
-                Already have an account?{' '}
-                <Link to="/wallet-connect" className="text-purple-400 hover:text-purple-300 transition-colors">
-                  Connect Wallet
+              {/* Alternative Actions */}
+              <div className="text-center border-t border-slate-200 pt-8">
+                <p className="text-slate-600 mb-4 font-medium">
+                  Already have an account?
+                </p>
+                <Link 
+                  to="/login"
+                  className="inline-flex items-center justify-center px-8 py-3 bg-white border-2 border-slate-300 text-slate-700 font-bold rounded-xl hover:border-slate-400 hover:bg-slate-50 transition-all duration-300"
+                >
+                  Sign In Instead
+                  <svg className="w-5 h-5 ml-2" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                    <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M17 8l4 4m0 0l-4 4m4-4H3" />
+                  </svg>
                 </Link>
-              </p>
-            </div>
-          </div>
-
-          {/* Features */}
-          <div className="mt-8 grid grid-cols-3 gap-4">
-            <div className="bg-white/5 backdrop-blur-md rounded-xl p-4 border border-white/10">
-              <div className="text-center">
-                <div className="text-green-400 text-2xl mb-2">🔒</div>
-                <div className="text-white text-sm font-semibold mb-1">Secure</div>
-                <div className="text-gray-400 text-xs">Your keys, your control</div>
-              </div>
-            </div>
-            <div className="bg-white/5 backdrop-blur-md rounded-xl p-4 border border-white/10">
-              <div className="text-center">
-                <div className="text-blue-400 text-2xl mb-2">⚡</div>
-                <div className="text-white text-sm font-semibold mb-1">Fast</div>
-                <div className="text-gray-400 text-xs">Instant connection</div>
-              </div>
-            </div>
-            <div className="bg-white/5 backdrop-blur-md rounded-xl p-4 border border-white/10">
-              <div className="text-center">
-                <div className="text-purple-400 text-2xl mb-2">🌐</div>
-                <div className="text-white text-sm font-semibold mb-1">Web3</div>
-                <div className="text-gray-400 text-xs">Fully decentralized</div>
               </div>
             </div>
           </div>

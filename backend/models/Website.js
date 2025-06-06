@@ -15,6 +15,26 @@ const WebsiteSchema = new mongoose.Schema({
     type: String,
     required: false,
     trim: true
+  },
+  rewardPerCheck: {
+    type: Number,
+    default: 0.001,
+    min: 0.001,
+    max: 1.0
+  },
+  autoPayments: {
+    type: Boolean,
+    default: true
+  },
+  walletBalance: {
+    type: Number,
+    default: 0,
+    min: 0
+  },
+  totalRewardsPaid: {
+    type: Number,
+    default: 0,
+    min: 0
   }
 }, {
   timestamps: true
