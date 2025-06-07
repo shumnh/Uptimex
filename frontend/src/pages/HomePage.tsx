@@ -368,7 +368,7 @@ function HomePage() {
               The future of website monitoring is decentralized. Join the revolution.
             </p>
             <div className="text-slate-500 text-sm font-medium">
-              © 2024 Uptimex. Built with 💜 for the Web3 community.
+              © 2025 Uptimex. Built with 💜 for the Web3 community.
             </div>
           </div>
         </footer>

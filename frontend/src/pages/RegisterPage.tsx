@@ -337,13 +337,13 @@ function RegisterPage() {
                         onChange={(e) => setEmail(e.target.value)}
                         placeholder="your.email@example.com"
                         className="w-full px-6 py-4 bg-white/80 backdrop-blur-md border border-slate-200 rounded-xl text-slate-900 placeholder-slate-500 focus:outline-none focus:ring-2 focus:ring-purple-500 focus:border-transparent transition-all duration-300 font-medium text-lg"
-                      />
+                    />
                       <p className="text-slate-500 text-sm mt-3 font-medium">
                         We'll send you alerts when your websites go down (you can skip this)
-                      </p>
+                    </p>
                     </div>
                   </div>
-                )}
+              )}
 
                 {/* Step 3: Terms and Register */}
                 {walletAddress && (
@@ -363,7 +363,7 @@ function RegisterPage() {
                           checked={acceptTerms}
                           onChange={(e) => setAcceptTerms(e.target.checked)}
                           className="mt-1 mr-4 w-5 h-5 text-purple-600 border-slate-300 rounded focus:ring-purple-500"
-                        />
+                />
                         <label htmlFor="terms" className="text-slate-700 font-medium leading-relaxed">
                   I agree to the{' '}
                           <a href="#" className="text-purple-600 hover:text-purple-700 font-bold underline">
@@ -385,7 +385,7 @@ function RegisterPage() {
                     >
                       <span className="relative z-10 flex items-center justify-center text-xl">
                         {isRegistering ? (
-                          <>
+                  <>
                             <div className="animate-spin rounded-full h-6 w-6 border-b-2 border-white mr-4"></div>
                     Creating Account...
                   </>
@@ -394,7 +394,7 @@ function RegisterPage() {
                             <span className="text-2xl mr-4">🚀</span>
                             Create My Account
                           </>
-                        )}
+                )}
                       </span>
                       <div className="absolute inset-0 bg-gradient-to-r from-green-700 to-emerald-700 rounded-2xl opacity-0 group-hover:opacity-100 transition-opacity duration-300"></div>
                     </button>
