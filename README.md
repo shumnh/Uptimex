@@ -1,6 +1,7 @@
 # UptimeX 🌐
 
 A decentralized website monitoring platform where people earn cryptocurrency for checking if websites are working properly.
+[Live Demo](https://uptimex-six.vercel.app/)
 
 ## What is UptimeX?
 
