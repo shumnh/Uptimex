@@ -49,6 +49,16 @@ function RegisterPage() {
     }
   };
 
+  const checkUserExists = async (address: string) => {
+    try {
+      const response = await fetch(API_ENDPOINTS.AUTH.USER_INFO(address));
+      const data = await response.json();
+      return response.ok && data.exists;
+    } catch (error) {
+      return false;
+    }
+  };
+
   const handleRegistration = async () => {
     if (!walletAddress) {
       setError('Please connect your wallet first');
@@ -64,6 +74,16 @@ function RegisterPage() {
     setError('');
 
     try {
+      // First check if user already exists
+      const userExists = await checkUserExists(walletAddress);
+      
+      if (userExists) {
+        setError('This wallet is already registered. Please use the login page instead.');
+        setIsRegistering(false);
+        return;
+      }
+
+      // User doesn't exist, proceed with registration
       const response = await fetch(API_ENDPOINTS.AUTH.REGISTER, {
         method: 'POST',
         headers: {
@@ -85,13 +105,7 @@ function RegisterPage() {
         localStorage.setItem('user', JSON.stringify(data.user));
         navigate('/dashboard');
       } else {
-        // Handle registration failure
-        if (data.message?.includes('already registered') || data.error?.includes('already registered') || 
-            data.message?.includes('already exists') || data.error?.includes('already exists')) {
-          setError('This wallet is already registered. Please use the login page instead.');
-        } else {
-          setError(data.message || data.error || 'Registration failed');
-        }
+        setError(data.message || data.error || 'Registration failed');
       }
     } catch (err) {
       setError('Network error. Please try again.');

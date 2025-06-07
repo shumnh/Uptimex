@@ -7,6 +7,7 @@ export const API_ENDPOINTS = {
     LOGIN: `${API_BASE_URL}/api/auth/login`,
     REGISTER: `${API_BASE_URL}/api/auth/register`,
     WALLET_LOGIN: `${API_BASE_URL}/api/auth/wallet-login`,
+    USER_INFO: (address: string) => `${API_BASE_URL}/api/auth/user-info/${address}`,
     VALIDATOR_REGISTER: `${API_BASE_URL}/api/auth/validator-register`,
     VALIDATOR_LOGIN: `${API_BASE_URL}/api/auth/validator-login`,
     VALIDATOR_INFO: (address: string) => `${API_BASE_URL}/api/auth/validator-info/${address}`,

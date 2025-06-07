@@ -239,6 +239,32 @@ router.post('/validator-register', async (req, res) => {
   }
 });
 
+// GET /api/auth/user-info/:wallet - Check if website owner exists
+router.get('/user-info/:wallet', async (req, res) => {
+  const { wallet } = req.params;
+  
+  try {
+    const user = await User.findOne({ solanaWallet: wallet, role: 'user' });
+    
+    if (!user) {
+      return res.status(404).json({ error: 'User not found', exists: false });
+    }
+    
+    res.json({
+      success: true,
+      exists: true,
+      user: {
+        username: user.username,
+        email: user.email,
+        wallet: user.solanaWallet
+      }
+    });
+  } catch (err) {
+    console.error('User info error:', err);
+    res.status(500).json({ error: 'Failed to get user info' });
+  }
+});
+
 // GET /api/auth/validator-info/:wallet
 router.get('/validator-info/:wallet', async (req, res) => {
   const { wallet } = req.params;
