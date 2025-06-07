@@ -16,14 +16,14 @@ const UserSchema = new mongoose.Schema({
   },
   email: {
     type: String,
-    required: function() { return this.role === 'user'; }, // Only required for website owners
+    required: false, // Optional for all users (wallet-based auth)
     lowercase: true,
     trim: true,
     match: [/^\w+([.-]?\w+)*@\w+([.-]?\w+)*(\.\w{2,5})+$/, 'Please enter a valid email']
   },
   passwordHash: {
     type: String,
-    required: function() { return this.role === 'user'; }, // Required for website owners, not validators
+    required: false, // Optional - only for traditional auth (if needed)
     select: false // Don't include password hash in queries by default for security
   },
   role: {
@@ -34,7 +34,7 @@ const UserSchema = new mongoose.Schema({
   },
   solanaWallet: {
     type: String,
-    required: function() { return this.role === 'validator'; }, // Required for validators
+    required: true, // Required for all users (wallet-based auth)
   }
 }, {
   timestamps: true

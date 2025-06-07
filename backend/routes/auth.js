@@ -132,6 +132,10 @@ import('../controllers/authController.mjs').then(module => {
 router.post('/wallet-login', async (req, res) => {
   const { walletAddress, userType } = req.body;
   
+  if (!walletAddress) {
+    return res.status(400).json({ error: 'Wallet address is required' });
+  }
+
   // For validators, use the signature-based authentication
   if (userType === 'validator') {
     if (!loginWithWallet) {
@@ -140,23 +144,28 @@ router.post('/wallet-login', async (req, res) => {
     return loginWithWallet(req, res);
   }
   
-  // For website owners (users), use simplified wallet authentication
+  // For website owners (users), use wallet-only authentication with auto-registration
   if (userType === 'user') {
-    if (!walletAddress) {
-      return res.status(400).json({ error: 'Wallet address is required' });
-    }
-    
     try {
       // Find user by wallet address
-      const user = await User.findOne({ solanaWallet: walletAddress, role: 'user' });
+      let user = await User.findOne({ solanaWallet: walletAddress, role: 'user' });
+      
+      // If user doesn't exist, create them automatically (Web3 style)
       if (!user) {
-        return res.status(404).json({ error: 'User not found with this wallet address' });
+        const userData = {
+          username: `user_${walletAddress.slice(-8)}`,
+          role: 'user',
+          solanaWallet: walletAddress
+        };
+        
+        user = await User.create(userData);
+        console.log(`✅ New website owner auto-registered with wallet: ${walletAddress}`);
       }
       
       // Create JWT token
       const token = jwt.sign({ 
         id: user._id, 
-        email: user.email, 
+        username: user.username,
         role: user.role,
         solanaWallet: user.solanaWallet
       }, process.env.JWT_SECRET, { expiresIn: '7d' });
@@ -167,7 +176,6 @@ router.post('/wallet-login', async (req, res) => {
         token, 
         user: { 
           id: user._id, 
-          email: user.email, 
           username: user.username,
           role: user.role,
           solanaWallet: user.solanaWallet 
