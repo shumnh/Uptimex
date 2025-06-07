@@ -9,16 +9,6 @@ function WalletConnectPage() {
   const [error, setError] = useState('');
   const navigate = useNavigate();
 
-  const checkUserExists = async (address: string) => {
-    try {
-      const response = await fetch(API_ENDPOINTS.AUTH.USER_INFO(address));
-      const data = await response.json();
-      return response.ok && data.exists;
-    } catch (error) {
-      return false;
-    }
-  };
-
   const connectWallet = async () => {
     try {
       setIsConnecting(true);
@@ -48,15 +38,7 @@ function WalletConnectPage() {
       const walletAddress = response.publicKey.toString();
       console.log('Wallet address:', walletAddress);
 
-      // First check if user exists
-      const userExists = await checkUserExists(walletAddress);
-      
-      if (!userExists) {
-        setError('No account found for this wallet. Please register first.');
-        return;
-      }
-
-      // User exists, proceed with login
+      // Simple wallet authentication with auto-registration
       const authResponse = await fetch(API_ENDPOINTS.AUTH.WALLET_LOGIN, {
         method: 'POST',
         headers: {
@@ -76,7 +58,7 @@ function WalletConnectPage() {
         localStorage.setItem('user', JSON.stringify(data.user));
         navigate('/dashboard');
       } else {
-        setError(data.error || data.message || 'Failed to authenticate with wallet');
+        setError(data.error || data.message || 'Authentication failed');
       }
     } catch (err: any) {
       console.error('Wallet connection error:', err);

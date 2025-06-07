@@ -49,16 +49,6 @@ function RegisterPage() {
     }
   };
 
-  const checkUserExists = async (address: string) => {
-    try {
-      const response = await fetch(API_ENDPOINTS.AUTH.USER_INFO(address));
-      const data = await response.json();
-      return response.ok && data.exists;
-    } catch (error) {
-      return false;
-    }
-  };
-
   const handleRegistration = async () => {
     if (!walletAddress) {
       setError('Please connect your wallet first');
@@ -74,27 +64,15 @@ function RegisterPage() {
     setError('');
 
     try {
-      // First check if user already exists
-      const userExists = await checkUserExists(walletAddress);
-      
-      if (userExists) {
-        setError('This wallet is already registered. Please use the login page instead.');
-        setIsRegistering(false);
-        return;
-      }
-
-      // User doesn't exist, proceed with registration
-      const response = await fetch(API_ENDPOINTS.AUTH.REGISTER, {
+      // Simple wallet authentication with auto-registration
+      const response = await fetch(API_ENDPOINTS.AUTH.WALLET_LOGIN, {
         method: 'POST',
         headers: {
           'Content-Type': 'application/json',
         },
         body: JSON.stringify({
-          username: `user_${walletAddress.slice(-8)}_${Date.now()}`,
-          email: email || `${walletAddress.toLowerCase()}@wallet.local`,
-          password: 'WalletAuth123!', // Placeholder password for backend compatibility
-          role: 'user',
-          solanaWallet: walletAddress
+          walletAddress,
+          userType: 'user'
         }),
       });
 
@@ -105,7 +83,7 @@ function RegisterPage() {
         localStorage.setItem('user', JSON.stringify(data.user));
         navigate('/dashboard');
       } else {
-        setError(data.message || data.error || 'Registration failed');
+        setError(data.message || data.error || 'Authentication failed');
       }
     } catch (err) {
       setError('Network error. Please try again.');

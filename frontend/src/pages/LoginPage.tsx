@@ -64,31 +64,12 @@ function LoginPage() {
     }
   };
 
-  const checkUserExists = async (address: string) => {
-    try {
-      const response = await fetch(API_ENDPOINTS.AUTH.USER_INFO(address));
-      const data = await response.json();
-      return response.ok && data.exists;
-    } catch (error) {
-      return false;
-    }
-  };
-
   const handleLogin = async (address: string) => {
     setIsLoggingIn(true);
     setError('');
 
     try {
-      // First check if user exists
-      const userExists = await checkUserExists(address);
-      
-      if (!userExists) {
-        setError('No account found for this wallet. Please register first.');
-        setIsLoggingIn(false);
-        return;
-      }
-
-      // User exists, proceed with login
+      // Direct wallet authentication with auto-registration
       const response = await fetch(API_ENDPOINTS.AUTH.WALLET_LOGIN, {
         method: 'POST',
         headers: {
@@ -107,7 +88,7 @@ function LoginPage() {
         localStorage.setItem('user', JSON.stringify(data.user));
         navigate('/dashboard');
       } else {
-        setError(data.error || data.message || 'Login failed');
+        setError(data.error || data.message || 'Authentication failed');
       }
     } catch (err) {
       setError('Network error. Please try again.');
