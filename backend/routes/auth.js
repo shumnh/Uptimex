@@ -154,7 +154,7 @@ router.post('/wallet-login', async (req, res) => {
       if (!user) {
         try {
           const userData = {
-            username: `user_${walletAddress.slice(-8)}`,
+            username: `user_${walletAddress.slice(-8)}_${Date.now()}`,
             role: 'user',
             solanaWallet: walletAddress
           };
@@ -196,7 +196,13 @@ router.post('/wallet-login', async (req, res) => {
       });
     } catch (err) {
       console.error('Wallet login error:', err);
-      res.status(500).json({ error: 'Login failed' });
+      console.error('Error details:', err.message);
+      console.error('Error stack:', err.stack);
+      res.status(500).json({ 
+        error: 'Login failed', 
+        details: err.message,
+        walletAddress: walletAddress 
+      });
     }
   } else {
     return res.status(400).json({ error: 'Invalid user type' });
