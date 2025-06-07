@@ -42,8 +42,9 @@ const UserSchema = new mongoose.Schema({
 
 // Indexes for performance and uniqueness
 UserSchema.index({ email: 1 }, { unique: true, sparse: true });
-UserSchema.index({ solanaWallet: 1 }, { unique: true, sparse: true });
+UserSchema.index({ solanaWallet: 1, role: 1 }, { unique: true }); // Compound unique: same wallet can have different roles
 UserSchema.index({ role: 1 });
+// Note: username index is already created by "unique: true" in schema definition above
 
 // Method to get user data without sensitive information
 UserSchema.methods.toSafeObject = function() {

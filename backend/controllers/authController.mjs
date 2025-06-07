@@ -33,16 +33,27 @@ export const loginWithWallet = async (req, res) => {
       return res.status(401).json({ error: 'Invalid signature' });
     }
     
-    // Find or create user
-    let user = await User.findOne({ solanaWallet: wallet });
+    // Find or create validator user
+    let user = await User.findOne({ solanaWallet: wallet, role: 'validator' });
     if (!user) {
+      // Generate unique username for validator
+      const baseUsername = `validator_${wallet.slice(-8)}`;
+      let username = baseUsername;
+      let counter = 1;
+      
+      // Check if username exists and increment counter if needed
+      while (await User.findOne({ username })) {
+        username = `${baseUsername}_${counter}`;
+        counter++;
+      }
+      
       user = await User.create({
-        username: wallet.slice(-8), // Use last 8 chars as username for readability
+        username,
         solanaWallet: wallet,
         role: 'validator'
         // No email or password needed for validators
       });
-      console.log(`✅ New validator registered: ${wallet}`);
+      console.log(`✅ New validator registered: ${wallet} with username: ${username}`);
     } else {
       console.log(`✅ Existing validator logged in: ${wallet}`);
     }

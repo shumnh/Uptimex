@@ -153,21 +153,39 @@ router.post('/wallet-login', async (req, res) => {
       // If user doesn't exist, create them automatically
       if (!user) {
         try {
+          // Generate a unique username
+          const baseUsername = `user_${walletAddress.slice(-8)}`;
+          let username = baseUsername;
+          let counter = 1;
+          
+          // Check if username exists and increment counter if needed
+          while (await User.findOne({ username })) {
+            username = `${baseUsername}_${counter}`;
+            counter++;
+          }
+          
           const userData = {
-            username: `user_${walletAddress.slice(-8)}_${Date.now()}`,
+            username,
             role: 'user',
             solanaWallet: walletAddress
           };
           
           user = await User.create(userData);
-          console.log(`✅ New website owner auto-registered with wallet: ${walletAddress}`);
+          console.log(`✅ New website owner auto-registered with wallet: ${walletAddress}, username: ${username}`);
         } catch (createError) {
+          console.error('User creation error:', createError);
           // If duplicate key error, try to find the existing user
           if (createError.code === 11000) {
-            console.log(`🔍 Wallet already exists, finding existing user: ${walletAddress}`);
-            user = await User.findOne({ solanaWallet: walletAddress, role: 'user' });
+            console.log(`🔍 Duplicate key error, finding existing user with wallet: ${walletAddress}`);
+            user = await User.findOne({ solanaWallet: walletAddress });
             if (!user) {
               throw new Error('User creation failed and existing user not found');
+            }
+            // If user exists but has wrong role, update the role
+            if (user.role !== 'user') {
+              user.role = 'user';
+              await user.save();
+              console.log(`✅ Updated existing user role to 'user' for wallet: ${walletAddress}`);
             }
           } else {
             throw createError;
@@ -227,9 +245,20 @@ router.post('/validator-register', async (req, res) => {
     // For now, we'll skip signature verification and focus on functionality
     // In production, you would verify the signature here
     
+    // Generate a unique username for validator
+    const baseUsername = `validator_${name.toLowerCase().replace(/\s+/g, '_')}_${wallet.slice(-6)}`;
+    let username = baseUsername;
+    let counter = 1;
+    
+    // Check if username exists and increment counter if needed
+    while (await User.findOne({ username })) {
+      username = `${baseUsername}_${counter}`;
+      counter++;
+    }
+    
     const userData = {
-      username: name,
-      email: email || `validator_${wallet.slice(0, 8)}@solweup.com`,
+      username,
+      email: email || `validator_${wallet.slice(0, 8)}@uptimex.com`,
       role: 'validator',
       solanaWallet: wallet,
       name: name
