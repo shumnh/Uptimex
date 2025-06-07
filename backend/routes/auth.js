@@ -152,14 +152,27 @@ router.post('/wallet-login', async (req, res) => {
       
       // If user doesn't exist, create them automatically
       if (!user) {
-        const userData = {
-          username: `user_${walletAddress.slice(-8)}`,
-          role: 'user',
-          solanaWallet: walletAddress
-        };
-        
-        user = await User.create(userData);
-        console.log(`✅ New website owner auto-registered with wallet: ${walletAddress}`);
+        try {
+          const userData = {
+            username: `user_${walletAddress.slice(-8)}`,
+            role: 'user',
+            solanaWallet: walletAddress
+          };
+          
+          user = await User.create(userData);
+          console.log(`✅ New website owner auto-registered with wallet: ${walletAddress}`);
+        } catch (createError) {
+          // If duplicate key error, try to find the existing user
+          if (createError.code === 11000) {
+            console.log(`🔍 Wallet already exists, finding existing user: ${walletAddress}`);
+            user = await User.findOne({ solanaWallet: walletAddress, role: 'user' });
+            if (!user) {
+              throw new Error('User creation failed and existing user not found');
+            }
+          } else {
+            throw createError;
+          }
+        }
       }
       
       // Create JWT token
