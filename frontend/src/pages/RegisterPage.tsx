@@ -85,7 +85,8 @@ function RegisterPage() {
         navigate('/dashboard');
       } else {
         // Handle registration failure
-        if (data.message?.includes('Wallet address already registered') || data.error?.includes('Wallet address already registered')) {
+        if (data.message?.includes('already registered') || data.error?.includes('already registered') || 
+            data.message?.includes('already exists') || data.error?.includes('already exists')) {
           setError('This wallet is already registered. Please use the login page instead.');
         } else {
           setError(data.message || data.error || 'Registration failed');

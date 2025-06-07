@@ -57,10 +57,10 @@ function WalletConnectPage() {
         localStorage.setItem('user', JSON.stringify(data.user));
         navigate('/dashboard');
       } else {
-        if (data.message?.includes('User not found') || data.message?.includes('not found')) {
+        if (data.error?.includes('not found') || data.message?.includes('not found')) {
           setError(`No account found for this wallet. Would you like to create an account?`);
         } else {
-          setError(data.message || 'Failed to authenticate with wallet');
+          setError(data.error || data.message || 'Failed to authenticate with wallet');
         }
       }
     } catch (err: any) {

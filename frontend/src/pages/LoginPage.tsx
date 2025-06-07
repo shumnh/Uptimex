@@ -86,10 +86,10 @@ function LoginPage() {
         localStorage.setItem('user', JSON.stringify(data.user));
         navigate('/dashboard');
       } else {
-        if (data.message?.includes('not found')) {
+        if (data.error?.includes('not found') || data.message?.includes('not found')) {
           setError('No account found for this wallet. Would you like to create one?');
-      } else {
-        setError(data.message || 'Login failed');
+        } else {
+          setError(data.error || data.message || 'Login failed');
         }
       }
     } catch (err) {
