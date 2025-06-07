@@ -1,17 +1,7 @@
 import { useState } from 'react';
 import { Link, useNavigate } from 'react-router-dom';
 
-declare global {
-  interface Window {
-    solana?: {
-      isPhantom?: boolean;
-      connect(): Promise<{ publicKey: { toString(): string } }>;
-      disconnect(): Promise<void>;
-      isConnected: boolean;
-      publicKey?: { toString(): string };
-    };
-  }
-}
+
 
 function RegisterPage() {
   const [isConnecting, setIsConnecting] = useState(false);

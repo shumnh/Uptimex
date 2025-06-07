@@ -1,5 +1,6 @@
 import { useState } from 'react';
 import { Link, useNavigate } from 'react-router-dom';
+import bs58 from 'bs58';
 
 interface RegistrationStep {
   id: number;
@@ -24,34 +25,6 @@ const steps: RegistrationStep[] = [
     description: "Finish your validator registration"
   }
 ];
-
-// Dynamic import for bs58
-let bs58: any = null;
-
-const loadBs58 = async () => {
-  if (!bs58) {
-    try {
-      bs58 = await import('https://cdn.jsdelivr.net/npm/bs58@6.0.0/+esm');
-    } catch (error) {
-      console.error('Failed to load bs58:', error);
-      throw new Error('bs58 library not available');
-    }
-  }
-  return bs58;
-};
-
-declare global {
-  interface Window {
-    solana?: {
-      isPhantom?: boolean;
-      connect(): Promise<{ publicKey: { toString(): string } }>;
-      disconnect(): Promise<void>;
-      isConnected: boolean;
-      publicKey?: { toString(): string };
-      signMessage(encodedMessage: Uint8Array, display?: string): Promise<{ signature: Uint8Array }>;
-    };
-  }
-}
 
 function ValidatorRegisterPage() {
   const [currentStep, setCurrentStep] = useState(1);
@@ -98,9 +71,6 @@ function ValidatorRegisterPage() {
       setIsRegistering(true);
       setError('');
 
-      // Load bs58 library
-      const bs58Module = await loadBs58();
-      
       // Create message to sign
       const message = `Validator registration for ${name} with wallet ${walletAddress} at ${Date.now()}`;
       
@@ -109,7 +79,7 @@ function ValidatorRegisterPage() {
       const signedMessage = await window.solana!.signMessage(encodedMessage, 'utf8');
       
       // Convert signature to base58
-      const signature = bs58Module.default.encode(signedMessage.signature);
+      const signature = bs58.encode(signedMessage.signature);
 
       const response = await fetch('http://localhost:4000/api/auth/validator-register', {
         method: 'POST',

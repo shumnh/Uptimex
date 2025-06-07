@@ -1,33 +1,6 @@
 import { useState, useEffect } from 'react';
 import { Link, useNavigate } from 'react-router-dom';
-
-// Dynamic import for bs58
-let bs58: any = null;
-
-const loadBs58 = async () => {
-  if (!bs58) {
-    try {
-      bs58 = await import('https://cdn.jsdelivr.net/npm/bs58@6.0.0/+esm');
-    } catch (error) {
-      console.error('Failed to load bs58:', error);
-      throw new Error('bs58 library not available');
-    }
-  }
-  return bs58;
-};
-
-declare global {
-  interface Window {
-    solana?: {
-      isPhantom?: boolean;
-      connect(): Promise<{ publicKey: { toString(): string } }>;
-      disconnect(): Promise<void>;
-      isConnected: boolean;
-      publicKey?: { toString(): string };
-      signMessage(encodedMessage: Uint8Array, display?: string): Promise<{ signature: Uint8Array }>;
-    };
-  }
-}
+import bs58 from 'bs58';
 
 function ValidatorLoginPage() {
   const [isConnecting, setIsConnecting] = useState(false);
@@ -55,9 +28,6 @@ function ValidatorLoginPage() {
       setIsAuthenticating(true);
       setError('');
       
-      // Load bs58 library
-      const bs58Module = await loadBs58();
-      
       // Create message to sign
       const message = `Validator login for ${address} at ${Date.now()}`;
       
@@ -66,7 +36,7 @@ function ValidatorLoginPage() {
       const signedMessage = await window.solana!.signMessage(encodedMessage, 'utf8');
       
       // Convert signature to base58
-      const signature = bs58Module.default.encode(signedMessage.signature);
+      const signature = bs58.encode(signedMessage.signature);
       
       // Send to backend for verification
       const response = await fetch('http://localhost:4000/api/auth/validator-login', {

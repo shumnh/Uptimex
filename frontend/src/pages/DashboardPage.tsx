@@ -3,7 +3,6 @@ import { useNavigate } from 'react-router-dom';
 
 // Chart Components
 const UptimeChart = ({ data }: { data: any[] }) => {
-  const maxUptime = 100;
   const chartHeight = 160;
   
   return (
@@ -148,71 +147,7 @@ const LatencyChart = ({ data }: { data: any[] }) => {
   );
 };
 
-const ValidatorChart = ({ data }: { data: any[] }) => {
-  const maxChecks = Math.max(...data.map(d => d.checks)) * 1.1;
-  const chartHeight = 200;
-  
-  return (
-    <div className="w-full h-full relative">
-      {/* Y-axis labels */}
-      <div className="absolute left-0 top-0 h-full flex flex-col justify-between text-xs text-slate-500 font-medium">
-        <span>{Math.round(maxChecks)}</span>
-        <span>{Math.round(maxChecks * 0.75)}</span>
-        <span>{Math.round(maxChecks * 0.5)}</span>
-        <span>{Math.round(maxChecks * 0.25)}</span>
-        <span>0</span>
-      </div>
-      
-      {/* Chart area */}
-      <div className="ml-8 mr-4 h-full relative">
-        {/* Grid lines */}
-        <div className="absolute inset-0">
-          {[0, 0.25, 0.5, 0.75, 1].map(value => (
-            <div
-              key={value}
-              className="absolute w-full border-t border-slate-200"
-              style={{ bottom: `${value * chartHeight}px` }}
-            />
-          ))}
-        </div>
-        
-        {/* Bar chart */}
-        <div className="absolute inset-0 flex items-end justify-between">
-          {data.map((validator, index) => (
-            <div
-              key={index}
-              className="relative group flex flex-col items-center"
-              style={{ width: `${100 / data.length}%` }}
-            >
-              <div
-                className="bg-gradient-to-t from-purple-500 to-purple-400 rounded-t-sm mx-1 transition-all duration-300 hover:from-purple-600 hover:to-purple-500"
-                style={{ 
-                  height: `${(validator.checks / maxChecks) * chartHeight}px`,
-                  minHeight: '4px'
-                }}
-              />
-              <div className="absolute bottom-full left-1/2 transform -translate-x-1/2 mb-2 bg-slate-800 text-white text-xs px-2 py-1 rounded opacity-0 group-hover:opacity-100 transition-opacity whitespace-nowrap z-10">
-                <div>{validator.name}</div>
-                <div>{validator.checks} checks</div>
-                <div>{validator.accuracy}% accuracy</div>
-                <div>{validator.earned.toFixed(3)} SOL</div>
-              </div>
-            </div>
-          ))}
-        </div>
-        
-        {/* X-axis labels */}
-        <div className="absolute -bottom-8 left-0 right-0 flex justify-between text-xs text-slate-500 font-medium">
-          {data.map((validator, index) => (
-            <span key={index} className="transform -rotate-45 origin-top-left" style={{ width: `${100 / data.length}%` }}>
-              {validator.name}
-            </span>
-          ))}
-        </div>
-      </div>
-    </div>
-  );
-};
+
 
 const NetworkUptimeChart = ({ websites }: { websites: WebsiteWithStats[] }) => {
   const chartHeight = 160;
@@ -373,20 +308,12 @@ interface WebsiteWithStats extends Website {
   stats?: WebsiteStats;
 }
 
-interface ValidatorPerformance {
-  validatorId: string;
-  validatorName: string;
-  totalChecks: number;
-  accuracy: number;
-  avgResponseTime: number;
-  totalEarned: number;
-  lastCheck: string;
-}
+
 
 function DashboardPage() {
   const [user, setUser] = useState<User | null>(null);
   const [websites, setWebsites] = useState<WebsiteWithStats[]>([]);
-  const [validatorPerformance, setValidatorPerformance] = useState<ValidatorPerformance[]>([]);
+
   const [isLoading, setIsLoading] = useState(true);
   const [showAddWebsite, setShowAddWebsite] = useState(false);
   const [showDeleteConfirm, setShowDeleteConfirm] = useState<string | null>(null);
@@ -495,7 +422,8 @@ function DashboardPage() {
       if (response.ok) {
         const data = await response.json();
         if (data.success) {
-          setValidatorPerformance(data.validators || []);
+          // Validator performance data loaded successfully
+          console.log('Validator performance loaded:', data.validators?.length || 0);
         }
       }
     } catch (error) {
@@ -567,30 +495,7 @@ function DashboardPage() {
     }
   };
 
-  const handleUpdateRewardSettings = async (websiteId: string, settings: any) => {
-    try {
-      const token = localStorage.getItem('token');
-      const response = await fetch(`http://localhost:4000/api/websites/${websiteId}/rewards`, {
-        method: 'PUT',
-        headers: {
-          'Authorization': `Bearer ${token}`,
-          'Content-Type': 'application/json',
-        },
-        body: JSON.stringify(settings),
-      });
 
-      if (response.ok) {
-        setShowRewardSettings(null);
-        loadWebsites(); // Reload websites list
-      } else {
-        const errorData = await response.json();
-        alert(`Failed to update reward settings: ${errorData.error || 'Unknown error'}`);
-      }
-    } catch (error) {
-      console.error('Failed to update reward settings:', error);
-      alert('Network error. Please try again.');
-    }
-  };
 
   const handleLogout = () => {
     localStorage.removeItem('token');
@@ -688,19 +593,7 @@ function DashboardPage() {
     return data;
   };
 
-  const generateValidatorChart = () => {
-    if (validatorPerformance.length === 0) return [];
-    
-    return validatorPerformance.slice(0, 10).map(validator => ({
-      name: validator.validatorName.length > 12 
-        ? validator.validatorName.slice(0, 12) + '...' 
-        : validator.validatorName,
-      checks: validator.totalChecks,
-      accuracy: validator.accuracy,
-      earned: parseFloat(validator.totalEarned.toString()),
-      responseTime: validator.avgResponseTime
-    }));
-  };
+
 
   // Calculate overall statistics
   const totalWebsites = websites.length;

@@ -1,21 +1,6 @@
 import { useState, useEffect } from 'react';
-import { Link, useNavigate } from 'react-router-dom';
-
-// Dynamic import for bs58 (same as your sign-message.html example)
-let bs58: any = null;
-
-// Load bs58 library dynamically
-const loadBs58 = async () => {
-  if (!bs58) {
-    try {
-      bs58 = await import('https://cdn.jsdelivr.net/npm/bs58@6.0.0/+esm');
-    } catch (error) {
-      console.error('Failed to load bs58:', error);
-      throw new Error('bs58 library not available');
-    }
-  }
-  return bs58;
-};
+import { Link } from 'react-router-dom';
+import bs58 from 'bs58';
 
 interface MarketplaceWebsite {
   id: string;
@@ -66,7 +51,6 @@ function ValidatorPage() {
   const [error, setError] = useState('');
   const [checkingWebsites, setCheckingWebsites] = useState<Set<string>>(new Set());
   const [activeCheck, setActiveCheck] = useState<CheckingState | null>(null);
-  const navigate = useNavigate();
 
   useEffect(() => {
     // Check if validator is already logged in
@@ -106,9 +90,6 @@ function ValidatorPage() {
     try {
       setError('');
       
-      // Load bs58 library
-      const bs58Module = await loadBs58();
-      
       // Create message to sign
       const message = `Validator login for ${walletAddress} at ${Date.now()}`;
       
@@ -116,8 +97,8 @@ function ValidatorPage() {
       const encodedMessage = new TextEncoder().encode(message);
       const signedMessage = await window.solana!.signMessage(encodedMessage, 'utf8');
       
-      // Convert signature to base58 (same as your sign-message.html example)
-      const signature = bs58Module.default.encode(signedMessage.signature);
+      // Convert signature to base58
+      const signature = bs58.encode(signedMessage.signature);
       
       // Send to backend for verification
       const response = await fetch('http://localhost:4000/api/auth/wallet-login', {
@@ -266,7 +247,7 @@ function ValidatorPage() {
     }
   };
 
-  const submitValidatorResult = async (websiteId: string, validatorDecision: 'up' | 'down' | 'slow', notes?: string) => {
+  const submitValidatorResult = async (websiteId: string, validatorDecision: 'up' | 'down' | 'slow') => {
     try {
       setActiveCheck(prev => prev ? { ...prev, step: 'submitting' } : null);
       
@@ -285,7 +266,6 @@ function ValidatorPage() {
       if (window.solana && window.solana.signMessage) {
         try {
           const signedMessage = await window.solana.signMessage(messageBytes, 'utf8');
-          const bs58 = await loadBs58();
           signature = bs58.encode(signedMessage.signature);
         } catch (signError) {
           console.warn('Could not sign message, using placeholder:', signError);

@@ -1,15 +1,6 @@
 import { Link } from 'react-router-dom';
-import { useState, useEffect } from 'react';
 
 function HomePage() {
-  const [activeFeature, setActiveFeature] = useState(0);
-
-  useEffect(() => {
-    const interval = setInterval(() => {
-      setActiveFeature((prev) => (prev + 1) % 3);
-    }, 4000);
-    return () => clearInterval(interval);
-  }, []);
 
   return (
     <div className="min-h-screen bg-gradient-to-br from-slate-50 via-blue-50 to-indigo-50 relative overflow-hidden">

@@ -9,6 +9,10 @@ declare global {
       disconnect(): Promise<void>;
       isConnected: boolean;
       publicKey?: { toString(): string };
+      signMessage(encodedMessage: Uint8Array, display?: string): Promise<{
+        signature: Uint8Array;
+        publicKey: { toString(): string };
+      }>;
     };
   }
 }
