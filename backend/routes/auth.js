@@ -144,13 +144,13 @@ router.post('/wallet-login', async (req, res) => {
     return loginWithWallet(req, res);
   }
   
-  // For website owners (users), use wallet-only authentication with auto-registration
+  // For website owners: SIMPLE - wallet connected = you're in!
   if (userType === 'user') {
     try {
       // Find user by wallet address
       let user = await User.findOne({ solanaWallet: walletAddress, role: 'user' });
       
-      // If user doesn't exist, create them automatically (Web3 style)
+      // If user doesn't exist, create them automatically
       if (!user) {
         const userData = {
           username: `user_${walletAddress.slice(-8)}`,
