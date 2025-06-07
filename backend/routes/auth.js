@@ -251,6 +251,7 @@ router.get('/validator-info/:wallet', async (req, res) => {
     }
     
     res.json({
+      success: true,
       validator: {
         name: validator.name || validator.username,
         wallet: validator.solanaWallet

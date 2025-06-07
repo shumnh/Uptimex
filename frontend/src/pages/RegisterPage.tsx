@@ -63,7 +63,7 @@ function RegisterPage() {
     setError('');
 
     try {
-      const response = await fetch('http://localhost:4000/api/auth/register', {
+      const response = await fetch('https://uptimex-188w.onrender.com/api/auth/register', {
         method: 'POST',
         headers: {
           'Content-Type': 'application/json',
@@ -387,7 +387,7 @@ function RegisterPage() {
                 )}
                       </span>
                       <div className="absolute inset-0 bg-gradient-to-r from-green-700 to-emerald-700 rounded-2xl opacity-0 group-hover:opacity-100 transition-opacity duration-300"></div>
-                    </button>
+              </button>
                   </div>
                 )}
               </div>

@@ -101,7 +101,7 @@ function ValidatorPage() {
       const signature = bs58.encode(signedMessage.signature);
       
       // Send to backend for verification
-      const response = await fetch('http://localhost:4000/api/auth/wallet-login', {
+      const response = await fetch('https://uptimex-188w.onrender.com/api/auth/wallet-login', {
         method: 'POST',
         headers: {
           'Content-Type': 'application/json',
@@ -166,7 +166,7 @@ function ValidatorPage() {
   const loadMarketplace = async () => {
     try {
       const token = localStorage.getItem('token');
-      const response = await fetch('http://localhost:4000/api/websites/marketplace', {
+      const response = await fetch('https://uptimex-188w.onrender.com/api/websites/marketplace', {
         headers: {
           'Authorization': `Bearer ${token}`,
           'Content-Type': 'application/json',
@@ -192,7 +192,7 @@ function ValidatorPage() {
   const loadValidatorStats = async () => {
     try {
       const token = localStorage.getItem('token');
-      const response = await fetch('http://localhost:4000/api/checks/validator-stats', {
+      const response = await fetch('https://uptimex-188w.onrender.com/api/checks/validator-stats', {
         headers: {
           'Authorization': `Bearer ${token}`,
           'Content-Type': 'application/json',
@@ -273,7 +273,7 @@ function ValidatorPage() {
       }
       
       const token = localStorage.getItem('token');
-      const response = await fetch('http://localhost:4000/api/checks', {
+      const response = await fetch('https://uptimex-188w.onrender.com/api/checks', {
         method: 'POST',
         headers: {
           'Authorization': `Bearer ${token}`,
@@ -564,7 +564,7 @@ function ValidatorPage() {
               onClick={connectWallet}
                 disabled={isConnecting}
                 className="w-full bg-gradient-to-r from-green-600 to-emerald-600 hover:from-green-700 hover:to-emerald-700 disabled:opacity-50 text-white font-bold py-6 px-8 rounded-2xl transition-all duration-300 flex items-center justify-center text-xl shadow-2xl hover:shadow-green-500/25 hover:-translate-y-1"
-              >
+            >
                 {isConnecting ? (
                   <>
                     <div className="animate-spin rounded-full h-6 w-6 border-2 border-white border-t-transparent mr-4"></div>

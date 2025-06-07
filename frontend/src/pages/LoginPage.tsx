@@ -68,7 +68,7 @@ function LoginPage() {
     setError('');
 
     try {
-      const response = await fetch('http://localhost:4000/api/auth/wallet-login', {
+      const response = await fetch('https://uptimex-188w.onrender.com/api/auth/wallet-login', {
         method: 'POST',
         headers: {
           'Content-Type': 'application/json',
@@ -184,10 +184,10 @@ function LoginPage() {
                           <span className="text-3xl mr-3">👻</span>
                           <span className="text-lg">Connect Phantom Wallet</span>
                         </>
-                      )}
+                )}
                     </span>
                     <div className="absolute inset-0 bg-gradient-to-r from-indigo-700 to-purple-700 rounded-2xl opacity-0 group-hover:opacity-100 transition-opacity duration-300"></div>
-                  </button>
+              </button>
                 ) : (
                   <div className="space-y-6">
                     <div className="bg-gradient-to-r from-green-50 to-emerald-50 border border-green-200 rounded-2xl p-6">

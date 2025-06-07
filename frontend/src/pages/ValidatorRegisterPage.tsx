@@ -81,7 +81,7 @@ function ValidatorRegisterPage() {
       // Convert signature to base58
       const signature = bs58.encode(signedMessage.signature);
 
-      const response = await fetch('http://localhost:4000/api/auth/validator-register', {
+      const response = await fetch('https://uptimex-188w.onrender.com/api/auth/validator-register', {
         method: 'POST',
         headers: {
           'Content-Type': 'application/json',

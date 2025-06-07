@@ -39,7 +39,7 @@ function ValidatorLoginPage() {
       const signature = bs58.encode(signedMessage.signature);
       
       // Send to backend for verification
-      const response = await fetch('http://localhost:4000/api/auth/validator-login', {
+      const response = await fetch('https://uptimex-188w.onrender.com/api/auth/validator-login', {
         method: 'POST',
         headers: {
           'Content-Type': 'application/json',
@@ -73,7 +73,7 @@ function ValidatorLoginPage() {
 
   const checkValidatorExists = async (address: string) => {
     try {
-      const response = await fetch(`http://localhost:4000/api/auth/validator-info/${address}`);
+      const response = await fetch(`https://uptimex-188w.onrender.com/api/auth/validator-info/${address}`);
       const data = await response.json();
       
       if (response.ok && data.success) {

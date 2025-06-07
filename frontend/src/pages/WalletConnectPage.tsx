@@ -38,7 +38,7 @@ function WalletConnectPage() {
       console.log('Wallet address:', walletAddress);
 
       // Call backend to authenticate with wallet
-      const authResponse = await fetch('http://localhost:4000/api/auth/wallet-login', {
+      const authResponse = await fetch('https://uptimex-188w.onrender.com/api/auth/wallet-login', {
         method: 'POST',
         headers: {
           'Content-Type': 'application/json',
@@ -86,16 +86,16 @@ function WalletConnectPage() {
         <div className="max-w-6xl w-full">
           {/* Navigation */}
           <div className="flex justify-between items-center mb-12">
-            <Link 
-              to="/"
+          <Link 
+            to="/"
               className="inline-flex items-center text-slate-600 hover:text-slate-900 transition-colors group text-lg"
-            >
+          >
               <svg className="w-6 h-6 mr-3 transform group-hover:-translate-x-1 transition-transform" fill="none" stroke="currentColor" viewBox="0 0 24 24">
                 <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M15 19l-7-7 7-7" />
               </svg>
-              Back to Home
-            </Link>
-            
+            Back to Home
+          </Link>
+
             <div className="flex space-x-4">
               <Link
                 to="/register"
@@ -188,10 +188,10 @@ function WalletConnectPage() {
                 </h2>
                 <p className="text-slate-600 text-lg">
                   Connect your wallet to access your monitoring dashboard
-                </p>
-              </div>
+              </p>
+            </div>
 
-              {error && (
+            {error && (
                 <div className="bg-red-50 border border-red-200 rounded-xl p-6 mb-8">
                   <div className="flex items-start">
                     <svg className="w-6 h-6 text-red-500 mr-3 mt-0.5 flex-shrink-0" fill="none" stroke="currentColor" viewBox="0 0 24 24">
@@ -199,41 +199,41 @@ function WalletConnectPage() {
                     </svg>
                     <div className="flex-1">
                       <p className="text-red-800 font-medium">{error}</p>
-                      {error.includes('No account found') && (
+                {error.includes('No account found') && (
                         <Link
                           to="/register"
                           className="mt-4 inline-block w-full bg-gradient-to-r from-blue-600 to-indigo-600 text-white font-semibold py-3 px-6 rounded-xl text-center transition-all duration-300 hover:shadow-lg"
-                        >
-                          Create Account with Wallet
+                  >
+                    Create Account with Wallet
                         </Link>
-                      )}
+                )}
                     </div>
                   </div>
-                </div>
-              )}
+              </div>
+            )}
 
               <div className="space-y-8">
-                {/* Phantom Wallet Connect */}
-                <button
-                  onClick={connectWallet}
-                  disabled={isConnecting}
+              {/* Phantom Wallet Connect */}
+              <button
+                onClick={connectWallet}
+                disabled={isConnecting}
                   className="group relative w-full bg-gradient-to-r from-slate-700 to-slate-800 text-white font-bold py-6 px-8 rounded-2xl shadow-2xl hover:shadow-slate-500/25 transition-all duration-300 disabled:opacity-50 disabled:cursor-not-allowed transform hover:-translate-y-1 hover:scale-105"
-                >
+              >
                   <span className="relative z-10 flex items-center justify-center text-xl">
-                    {isConnecting ? (
-                      <>
+                {isConnecting ? (
+                  <>
                         <div className="animate-spin rounded-full h-6 w-6 border-b-2 border-white mr-4"></div>
-                        Connecting...
-                      </>
-                    ) : (
-                      <>
+                    Connecting...
+                  </>
+                ) : (
+                  <>
                         <span className="text-3xl mr-4">👻</span>
-                        Connect Phantom Wallet
-                      </>
-                    )}
+                    Connect Phantom Wallet
+                  </>
+                )}
                   </span>
                   <div className="absolute inset-0 bg-gradient-to-r from-slate-800 to-slate-900 rounded-2xl opacity-0 group-hover:opacity-100 transition-opacity duration-300"></div>
-                </button>
+              </button>
 
                 {/* Wallet Status */}
                 <div className="bg-slate-50 border border-slate-200 rounded-xl p-6">
@@ -282,7 +282,7 @@ function WalletConnectPage() {
                           <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M10 6H6a2 2 0 00-2 2v10a2 2 0 002 2h10a2 2 0 002-2v-4M14 4h6m0 0v6m0-6L10 14" />
                         </svg>
                       </a>
-                    </div>
+                  </div>
                   </div>
                 </div>
               </div>
@@ -290,15 +290,15 @@ function WalletConnectPage() {
               {/* Alternative Options */}
               <div className="mt-8 text-center">
                 <p className="text-slate-500 text-sm mb-4">Don't have an account?</p>
-                <Link
-                  to="/register"
+                  <Link
+                    to="/register"
                   className="inline-flex items-center text-slate-600 hover:text-slate-800 font-medium transition-colors"
-                >
+                  >
                   Create new account
                   <svg className="w-4 h-4 ml-2" fill="none" stroke="currentColor" viewBox="0 0 24 24">
                     <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M17 8l4 4m0 0l-4 4m4-4H3" />
                   </svg>
-                </Link>
+                  </Link>
               </div>
             </div>
           </div>

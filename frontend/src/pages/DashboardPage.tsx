@@ -1,5 +1,6 @@
 import { useState, useEffect } from 'react';
 import { useNavigate } from 'react-router-dom';
+import API_ENDPOINTS from '../config/api';
 
 // Chart Components
 const UptimeChart = ({ data }: { data: any[] }) => {
@@ -359,7 +360,7 @@ function DashboardPage() {
   const loadWebsites = async () => {
     try {
       const token = localStorage.getItem('token');
-      const response = await fetch('http://localhost:4000/api/websites', {
+      const response = await fetch(API_ENDPOINTS.WEBSITES.BASE, {
         headers: {
           'Authorization': `Bearer ${token}`,
           'Content-Type': 'application/json',
@@ -373,7 +374,7 @@ function DashboardPage() {
             data.websites.map(async (website: Website) => {
               try {
                 const statsResponse = await fetch(
-                  `http://localhost:4000/api/websites/${website._id}/stats?timeframe=${selectedTimeframe}`,
+                  API_ENDPOINTS.WEBSITES.STATS(website._id, selectedTimeframe),
                   {
                     headers: {
                       'Authorization': `Bearer ${token}`,
@@ -412,7 +413,7 @@ function DashboardPage() {
   const loadValidatorPerformance = async () => {
     try {
       const token = localStorage.getItem('token');
-      const response = await fetch('http://localhost:4000/api/checks/validator-performance', {
+      const response = await fetch('https://uptimex-188w.onrender.com/api/checks/validator-performance', {
         headers: {
           'Authorization': `Bearer ${token}`,
           'Content-Type': 'application/json',
@@ -437,7 +438,7 @@ function DashboardPage() {
     
     try {
       const token = localStorage.getItem('token');
-      const response = await fetch('http://localhost:4000/api/websites', {
+      const response = await fetch('https://uptimex-188w.onrender.com/api/websites', {
         method: 'POST',
         headers: {
           'Authorization': `Bearer ${token}`,
@@ -472,7 +473,7 @@ function DashboardPage() {
     
     try {
       const token = localStorage.getItem('token');
-      const response = await fetch(`http://localhost:4000/api/websites/${websiteId}`, {
+      const response = await fetch(`https://uptimex-188w.onrender.com/api/websites/${websiteId}`, {
         method: 'DELETE',
         headers: {
           'Authorization': `Bearer ${token}`,
@@ -639,22 +640,22 @@ function DashboardPage() {
                   </svg>
                 </div>
                 
-                <div>
+            <div>
                   <h1 className="text-3xl font-black text-slate-900 mb-2">Website Monitoring</h1>
                   <div className="flex items-center space-x-4">
                     <p className="text-lg text-slate-600 font-medium">
                       Welcome back, <span className="text-blue-600 font-bold">{displayName}</span>
-                    </p>
-                    {isWalletUser && (
+                </p>
+                {isWalletUser && (
                       <div className="flex items-center bg-blue-100 px-4 py-2 rounded-xl border border-blue-200">
                         <span className="text-blue-600 mr-3 text-lg">🔗</span>
                         <span className="text-blue-700 text-sm font-mono font-bold">
-                          {user.solanaWallet?.slice(0, 6)}...{user.solanaWallet?.slice(-4)}
-                        </span>
-                      </div>
-                    )}
+                      {user.solanaWallet?.slice(0, 6)}...{user.solanaWallet?.slice(-4)}
+                    </span>
                   </div>
-                </div>
+                )}
+              </div>
+            </div>
               </div>
               
               <div className="flex items-center space-x-6">
@@ -675,12 +676,12 @@ function DashboardPage() {
                   </select>
                 </div>
                 
-                <button
-                  onClick={handleLogout}
+            <button
+              onClick={handleLogout}
                   className="bg-white/90 backdrop-blur-md hover:bg-red-50 text-slate-700 hover:text-red-600 px-6 py-3 rounded-xl border border-slate-200 hover:border-red-200 transition-all duration-300 font-medium"
-                >
-                  Logout
-                </button>
+            >
+              Logout
+            </button>
               </div>
             </div>
           </div>
@@ -747,29 +748,29 @@ function DashboardPage() {
           {/* Stats Cards */}
           <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-4 gap-8 mb-12">
             <div className="bg-white/80 backdrop-blur-xl rounded-3xl p-8 border border-white/50 shadow-xl hover:shadow-2xl transition-all duration-300">
-              <div className="flex items-center justify-between">
-                <div>
+                <div className="flex items-center justify-between">
+                  <div>
                   <p className="text-slate-600 text-sm font-medium mb-2">Total Websites</p>
                   <p className="text-4xl font-black text-slate-900 mb-2">{totalWebsites}</p>
                   <p className="text-xs text-green-600 font-medium bg-green-100 px-2 py-1 rounded-full inline-block">
                     📈 Actively monitored
-                  </p>
-                </div>
+                    </p>
+                  </div>
                 <div className="w-16 h-16 bg-gradient-to-r from-blue-500 to-indigo-500 rounded-2xl flex items-center justify-center shadow-lg">
                   <span className="text-3xl">🌐</span>
                 </div>
+                </div>
               </div>
-            </div>
-            
+              
             <div className="bg-white/80 backdrop-blur-xl rounded-3xl p-8 border border-white/50 shadow-xl hover:shadow-2xl transition-all duration-300">
-              <div className="flex items-center justify-between">
-                <div>
+                <div className="flex items-center justify-between">
+                  <div>
                   <p className="text-slate-600 text-sm font-medium mb-2">Currently Online</p>
                   <p className="text-4xl font-black text-green-600 mb-2">{activeWebsites}</p>
                   <p className="text-xs text-slate-600 font-medium bg-slate-100 px-2 py-1 rounded-full inline-block">
                     {totalWebsites > 0 ? Math.round((activeWebsites / totalWebsites) * 100) : 0}% of total
-                  </p>
-                </div>
+                    </p>
+                  </div>
                 <div className="w-16 h-16 bg-gradient-to-r from-green-500 to-emerald-500 rounded-2xl flex items-center justify-center shadow-lg">
                   <span className="text-3xl">✅</span>
                 </div>
@@ -810,7 +811,7 @@ function DashboardPage() {
 
 
 
-          {/* Websites Section */}
+            {/* Websites Section */}
           <div className="bg-white/80 backdrop-blur-xl rounded-3xl p-8 border border-white/50 shadow-xl">
             <div className="flex justify-between items-center mb-8">
               <div className="flex items-center space-x-4">
@@ -825,16 +826,16 @@ function DashboardPage() {
                 </div>
               </div>
               
-              <button
-                onClick={() => setShowAddWebsite(true)}
+                <button
+                  onClick={() => setShowAddWebsite(true)}
                 className="bg-gradient-to-r from-blue-600 to-indigo-600 text-white px-8 py-4 rounded-2xl hover:shadow-2xl transition-all duration-300 flex items-center font-bold text-lg hover:-translate-y-1"
-              >
+                >
                 <span className="mr-3 text-xl">+</span>
                 Add Website
-              </button>
-            </div>
+                </button>
+              </div>
 
-            {websites.length === 0 ? (
+              {websites.length === 0 ? (
               <div className="text-center py-20">
                 <div className="w-32 h-32 bg-gradient-to-r from-blue-500 to-indigo-500 rounded-3xl flex items-center justify-center mx-auto mb-8 shadow-2xl">
                   <span className="text-6xl">🌐</span>
@@ -843,19 +844,19 @@ function DashboardPage() {
                 <p className="text-xl text-slate-600 mb-10 leading-relaxed font-medium max-w-2xl mx-auto">
                   Add your first website to start monitoring uptime, performance, and paying validators for their service.
                 </p>
-                <button
-                  onClick={() => setShowAddWebsite(true)}
+                  <button
+                    onClick={() => setShowAddWebsite(true)}
                   className="bg-gradient-to-r from-blue-600 to-indigo-600 text-white px-10 py-5 rounded-2xl hover:shadow-2xl transition-all duration-300 font-bold text-xl hover:-translate-y-1"
-                >
-                  Add Your First Website
-                </button>
-              </div>
-            ) : (
+                  >
+                    Add Your First Website
+                  </button>
+                </div>
+              ) : (
               <div className="space-y-8">
-                {websites.map((website) => (
+                  {websites.map((website) => (
                   <div key={website._id} className="bg-slate-50/70 backdrop-blur-md rounded-2xl p-8 border border-slate-200/50 hover:bg-white/50 transition-all duration-300">
                     <div className="flex justify-between items-start mb-6">
-                      <div className="flex-1">
+                        <div className="flex-1">
                         <div className="flex items-center space-x-4 mb-4">
                           <h3 className="text-2xl font-black text-slate-900">
                             {website.name || 'Unnamed Website'}
@@ -923,7 +924,7 @@ function DashboardPage() {
                         <span className="text-slate-600 text-sm font-medium block mb-2">Reward/Check</span>
                         <span className="text-xl font-black text-orange-600">
                           {website.rewardPerCheck || 0.001} SOL
-                        </span>
+                            </span>
                       </div>
                     </div>
 
@@ -1024,16 +1025,16 @@ function DashboardPage() {
                         </div>
                       </div>
                     )}
-                  </div>
-                ))}
-              </div>
-            )}
+                    </div>
+                  ))}
+                </div>
+              )}
+            </div>
           </div>
         </div>
-      </div>
 
-      {/* Add Website Modal */}
-      {showAddWebsite && (
+        {/* Add Website Modal */}
+        {showAddWebsite && (
         <div className="fixed inset-0 bg-black/50 backdrop-blur-sm flex items-center justify-center z-50 p-4">
           <div className="bg-white/95 backdrop-blur-xl rounded-3xl p-8 max-w-2xl w-full border border-white/50 shadow-2xl">
             <div className="flex items-center justify-between mb-8">
@@ -1057,28 +1058,28 @@ function DashboardPage() {
             <form onSubmit={handleAddWebsite} className="space-y-6">
               <div>
                 <label className="block text-sm font-bold text-slate-900 mb-3">Website Name</label>
-                <input
-                  type="text"
-                  value={newWebsite.name}
+                  <input
+                    type="text"
+                    value={newWebsite.name}
                   onChange={(e) => setNewWebsite({...newWebsite, name: e.target.value})}
                   placeholder="e.g. My Portfolio Site"
                   className="w-full px-4 py-4 bg-white/80 backdrop-blur-md border border-slate-200 rounded-xl text-slate-900 placeholder-slate-500 focus:outline-none focus:ring-2 focus:ring-blue-500 focus:border-transparent font-medium"
-                  required
-                />
-              </div>
-              
-              <div>
+                    required
+                  />
+                </div>
+                
+                <div>
                 <label className="block text-sm font-bold text-slate-900 mb-3">Website URL</label>
-                <input
-                  type="url"
-                  value={newWebsite.url}
+                  <input
+                    type="url"
+                    value={newWebsite.url}
                   onChange={(e) => setNewWebsite({...newWebsite, url: e.target.value})}
-                  placeholder="https://example.com"
+                    placeholder="https://example.com"
                   className="w-full px-4 py-4 bg-white/80 backdrop-blur-md border border-slate-200 rounded-xl text-slate-900 placeholder-slate-500 focus:outline-none focus:ring-2 focus:ring-blue-500 focus:border-transparent font-medium"
-                  required
-                />
-              </div>
-              
+                    required
+                  />
+                </div>
+                
               <div>
                 <label className="block text-sm font-bold text-slate-900 mb-3">Reward per Check (SOL)</label>
                 <input
@@ -1107,25 +1108,25 @@ function DashboardPage() {
               </div>
               
               <div className="flex space-x-4 pt-6">
-                <button
-                  type="button"
-                  onClick={() => setShowAddWebsite(false)}
+                  <button
+                    type="button"
+                    onClick={() => setShowAddWebsite(false)}
                   className="flex-1 bg-slate-100 hover:bg-slate-200 text-slate-700 font-bold py-4 rounded-xl transition-all duration-300"
-                >
-                  Cancel
-                </button>
-                <button
-                  type="submit"
+                  >
+                    Cancel
+                  </button>
+                  <button
+                    type="submit"
                   disabled={addingWebsite}
                   className="flex-1 bg-gradient-to-r from-blue-600 to-indigo-600 text-white font-bold py-4 rounded-xl hover:shadow-xl transition-all duration-300 disabled:opacity-50"
-                >
+                  >
                   {addingWebsite ? 'Adding...' : 'Add Website'}
-                </button>
-              </div>
-            </form>
+                  </button>
+                </div>
+              </form>
+            </div>
           </div>
-        </div>
-      )}
+        )}
 
       {/* Delete Confirmation Modal */}
       {showDeleteConfirm && (
@@ -1198,7 +1199,7 @@ function DashboardPage() {
               </button>
             </div>
           </div>
-        </div>
+      </div>
       )}
     </div>
   );
