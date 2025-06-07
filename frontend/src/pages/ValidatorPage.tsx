@@ -1,6 +1,7 @@
 import { useState, useEffect } from 'react';
 import { Link } from 'react-router-dom';
 import bs58 from 'bs58';
+import API_ENDPOINTS from '../config/api';
 
 interface MarketplaceWebsite {
   id: string;
@@ -101,7 +102,7 @@ function ValidatorPage() {
       const signature = bs58.encode(signedMessage.signature);
       
       // Send to backend for verification
-      const response = await fetch('https://uptimex-188w.onrender.com/api/auth/wallet-login', {
+      const response = await fetch(API_ENDPOINTS.AUTH.WALLET_LOGIN, {
         method: 'POST',
         headers: {
           'Content-Type': 'application/json',
@@ -166,7 +167,7 @@ function ValidatorPage() {
   const loadMarketplace = async () => {
     try {
       const token = localStorage.getItem('token');
-      const response = await fetch('https://uptimex-188w.onrender.com/api/websites/marketplace', {
+      const response = await fetch(API_ENDPOINTS.WEBSITES.MARKETPLACE, {
         headers: {
           'Authorization': `Bearer ${token}`,
           'Content-Type': 'application/json',
@@ -192,7 +193,7 @@ function ValidatorPage() {
   const loadValidatorStats = async () => {
     try {
       const token = localStorage.getItem('token');
-      const response = await fetch('https://uptimex-188w.onrender.com/api/checks/validator-stats', {
+      const response = await fetch(API_ENDPOINTS.CHECKS.VALIDATOR_STATS, {
         headers: {
           'Authorization': `Bearer ${token}`,
           'Content-Type': 'application/json',
@@ -273,7 +274,7 @@ function ValidatorPage() {
       }
       
       const token = localStorage.getItem('token');
-      const response = await fetch('https://uptimex-188w.onrender.com/api/checks', {
+      const response = await fetch(API_ENDPOINTS.CHECKS.BASE, {
         method: 'POST',
         headers: {
           'Authorization': `Bearer ${token}`,

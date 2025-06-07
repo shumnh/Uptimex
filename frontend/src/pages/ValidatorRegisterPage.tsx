@@ -1,6 +1,7 @@
 import { useState } from 'react';
 import { Link, useNavigate } from 'react-router-dom';
 import bs58 from 'bs58';
+import API_ENDPOINTS from '../config/api';
 
 interface RegistrationStep {
   id: number;
@@ -81,7 +82,7 @@ function ValidatorRegisterPage() {
       // Convert signature to base58
       const signature = bs58.encode(signedMessage.signature);
 
-      const response = await fetch('https://uptimex-188w.onrender.com/api/auth/validator-register', {
+      const response = await fetch(API_ENDPOINTS.AUTH.VALIDATOR_REGISTER, {
         method: 'POST',
         headers: {
           'Content-Type': 'application/json',

@@ -1,6 +1,7 @@
 import { useState, useEffect } from 'react';
 import { Link, useNavigate } from 'react-router-dom';
 import bs58 from 'bs58';
+import API_ENDPOINTS from '../config/api';
 
 function ValidatorLoginPage() {
   const [isConnecting, setIsConnecting] = useState(false);
@@ -39,7 +40,7 @@ function ValidatorLoginPage() {
       const signature = bs58.encode(signedMessage.signature);
       
       // Send to backend for verification
-      const response = await fetch('https://uptimex-188w.onrender.com/api/auth/validator-login', {
+      const response = await fetch(API_ENDPOINTS.AUTH.VALIDATOR_LOGIN, {
         method: 'POST',
         headers: {
           'Content-Type': 'application/json',
@@ -73,7 +74,7 @@ function ValidatorLoginPage() {
 
   const checkValidatorExists = async (address: string) => {
     try {
-      const response = await fetch(`https://uptimex-188w.onrender.com/api/auth/validator-info/${address}`);
+      const response = await fetch(API_ENDPOINTS.AUTH.VALIDATOR_INFO(address));
       const data = await response.json();
       
       if (response.ok && data.success) {

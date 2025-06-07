@@ -413,7 +413,7 @@ function DashboardPage() {
   const loadValidatorPerformance = async () => {
     try {
       const token = localStorage.getItem('token');
-      const response = await fetch('https://uptimex-188w.onrender.com/api/checks/validator-performance', {
+      const response = await fetch(API_ENDPOINTS.CHECKS.VALIDATOR_PERFORMANCE, {
         headers: {
           'Authorization': `Bearer ${token}`,
           'Content-Type': 'application/json',
@@ -438,7 +438,7 @@ function DashboardPage() {
     
     try {
       const token = localStorage.getItem('token');
-      const response = await fetch('https://uptimex-188w.onrender.com/api/websites', {
+      const response = await fetch(API_ENDPOINTS.WEBSITES.BASE, {
         method: 'POST',
         headers: {
           'Authorization': `Bearer ${token}`,
@@ -473,7 +473,7 @@ function DashboardPage() {
     
     try {
       const token = localStorage.getItem('token');
-      const response = await fetch(`https://uptimex-188w.onrender.com/api/websites/${websiteId}`, {
+      const response = await fetch(API_ENDPOINTS.WEBSITES.BY_ID(websiteId), {
         method: 'DELETE',
         headers: {
           'Authorization': `Bearer ${token}`,
