@@ -102,7 +102,7 @@ function ValidatorPage() {
       const signature = bs58.encode(signedMessage.signature);
       
       // Send to backend for verification
-      const response = await fetch(API_ENDPOINTS.AUTH.WALLET_LOGIN, {
+      const response = await fetch(API_ENDPOINTS.AUTH.VALIDATOR_LOGIN, {
         method: 'POST',
         headers: {
           'Content-Type': 'application/json',
@@ -110,8 +110,7 @@ function ValidatorPage() {
         body: JSON.stringify({
           wallet: walletAddress,
           message: message,
-          signature: signature,
-          userType: 'validator'
+          signature: signature
         }),
       });
 
