@@ -35,6 +35,7 @@ const UserSchema = new mongoose.Schema({
   solanaWallet: {
     type: String,
     required: true, // Required for all users (wallet-based auth)
+    // Note: No unique constraint here - uniqueness is enforced by compound index with role
   }
 }, {
   timestamps: true

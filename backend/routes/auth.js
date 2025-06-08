@@ -245,8 +245,10 @@ router.post('/validator-register', async (req, res) => {
     // For now, we'll skip signature verification and focus on functionality
     // In production, you would verify the signature here
     
-    // Generate a unique username for validator
-    const baseUsername = `validator_${name.toLowerCase().replace(/\s+/g, '_')}_${wallet.slice(-6)}`;
+    // Generate a unique username for validator (max 30 chars)
+    const cleanName = name.toLowerCase().replace(/\s+/g, '_').slice(0, 10); // Limit name to 10 chars
+    const walletSuffix = wallet.slice(-4); // Use last 4 chars of wallet
+    const baseUsername = `val_${cleanName}_${walletSuffix}`; // Format: val_name_1234 (max ~20 chars)
     let username = baseUsername;
     let counter = 1;
     
@@ -254,6 +256,10 @@ router.post('/validator-register', async (req, res) => {
     while (await User.findOne({ username })) {
       username = `${baseUsername}_${counter}`;
       counter++;
+      // Ensure we don't exceed 30 characters
+      if (username.length > 30) {
+        username = `val_${cleanName.slice(0, 5)}_${walletSuffix}_${counter}`;
+      }
     }
     
     const userData = {
@@ -266,7 +272,13 @@ router.post('/validator-register', async (req, res) => {
     
     const validator = await User.create(userData);
     
-    console.log(`✅ New validator registered: ${name} with wallet: ${wallet}`);
+    console.log(`✅ New validator registered: ${name}`);
+    
+    // Check if JWT_SECRET exists
+    if (!process.env.JWT_SECRET) {
+      console.error('❌ JWT_SECRET environment variable is missing!');
+      return res.status(500).json({ error: 'Server configuration error' });
+    }
     
     // Create JWT token
     const token = jwt.sign({ 
@@ -290,8 +302,26 @@ router.post('/validator-register', async (req, res) => {
       } 
     });
   } catch (err) {
-    console.error('Validator registration error:', err);
-    res.status(500).json({ error: 'Registration failed' });
+    console.error('Validator registration error:', err.message);
+    
+    // Handle specific MongoDB errors
+    if (err.code === 11000) {
+      const field = Object.keys(err.keyPattern || {})[0];
+      if (field === 'solanaWallet') {
+        return res.status(400).json({ 
+          error: 'Validator already registered with this wallet address' 
+        });
+      } else {
+        return res.status(400).json({ 
+          error: `${field} already exists` 
+        });
+      }
+    }
+    
+    res.status(500).json({ 
+      error: 'Registration failed',
+      details: process.env.NODE_ENV === 'development' ? err.message : undefined
+    });
   }
 });
 
