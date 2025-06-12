@@ -6,7 +6,7 @@ You can try the project here: [https://uptimex-six.vercel.app/](https://uptimex-
 
 ## What is UptimeX?
 
-Imagine you own a website and want to make sure it's always online. Instead of trusting one company to monitor it, UptimeX uses a network of independent people (called "validators") around the world to check your website. When they confirm your site is working, they get paid in SOL cryptocurrency automatically.
+Imagine you own a website and want to make sure it's always online. Instead of trusting one company to monitor it, UptimeX uses a network of independent people (called "validators") around the world to check your website. When they confirm your site is working, they get paid in SOL cryptocurrency automatically .
 
 **For Website Owners:**
 - Add your websites to be monitored 24/7
