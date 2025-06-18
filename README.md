@@ -103,14 +103,6 @@ If you need help:
 3. Ensure your Solana wallet is connected
 4. Check that both frontend and backend are running
 
-## 🎯 Perfect For
-
-- **Website Owners**: E-commerce sites, blogs, business websites
-- **Crypto Enthusiasts**: People wanting to earn SOL tokens
-- **Developers**: Learning blockchain and decentralized applications
-- **Businesses**: Reliable, transparent website monitoring
-
 ---
 
 **Start monitoring your websites and earning cryptocurrency today!** 🚀
-# Updated Sat Jun  7 15:34:12 +0545 2025
