@@ -24,13 +24,6 @@ function HomePage() {
             <div className="hidden md:flex items-center space-x-8">
               <a href="#features" className="text-slate-600 hover:text-slate-900 transition-colors font-medium">Features</a>
               <a href="#how-it-works" className="text-slate-600 hover:text-slate-900 transition-colors font-medium">How it Works</a>
-              <a href="#pricing" className="text-slate-600 hover:text-slate-900 transition-colors font-medium">Pricing</a>
-              <Link 
-                to="/login" 
-                className="text-slate-600 hover:text-slate-900 transition-colors font-medium"
-              >
-                Sign In
-              </Link>
             </div>
           </div>
         </nav>
