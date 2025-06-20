@@ -257,9 +257,10 @@ function HomePage() {
 
                   <div className="space-y-4">
                     <div className="text-center text-sm font-bold text-purple-700 mb-6 px-4 py-3 bg-purple-50 border border-purple-200 rounded-2xl">
-                      💰 Earn Real SOL • Choose Your Work • Start Immediately
+                      💰 Earn Real SOL • Multiple Auth Options • Start Immediately
                     </div>
                     
+                    {/* Primary CTA - Wallet Registration */}
                     <Link 
                       to="/validator-register"
                       className="block w-full bg-gradient-to-r from-purple-600 to-pink-600 text-white font-bold py-4 px-6 rounded-2xl text-center shadow-2xl hover:shadow-purple-500/25 transition-all duration-300 transform hover:-translate-y-1"
@@ -268,19 +269,48 @@ function HomePage() {
                         <svg className="w-5 h-5 mr-2" fill="none" stroke="currentColor" viewBox="0 0 24 24">
                           <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M13 10V3L4 14h7v7l9-11h-7z" />
                         </svg>
-                        Start Earning Now
+                        Start with Wallet
                       </span>
                     </Link>
                     
+                    {/* Email Registration Option */}
                     <Link 
-                      to="/validator-login"
-                      className="block w-full bg-white/80 backdrop-blur-md text-slate-900 font-bold py-3 px-6 rounded-2xl text-center border-2 border-slate-200 hover:border-slate-300 shadow-lg hover:shadow-xl transition-all duration-300"
+                      to="/validator-email-register"
+                      className="block w-full bg-gradient-to-r from-emerald-600 to-green-600 text-white font-bold py-4 px-6 rounded-2xl text-center shadow-2xl hover:shadow-green-500/25 transition-all duration-300 transform hover:-translate-y-1"
                     >
-                      Already Registered? Login
+                      <span className="flex items-center justify-center">
+                        <svg className="w-5 h-5 mr-2" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                          <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M16 12a4 4 0 10-8 0 4 4 0 008 0zm0 0v1.5a2.5 2.5 0 005 0V12a9 9 0 10-9 9m4.5-1.206a8.959 8.959 0 01-4.5 1.207" />
+                        </svg>
+                        Start with Email
+                      </span>
                     </Link>
                     
+                    {/* Login Options */}
+                    <div className="grid grid-cols-2 gap-3">
+                      <Link 
+                        to="/validator-login"
+                        className="bg-white/80 backdrop-blur-md text-slate-900 font-bold py-3 px-4 rounded-xl text-center border-2 border-slate-200 hover:border-slate-300 shadow-lg hover:shadow-xl transition-all duration-300 text-sm"
+                      >
+                        <span className="flex items-center justify-center">
+                          <span className="text-lg mr-2">👻</span>
+                          Wallet Login
+                        </span>
+                      </Link>
+                      
+                      <Link 
+                        to="/validator-email-login"
+                        className="bg-white/80 backdrop-blur-md text-slate-900 font-bold py-3 px-4 rounded-xl text-center border-2 border-slate-200 hover:border-slate-300 shadow-lg hover:shadow-xl transition-all duration-300 text-sm"
+                      >
+                        <span className="flex items-center justify-center">
+                          <span className="text-lg mr-2">📧</span>
+                          Email Login
+                        </span>
+                      </Link>
+                    </div>
+                    
                     <div className="text-xs text-slate-500 text-center font-medium">
-                      🔐 Wallet Authentication • Instant SOL Payments
+                      🔐 Choose Your Preferred Auth • Instant SOL Payments
                     </div>
                   </div>
                 </div>
