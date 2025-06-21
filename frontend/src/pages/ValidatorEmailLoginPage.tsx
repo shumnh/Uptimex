@@ -77,6 +77,10 @@ function ValidatorEmailLoginPage() {
       setError('Password is required');
       return;
     }
+    if (!isPasswordValid(passwordValidation)) {
+      setError('Password does not meet security requirements');
+      return;
+    }
 
     setIsLoggingIn(true);
 
@@ -223,7 +227,11 @@ function ValidatorEmailLoginPage() {
                     id="password"
                     value={password}
                     onChange={handlePasswordChange}
-                    className="w-full px-4 py-4 pl-12 pr-12 bg-white border-2 border-slate-200 rounded-xl focus:outline-none focus:border-green-500 transition-all duration-300"
+                    className={`w-full px-4 py-4 pl-12 pr-12 bg-white border-2 rounded-xl focus:outline-none transition-all duration-300 ${
+                      password && isPasswordValid(passwordValidation)
+                        ? 'border-green-300 focus:border-green-500'
+                        : 'border-slate-200 focus:border-green-500'
+                    }`}
                     placeholder="Enter your password"
                     required
                   />
@@ -249,12 +257,45 @@ function ValidatorEmailLoginPage() {
                     )}
                   </button>
                 </div>
+
+                {/* Password Validation Indicators */}
+                {password && (
+                  <div className="mt-3 space-y-2">
+                    <p className="text-sm font-medium text-slate-700">Password Requirements:</p>
+                    <div className="grid grid-cols-2 gap-2">
+                      <div className={`flex items-center text-xs font-medium ${passwordValidation.minLength ? 'text-green-600' : 'text-slate-500'}`}>
+                        <svg className={`w-4 h-4 mr-2 ${passwordValidation.minLength ? 'text-green-500' : 'text-slate-400'}`} fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                          <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d={passwordValidation.minLength ? "M5 13l4 4L19 7" : "M6 18L18 6M6 6l12 12"} />
+                        </svg>
+                        7+ characters
+                      </div>
+                      <div className={`flex items-center text-xs font-medium ${passwordValidation.hasUppercase ? 'text-green-600' : 'text-slate-500'}`}>
+                        <svg className={`w-4 h-4 mr-2 ${passwordValidation.hasUppercase ? 'text-green-500' : 'text-slate-400'}`} fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                          <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d={passwordValidation.hasUppercase ? "M5 13l4 4L19 7" : "M6 18L18 6M6 6l12 12"} />
+                        </svg>
+                        Uppercase letter
+                      </div>
+                      <div className={`flex items-center text-xs font-medium ${passwordValidation.hasLowercase ? 'text-green-600' : 'text-slate-500'}`}>
+                        <svg className={`w-4 h-4 mr-2 ${passwordValidation.hasLowercase ? 'text-green-500' : 'text-slate-400'}`} fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                          <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d={passwordValidation.hasLowercase ? "M5 13l4 4L19 7" : "M6 18L18 6M6 6l12 12"} />
+                        </svg>
+                        Lowercase letter
+                      </div>
+                      <div className={`flex items-center text-xs font-medium ${passwordValidation.hasSpecialChar ? 'text-green-600' : 'text-slate-500'}`}>
+                        <svg className={`w-4 h-4 mr-2 ${passwordValidation.hasSpecialChar ? 'text-green-500' : 'text-slate-400'}`} fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                          <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d={passwordValidation.hasSpecialChar ? "M5 13l4 4L19 7" : "M6 18L18 6M6 6l12 12"} />
+                        </svg>
+                        Special character
+                      </div>
+                    </div>
+                  </div>
+                )}
               </div>
 
               {/* Login Button */}
               <button
                 type="submit"
-                disabled={isLoggingIn || !email || !password || !validateEmail(email)}
+                disabled={isLoggingIn || !email || !password || !validateEmail(email) || !isPasswordValid(passwordValidation)}
                 className="group relative w-full bg-gradient-to-r from-green-600 to-emerald-600 text-white font-bold py-5 px-8 rounded-2xl shadow-2xl hover:shadow-green-500/25 transition-all duration-300 disabled:opacity-50 disabled:cursor-not-allowed transform hover:-translate-y-1 hover:scale-105 disabled:transform-none"
               >
                 <span className="relative z-10 flex items-center justify-center">
