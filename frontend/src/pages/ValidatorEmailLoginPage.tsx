@@ -129,7 +129,7 @@ function ValidatorEmailLoginPage() {
       <div className="absolute bottom-20 right-10 w-96 h-96 bg-gradient-to-r from-teal-400/10 to-green-400/10 rounded-full blur-3xl animate-pulse animation-delay-2000"></div>
 
       <div className="relative z-10 min-h-screen flex items-center justify-center px-6">
-        <div className="max-w-md w-full">
+        <div className="max-w-4xl w-full">
           {/* Back Button */}
           <Link 
             to="/"

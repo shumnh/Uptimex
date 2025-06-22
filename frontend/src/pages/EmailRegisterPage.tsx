@@ -150,7 +150,7 @@ function EmailRegisterPage() {
       </div>
 
       <div className="relative z-10 min-h-screen flex items-center justify-center px-6 py-12">
-        <div className="max-w-lg w-full">
+        <div className="max-w-5xl w-full">
           {/* Terminal Back Button */}
           <Link 
             to="/"
@@ -178,41 +178,68 @@ function EmailRegisterPage() {
             
             {/* Terminal Content */}
             <div className="p-8">
-              <div className="mb-8">
-                <div className="text-green-400 font-mono mb-4">
-                  <span className="text-green-500">$</span> ./register.sh --type=email --role=website_owner
-                </div>
-                <div className="text-green-300 font-mono text-sm mb-2">
-                  [INFO] Initializing user registration module...
-                </div>
-                <div className="text-green-300 font-mono text-sm mb-4">
-                  [INFO] Email registration protocol activated
-                </div>
-                <div className="border-l-2 border-green-500 pl-4 mb-6">
-                  <h1 className="text-xl font-mono text-green-400 mb-2">
-                    USER_REGISTRATION
-                  </h1>
-                  <p className="text-green-300 font-mono text-sm">
-                    &gt; Create new website owner account
-                  </p>
-                </div>
-                <div className="bg-green-900/20 border border-green-500/30 rounded px-4 py-2 mb-4">
-                  <div className="text-green-400 font-mono text-xs flex items-center">
-                    <span className="w-2 h-2 bg-green-500 rounded-full mr-2 animate-pulse"></span>
-                    STATUS: READY • ENCRYPTION: AES-256 • VALIDATION: ACTIVE
+              <div className="grid lg:grid-cols-2 gap-12">
+                {/* Left Column - Terminal Info */}
+                <div>
+                  <div className="text-green-400 font-mono mb-4">
+                    <span className="text-green-500">$</span> ./register.sh --type=email --role=website_owner
+                  </div>
+                  <div className="text-green-300 font-mono text-sm mb-2">
+                    [INFO] Initializing user registration module...
+                  </div>
+                  <div className="text-green-300 font-mono text-sm mb-4">
+                    [INFO] Email registration protocol activated
+                  </div>
+                  <div className="border-l-2 border-green-500 pl-4 mb-6">
+                    <h1 className="text-xl font-mono text-green-400 mb-2">
+                      USER_REGISTRATION
+                    </h1>
+                    <p className="text-green-300 font-mono text-sm">
+                      &gt; Create new website owner account
+                    </p>
+                  </div>
+                  <div className="bg-green-900/20 border border-green-500/30 rounded px-4 py-2 mb-4">
+                    <div className="text-green-400 font-mono text-xs flex items-center">
+                      <span className="w-2 h-2 bg-green-500 rounded-full mr-2 animate-pulse"></span>
+                      STATUS: READY • ENCRYPTION: AES-256 • VALIDATION: ACTIVE
+                    </div>
+                  </div>
+
+                  {/* Alternative Options */}
+                  <div className="mt-8 pt-6 border-t border-green-500/30">
+                    <div className="text-green-400 font-mono text-sm mb-4">
+                      [INFO] Alternative registration methods:
+                    </div>
+                    <Link 
+                      to="/register"
+                      className="block w-full bg-gray-800/50 border border-gray-600 text-gray-300 font-mono py-2 px-4 rounded hover:bg-gray-800 transition-all duration-300 mb-3 text-sm"
+                    >
+                      <span className="text-gray-500">$</span> ./wallet_register.sh --phantom
+                    </Link>
+                    
+                    <div className="text-green-400 font-mono text-sm mb-2">
+                      [INFO] Already have an account? Login:
+                    </div>
+                    <Link 
+                      to="/email-login"
+                      className="block w-full bg-blue-900/30 border border-blue-500 text-blue-400 font-mono py-2 px-4 rounded hover:bg-blue-900/50 transition-all duration-300 text-sm"
+                    >
+                      <span className="text-blue-500">$</span> ./login.sh --type=email --role=website_owner
+                    </Link>
                   </div>
                 </div>
-              </div>
 
-              {error && (
-                <div className="bg-red-900/30 border border-red-500/50 rounded p-4 mb-6">
-                  <div className="text-red-400 font-mono text-sm">
-                    <span className="text-red-500">[ERROR]</span> {error}
-                  </div>
-                </div>
-              )}
+                {/* Right Column - Registration Form */}
+                <div>
+                  {error && (
+                    <div className="bg-red-900/30 border border-red-500/50 rounded p-4 mb-6">
+                      <div className="text-red-400 font-mono text-sm">
+                        <span className="text-red-500">[ERROR]</span> {error}
+                      </div>
+                    </div>
+                  )}
 
-              <form onSubmit={handleRegistration} className="space-y-6">
+                  <form onSubmit={handleRegistration} className="space-y-6">
                 {/* Name Field */}
                 <div className="space-y-2">
                   <div className="text-green-400 font-mono text-sm">
@@ -374,28 +401,7 @@ function EmailRegisterPage() {
                   )}
                 </button>
               </form>
-
-              {/* Alternative Options */}
-              <div className="mt-8 pt-6 border-t border-green-500/30">
-                <div className="text-green-400 font-mono text-sm mb-4">
-                  [INFO] Alternative registration methods:
                 </div>
-                <Link 
-                  to="/register"
-                  className="block w-full bg-gray-800/50 border border-gray-600 text-gray-300 font-mono py-2 px-4 rounded hover:bg-gray-800 transition-all duration-300 mb-3"
-                >
-                  <span className="text-gray-500">$</span> ./wallet_register.sh --phantom
-                </Link>
-                
-                <div className="text-green-400 font-mono text-sm mb-2">
-                  [INFO] Already have an account? Login:
-                </div>
-                <Link 
-                  to="/email-login"
-                  className="block w-full bg-blue-900/30 border border-blue-500 text-blue-400 font-mono py-2 px-4 rounded hover:bg-blue-900/50 transition-all duration-300"
-                >
-                  <span className="text-blue-500">$</span> ./login.sh --type=email --role=website_owner
-                </Link>
               </div>
             </div>
           </div>
