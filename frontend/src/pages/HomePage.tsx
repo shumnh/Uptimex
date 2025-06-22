@@ -1,346 +1,320 @@
 import { Link } from 'react-router-dom';
 
 function HomePage() {
-
   return (
-    <div className="min-h-screen bg-gradient-to-br from-slate-50 via-blue-50 to-indigo-50 relative overflow-hidden">
-      {/* Premium Background Pattern */}
-      <div className="absolute inset-0 bg-[url('data:image/svg+xml,%3Csvg%20width%3D%2260%22%20height%3D%2260%22%20viewBox%3D%220%200%2060%2060%22%20xmlns%3D%22http%3A//www.w3.org/2000/svg%22%3E%3Cg%20fill%3D%22none%22%20fill-rule%3D%22evenodd%22%3E%3Cg%20fill%3D%22%236366f1%22%20fill-opacity%3D%220.03%22%3E%3Ccircle%20cx%3D%2230%22%20cy%3D%2230%22%20r%3D%221.5%22/%3E%3C/g%3E%3C/g%3E%3C/svg%3E')] opacity-40"></div>
+    <div className="min-h-screen bg-black relative overflow-hidden font-mono">
+      {/* Terminal Grid Pattern */}
+      <div className="absolute inset-0 bg-[url('data:image/svg+xml,%3Csvg%20width%3D%2240%22%20height%3D%2240%22%20viewBox%3D%220%200%2040%2040%22%20xmlns%3D%22http%3A//www.w3.org/2000/svg%22%3E%3Cg%20fill%3D%22none%22%20fill-rule%3D%22evenodd%22%3E%3Cg%20fill%3D%22%2300ff00%22%20fill-opacity%3D%220.03%22%3E%3Crect%20x%3D%220%22%20y%3D%220%22%20width%3D%221%22%20height%3D%221%22/%3E%3C/g%3E%3C/g%3E%3C/svg%3E')] opacity-60"></div>
       
-      {/* Floating Elements */}
-      <div className="absolute top-20 left-10 w-64 h-64 bg-gradient-to-r from-indigo-400/10 to-purple-400/10 rounded-full blur-3xl animate-pulse"></div>
-      <div className="absolute bottom-20 right-10 w-80 h-80 bg-gradient-to-r from-blue-400/10 to-cyan-400/10 rounded-full blur-3xl animate-pulse animation-delay-2000"></div>
+      {/* Terminal Scanlines */}
+      <div className="absolute inset-0 bg-gradient-to-b from-transparent via-green-500/5 to-transparent animate-pulse"></div>
+      <div className="absolute inset-0 pointer-events-none">
+        <div className="absolute top-0 left-0 w-full h-0.5 bg-green-500/20 animate-pulse"></div>
+        <div className="absolute bottom-0 left-0 w-full h-0.5 bg-green-500/20 animate-pulse"></div>
+      </div>
 
       <div className="relative z-10">
-        {/* Premium Navigation */}
+        {/* Terminal Navigation */}
         <nav className="absolute top-0 w-full z-20 p-6">
           <div className="max-w-7xl mx-auto flex justify-between items-center">
             <div className="flex items-center space-x-3">
-              <div className="w-10 h-10 bg-gradient-to-r from-indigo-600 to-purple-600 rounded-xl flex items-center justify-center shadow-lg">
-                <span className="text-white font-bold text-lg">U</span>
+              <div className="w-10 h-10 bg-green-900/50 border border-green-500/50 rounded flex items-center justify-center">
+                <span className="text-green-400 font-mono font-bold text-lg">U</span>
               </div>
-              <span className="text-2xl font-bold text-slate-900 tracking-tight">Uptimex</span>
+              <span className="text-2xl font-bold text-green-400 font-mono tracking-tight">
+                <span className="text-green-500">$</span> uptimex.sh
+              </span>
             </div>
             <div className="hidden md:flex items-center space-x-8">
-              <a href="#features" className="text-slate-600 hover:text-slate-900 transition-colors font-medium">Features</a>
-              <a href="#how-it-works" className="text-slate-600 hover:text-slate-900 transition-colors font-medium">How it Works</a>
+              <span className="text-green-400 font-mono text-sm hover:text-green-300 transition-colors cursor-pointer">
+                ./features --list
+              </span>
+              <span className="text-green-400 font-mono text-sm hover:text-green-300 transition-colors cursor-pointer">
+                ./docs --help
+              </span>
             </div>
           </div>
         </nav>
 
-        {/* Hero Section */}
+        {/* Terminal Hero Section */}
         <section className="min-h-screen flex items-center justify-center px-6 pt-20">
           <div className="max-w-7xl mx-auto grid lg:grid-cols-2 gap-16 items-center">
-            {/* Left Column - Content */}
+            {/* Left Column - Terminal Content */}
             <div className="text-center lg:text-left">
-              <div className="inline-flex items-center px-4 py-2 bg-white/60 backdrop-blur-md border border-indigo-200/50 rounded-full text-sm font-medium text-indigo-700 mb-8 shadow-lg">
-                <span className="w-2 h-2 bg-green-500 rounded-full mr-3 animate-pulse"></span>
-                Web3-Native Monitoring Platform
+              <div className="bg-gray-900/80 border border-green-500/30 rounded-lg p-4 mb-8 backdrop-blur-sm">
+                <div className="text-green-400 font-mono text-sm">
+                  <span className="text-green-500">$</span> systemctl status uptimex-monitor
+                  <br />
+                  <span className="text-green-300">●</span> uptimex-monitor.service - Decentralized Website Monitoring
+                  <br />
+                  <span className="text-green-300 ml-2">Loaded:</span> loaded (/etc/systemd/system/uptimex.service; enabled)
+                  <br />
+                  <span className="text-green-300 ml-2">Active:</span> <span className="text-green-400 animate-pulse">active (running)</span> since 2024
+                </div>
               </div>
               
-              <h1 className="text-5xl lg:text-7xl font-black text-slate-900 mb-8 leading-tight tracking-tight">
-                <span className="bg-gradient-to-r from-indigo-600 via-purple-600 to-blue-600 bg-clip-text text-transparent">
-                  Decentralized
-                </span>
+              <h1 className="text-4xl lg:text-6xl font-bold text-green-400 mb-8 leading-tight font-mono">
+                <span className="text-green-500">&gt;</span> DECENTRALIZED
                 <br />
-                Website Monitoring
+                <span className="text-green-300 ml-6">WEBSITE_MONITOR</span>
               </h1>
               
-              <p className="text-xl lg:text-2xl text-slate-600 mb-12 max-w-2xl leading-relaxed font-medium">
-                Trust verified by blockchain. Monitoring powered by a global network of independent validators earning real SOL rewards.
-              </p>
+              <div className="text-lg lg:text-xl text-green-300 mb-12 max-w-2xl leading-relaxed font-mono">
+                <span className="text-green-500">[INFO]</span> Blockchain-verified monitoring
+                <br />
+                <span className="text-green-500">[INFO]</span> Global validator network earning SOL
+                <br />
+                <span className="text-green-500">[INFO]</span> Trustless uptime verification
+              </div>
 
-            {/* CTA Buttons */}
-              <div className="flex flex-col sm:flex-row gap-6 justify-center lg:justify-start mb-16">
-              <Link 
-                to="/register"
-                  className="group relative px-8 py-4 bg-gradient-to-r from-indigo-600 to-purple-600 text-white font-bold rounded-2xl shadow-2xl hover:shadow-indigo-500/25 transition-all duration-300 transform hover:-translate-y-1 hover:scale-105"
-              >
-                  <span className="relative z-10 flex items-center justify-center">
-                    Start Monitoring
-                    <svg className="w-5 h-5 ml-2 group-hover:translate-x-1 transition-transform" fill="none" stroke="currentColor" viewBox="0 0 24 24">
-                      <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M17 8l4 4m0 0l-4 4m4-4H3" />
-                    </svg>
-                  </span>
-                  <div className="absolute inset-0 bg-gradient-to-r from-indigo-700 to-purple-700 rounded-2xl opacity-0 group-hover:opacity-100 transition-opacity duration-300"></div>
-              </Link>
+              {/* Terminal CTA Buttons */}
+              <div className="space-y-4 mb-16">
+                <div className="text-green-400 font-mono text-sm mb-4">
+                  <span className="text-green-500">$</span> ./init_user.sh --select-role:
+                </div>
                 
-              <Link 
+                <Link 
+                  to="/register"
+                  className="block w-full bg-green-900/30 border border-green-500 text-green-400 font-mono py-3 px-6 rounded hover:bg-green-900/50 transition-all duration-300 mb-2"
+                >
+                  <span className="text-green-500">[1]</span> ./website_owner.sh --start-monitoring
+                </Link>
+                
+                <Link 
                   to="/validator-register"
-                  className="group px-8 py-4 bg-white/80 backdrop-blur-md text-slate-900 font-bold rounded-2xl border-2 border-indigo-200 hover:border-indigo-300 shadow-lg hover:shadow-xl transition-all duration-300 transform hover:-translate-y-1"
-              >
-                  <span className="flex items-center justify-center">
-                    Earn as Validator
-                    <span className="ml-2 text-green-600 font-black">+ SOL</span>
-                  </span>
-              </Link>
-            </div>
-
-            {/* Trust Indicators */}
-              <div className="grid grid-cols-3 gap-8 max-w-md mx-auto lg:mx-0">
-                <div className="text-center">
-                  <div className="text-3xl lg:text-4xl font-black text-slate-900 mb-2">99.9%</div>
-                  <div className="text-slate-500 text-sm font-medium uppercase tracking-wide">Accuracy</div>
-                </div>
-              <div className="text-center">
-                  <div className="text-3xl lg:text-4xl font-black text-slate-900 mb-2">24/7</div>
-                  <div className="text-slate-500 text-sm font-medium uppercase tracking-wide">Monitoring</div>
+                  className="block w-full bg-blue-900/30 border border-blue-500 text-blue-400 font-mono py-3 px-6 rounded hover:bg-blue-900/50 transition-all duration-300"
+                >
+                  <span className="text-blue-500">[2]</span> ./validator.sh --earn-sol
+                </Link>
               </div>
-              <div className="text-center">
-                  <div className="text-3xl lg:text-4xl font-black text-slate-900 mb-2">Global</div>
-                  <div className="text-slate-500 text-sm font-medium uppercase tracking-wide">Network</div>
+
+              {/* Terminal Stats */}
+              <div className="grid grid-cols-3 gap-4">
+                <div className="bg-gray-900/50 border border-green-500/30 rounded p-4 text-center">
+                  <div className="text-2xl font-bold text-green-400 font-mono">99.9%</div>
+                  <div className="text-green-500 text-xs font-mono uppercase tracking-wide">ACCURACY</div>
+                </div>
+                <div className="bg-gray-900/50 border border-green-500/30 rounded p-4 text-center">
+                  <div className="text-2xl font-bold text-green-400 font-mono">24/7</div>
+                  <div className="text-green-500 text-xs font-mono uppercase tracking-wide">UPTIME</div>
+                </div>
+                <div className="bg-gray-900/50 border border-green-500/30 rounded p-4 text-center">
+                  <div className="text-2xl font-bold text-green-400 font-mono">GLOBAL</div>
+                  <div className="text-green-500 text-xs font-mono uppercase tracking-wide">NETWORK</div>
                 </div>
               </div>
             </div>
 
-            {/* Right Column - Visual */}
+            {/* Right Column - Terminal Dashboard */}
             <div className="relative">
-              <div className="relative bg-white/40 backdrop-blur-xl rounded-3xl p-8 shadow-2xl border border-white/50">
-                {/* Mock Dashboard */}
-                <div className="space-y-6">
-                  <div className="flex items-center justify-between">
-                    <h3 className="text-lg font-bold text-slate-900">Live Dashboard</h3>
-                    <div className="flex items-center space-x-2">
-                      <div className="w-3 h-3 bg-green-500 rounded-full animate-pulse"></div>
-                      <span className="text-sm font-medium text-slate-600">Real-time</span>
-                    </div>
+              <div className="bg-gray-900 border border-green-500/30 rounded-lg shadow-2xl shadow-green-500/20">
+                {/* Terminal Header */}
+                <div className="bg-gray-800 px-4 py-3 rounded-t-lg border-b border-green-500/30 flex items-center">
+                  <div className="flex space-x-2">
+                    <div className="w-3 h-3 bg-red-500 rounded-full"></div>
+                    <div className="w-3 h-3 bg-yellow-500 rounded-full"></div>
+                    <div className="w-3 h-3 bg-green-500 rounded-full"></div>
+                  </div>
+                  <div className="flex-1 text-center">
+                    <span className="text-green-400 font-mono text-sm">uptimex@dashboard:~/live</span>
+                  </div>
+                </div>
+                
+                <div className="p-6">
+                  <div className="text-green-400 font-mono text-sm mb-4">
+                    <span className="text-green-500">$</span> ./monitor.sh --show-status --live
                   </div>
                   
-                  {/* Mock Website Cards */}
-                  {[
-                    { name: 'E-commerce Site', status: 'up', uptime: '99.8%', latency: '142ms' },
-                    { name: 'API Service', status: 'up', uptime: '100%', latency: '89ms' },
-                    { name: 'Landing Page', status: 'up', uptime: '99.9%', latency: '67ms' }
-                  ].map((site, index) => (
-                    <div key={index} className="bg-white/60 backdrop-blur-md rounded-xl p-4 border border-white/50 shadow-lg">
-                      <div className="flex items-center justify-between">
-                        <div className="flex items-center space-x-3">
-                          <div className="w-3 h-3 bg-green-500 rounded-full"></div>
-                          <span className="font-semibold text-slate-900">{site.name}</span>
+                  <div className="space-y-4">
+                    <div className="text-green-300 font-mono text-xs mb-4">
+                      [INFO] Live monitoring dashboard - Real-time updates
+                    </div>
+                    
+                    {/* Mock Terminal Website Status */}
+                    {[
+                      { name: 'ecommerce-site.com', status: 'UP', uptime: '99.8%', latency: '142ms', checks: '847' },
+                      { name: 'api-service.dev', status: 'UP', uptime: '100%', latency: '89ms', checks: '1203' },
+                      { name: 'landing-page.io', status: 'UP', uptime: '99.9%', latency: '67ms', checks: '592' }
+                    ].map((site, index) => (
+                      <div key={index} className="bg-black/50 border border-green-500/20 rounded p-3 font-mono text-xs">
+                        <div className="flex justify-between items-center">
+                          <div className="flex items-center space-x-2">
+                            <span className="text-green-500 animate-pulse">●</span>
+                            <span className="text-green-400">{site.name}</span>
+                          </div>
+                          <div className="text-green-300">[{site.status}]</div>
                         </div>
-                        <div className="text-right">
-                          <div className="text-sm font-bold text-green-600">{site.uptime}</div>
-                          <div className="text-xs text-slate-500">{site.latency}</div>
+                        <div className="mt-1 text-green-500 text-xs">
+                          uptime: {site.uptime} | latency: {site.latency} | checks: {site.checks}
                         </div>
                       </div>
+                    ))}
+                    
+                    <div className="border-t border-green-500/30 pt-4 mt-4">
+                      <div className="text-green-400 font-mono text-sm">
+                        <span className="text-green-500">$</span> validator_network --status
+                      </div>
+                      <div className="text-green-300 text-xs mt-2">
+                        [INFO] 3 validators active | earning 0.003 SOL/check
+                      </div>
+                      <div className="text-green-300 text-xs">
+                        [INFO] Next payout in 47 minutes
+                      </div>
                     </div>
-                  ))}
-                  
-                  <div className="text-center pt-4">
-                    <div className="text-2xl font-black text-slate-900">3 Validators Active</div>
-                    <div className="text-sm text-slate-500">Earning 0.003 SOL/check</div>
                   </div>
                 </div>
               </div>
-              
-              {/* Floating Elements */}
-              <div className="absolute -top-4 -right-4 w-20 h-20 bg-gradient-to-r from-yellow-400 to-orange-500 rounded-2xl rotate-12 opacity-80 shadow-xl"></div>
-              <div className="absolute -bottom-4 -left-4 w-16 h-16 bg-gradient-to-r from-green-400 to-blue-500 rounded-xl -rotate-12 opacity-80 shadow-xl"></div>
             </div>
           </div>
         </section>
 
-        {/* Features Section */}
-        <section id="features" className="py-32 px-6 bg-white/30 backdrop-blur-md">
+        {/* Terminal Features Section */}
+        <section className="py-32 px-6">
           <div className="max-w-7xl mx-auto">
             <div className="text-center mb-20">
-              <h2 className="text-4xl lg:text-6xl font-black text-slate-900 mb-6 tracking-tight">
-                Two Paths to 
-                <span className="bg-gradient-to-r from-indigo-600 to-purple-600 bg-clip-text text-transparent"> Success</span>
+              <div className="text-green-400 font-mono mb-4">
+                <span className="text-green-500">$</span> ./features.sh --list-all
+              </div>
+              <h2 className="text-3xl lg:text-5xl font-bold text-green-400 mb-6 font-mono">
+                <span className="text-green-500">&gt;</span> TWO_USER_TYPES
               </h2>
-              <p className="text-xl text-slate-600 max-w-3xl mx-auto leading-relaxed font-medium">
-                Whether you're monitoring websites or validating uptime, our platform offers premium experiences for both.
-              </p>
+              <div className="text-lg text-green-300 max-w-3xl mx-auto font-mono">
+                <span className="text-green-500">[INFO]</span> Dual-mode platform for monitoring and validation
+              </div>
             </div>
 
             <div className="grid lg:grid-cols-2 gap-12">
-              {/* Website Owners Card */}
-              <div className="group relative">
-                <div className="absolute inset-0 bg-gradient-to-r from-indigo-600 to-purple-600 rounded-3xl blur opacity-20 group-hover:opacity-30 transition-opacity duration-300"></div>
-                <div className="relative bg-white/80 backdrop-blur-xl rounded-3xl p-10 border border-white/50 shadow-2xl hover:shadow-3xl transition-all duration-500 transform hover:-translate-y-2">
-                  <div className="text-center mb-10">
-                    <div className="w-24 h-24 bg-gradient-to-r from-indigo-600 to-purple-600 rounded-3xl flex items-center justify-center mx-auto mb-8 shadow-2xl">
-                      <svg className="w-12 h-12 text-white" fill="none" stroke="currentColor" viewBox="0 0 24 24">
-                        <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M19 21V5a2 2 0 00-2-2H7a2 2 0 00-2 2v16m14 0h2m-2 0h-5m-9 0H3m2 0h5M9 7h1m-1 4h1m4-4h1m-1 4h1m-5 10v-5a1 1 0 011-1h2a1 1 0 011 1v5m-4 0h4" />
-                      </svg>
-                    </div>
-                    <h3 className="text-3xl font-black text-slate-900 mb-4">Website Owners</h3>
-                    <p className="text-slate-600 leading-relaxed font-medium">
-                      Professional monitoring with global validator network verification and real-time analytics.
+              {/* Website Owners Terminal */}
+              <div className="bg-gray-900 border border-green-500/30 rounded-lg shadow-2xl shadow-green-500/20">
+                <div className="bg-gray-800 px-4 py-3 rounded-t-lg border-b border-green-500/30 flex items-center">
+                  <div className="flex space-x-2">
+                    <div className="w-3 h-3 bg-red-500 rounded-full"></div>
+                    <div className="w-3 h-3 bg-yellow-500 rounded-full"></div>
+                    <div className="w-3 h-3 bg-green-500 rounded-full"></div>
+                  </div>
+                  <div className="flex-1 text-center">
+                    <span className="text-green-400 font-mono text-sm">website-owners@uptimex</span>
+                  </div>
+                </div>
+                
+                <div className="p-8">
+                  <div className="text-green-400 font-mono mb-6">
+                    <span className="text-green-500">$</span> ./role_info.sh --website-owners
+                  </div>
+                  
+                  <div className="mb-8">
+                    <h3 className="text-xl font-bold text-green-400 font-mono mb-4">WEBSITE_OWNERS</h3>
+                    <p className="text-green-300 font-mono text-sm leading-relaxed">
+                      Professional monitoring with blockchain verification
                     </p>
                   </div>
 
-                  <div className="space-y-4 mb-10">
+                  <div className="space-y-3 mb-8">
                     {[
                       'Real-time uptime monitoring',
-                      'Global validator verification',
+                      'Global validator verification', 
                       'Premium analytics dashboard',
-                      'Instant SOL-based notifications',
+                      'SOL-based instant alerts',
                       'Enterprise-grade reliability'
                     ].map((feature, index) => (
-                      <div key={index} className="flex items-center text-slate-700">
-                        <div className="w-6 h-6 bg-gradient-to-r from-green-500 to-emerald-500 rounded-full flex items-center justify-center mr-4 flex-shrink-0 shadow-lg">
-                          <svg className="w-3 h-3 text-white font-bold" fill="none" stroke="currentColor" strokeWidth={3} viewBox="0 0 24 24">
-                            <path strokeLinecap="round" strokeLinejoin="round" d="M5 13l4 4L19 7" />
-                          </svg>
-                        </div>
-                        <span className="font-medium">{feature}</span>
+                      <div key={index} className="flex items-center text-green-300 font-mono text-sm">
+                        <span className="text-green-500 mr-3">✓</span>
+                        <span>{feature}</span>
                       </div>
                     ))}
                   </div>
 
-                  <div className="space-y-4">
-                    <div className="text-center text-sm font-bold text-indigo-700 mb-6 px-4 py-3 bg-indigo-50 border border-indigo-200 rounded-2xl">
-                      🚀 Professional Web3 Monitoring • Multiple Auth Options
+                  <div className="space-y-3">
+                    <div className="bg-green-900/20 border border-green-500/30 rounded px-4 py-2 text-center">
+                      <div className="text-green-400 font-mono text-xs">
+                        [INFO] Multiple authentication methods available
+                      </div>
                     </div>
                     
-                    {/* Primary CTA - Wallet Registration */}
                     <Link 
                       to="/wallet-connect"
-                      className="block w-full bg-gradient-to-r from-indigo-600 to-purple-600 text-white font-bold py-4 px-6 rounded-2xl text-center shadow-2xl hover:shadow-indigo-500/25 transition-all duration-300 transform hover:-translate-y-1"
+                      className="block w-full bg-green-900/30 border border-green-500 text-green-400 font-mono py-2 px-4 rounded hover:bg-green-900/50 transition-all duration-300 text-sm"
                     >
-                      <span className="flex items-center justify-center">
-                        <svg className="w-5 h-5 mr-2" fill="none" stroke="currentColor" viewBox="0 0 24 24">
-                          <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M13.828 10.172a4 4 0 00-5.656 0l-4 4a4 4 0 105.656 5.656l1.102-1.102m-.758-4.899a4 4 0 005.656 0l4-4a4 4 0 00-5.656-5.656l-1.1 1.1" />
-                        </svg>
-                        Start with Wallet
-                      </span>
+                      <span className="text-green-500">$</span> ./wallet_auth.sh --phantom
                     </Link>
-                    
-                    {/* Email Registration Option */}
+
                     <Link 
-                      to="/email-register"
-                      className="block w-full bg-gradient-to-r from-emerald-600 to-teal-600 text-white font-bold py-4 px-6 rounded-2xl text-center shadow-2xl hover:shadow-emerald-500/25 transition-all duration-300 transform hover:-translate-y-1"
+                      to="/email-login"
+                      className="block w-full bg-gray-800/50 border border-gray-600 text-gray-300 font-mono py-2 px-4 rounded hover:bg-gray-800 transition-all duration-300 text-sm"
                     >
-                      <span className="flex items-center justify-center">
-                        <svg className="w-5 h-5 mr-2" fill="none" stroke="currentColor" viewBox="0 0 24 24">
-                          <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M16 12a4 4 0 10-8 0 4 4 0 008 0zm0 0v1.5a2.5 2.5 0 005 0V12a9 9 0 10-9 9m4.5-1.206a8.959 8.959 0 01-4.5 1.207" />
-                        </svg>
-                        Start with Email
-                      </span>
+                      <span className="text-gray-500">$</span> ./email_auth.sh --traditional
                     </Link>
                     
-                    {/* Login Options */}
-                    <div className="grid grid-cols-2 gap-3">
-                      <Link 
-                        to="/login"
-                        className="bg-white/80 backdrop-blur-md text-slate-900 font-bold py-3 px-4 rounded-xl text-center border-2 border-slate-200 hover:border-slate-300 shadow-lg hover:shadow-xl transition-all duration-300 text-sm"
-                      >
-                        <span className="flex items-center justify-center">
-                          <span className="text-lg mr-2">👻</span>
-                          Wallet Login
-                        </span>
-                      </Link>
-                      
-                      <Link 
-                        to="/email-login"
-                        className="bg-white/80 backdrop-blur-md text-slate-900 font-bold py-3 px-4 rounded-xl text-center border-2 border-slate-200 hover:border-slate-300 shadow-lg hover:shadow-xl transition-all duration-300 text-sm"
-                      >
-                        <span className="flex items-center justify-center">
-                          <span className="text-lg mr-2">📧</span>
-                          Email Login
-                        </span>
-                      </Link>
-                    </div>
-                    
-                    <div className="text-xs text-slate-500 text-center font-medium">
-                      🔐 Choose Your Preferred Auth • Instant Web3 Monitoring
+                    <div className="text-green-300 font-mono text-xs text-center mt-4">
+                      New user? <Link to="/email-register" className="text-green-400 hover:text-green-300">./register.sh</Link>
                     </div>
                   </div>
                 </div>
               </div>
 
-              {/* Validators Card */}
-              <div className="group relative">
-                <div className="absolute inset-0 bg-gradient-to-r from-purple-600 to-pink-600 rounded-3xl blur opacity-20 group-hover:opacity-30 transition-opacity duration-300"></div>
-                <div className="relative bg-white/80 backdrop-blur-xl rounded-3xl p-10 border border-white/50 shadow-2xl hover:shadow-3xl transition-all duration-500 transform hover:-translate-y-2">
-                  <div className="text-center mb-10">
-                    <div className="w-24 h-24 bg-gradient-to-r from-purple-600 to-pink-600 rounded-3xl flex items-center justify-center mx-auto mb-8 shadow-2xl">
-                      <svg className="w-12 h-12 text-white" fill="none" stroke="currentColor" viewBox="0 0 24 24">
-                        <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M17 20h5v-2a3 3 0 00-5.356-1.857M17 20H7m10 0v-2c0-.656-.126-1.283-.356-1.857M7 20H2v-2a3 3 0 015.356-1.857M7 20v-2c0-.656.126-1.283.356-1.857m0 0a5.002 5.002 0 019.288 0M15 7a3 3 0 11-6 0 3 3 0 016 0zm6 3a2 2 0 11-4 0 2 2 0 014 0zM7 10a2 2 0 11-4 0 2 2 0 014 0z" />
-                      </svg>
-                    </div>
-                    <h3 className="text-3xl font-black text-slate-900 mb-4">Validators</h3>
-                    <p className="text-slate-600 leading-relaxed font-medium">
-                      Earn real SOL rewards by providing website monitoring services in our decentralized marketplace.
+              {/* Validators Terminal */}
+              <div className="bg-gray-900 border border-blue-500/30 rounded-lg shadow-2xl shadow-blue-500/20">
+                <div className="bg-gray-800 px-4 py-3 rounded-t-lg border-b border-blue-500/30 flex items-center">
+                  <div className="flex space-x-2">
+                    <div className="w-3 h-3 bg-red-500 rounded-full"></div>
+                    <div className="w-3 h-3 bg-yellow-500 rounded-full"></div>
+                    <div className="w-3 h-3 bg-blue-500 rounded-full"></div>
+                  </div>
+                  <div className="flex-1 text-center">
+                    <span className="text-blue-400 font-mono text-sm">validators@uptimex</span>
+                  </div>
+                </div>
+                
+                <div className="p-8">
+                  <div className="text-blue-400 font-mono mb-6">
+                    <span className="text-blue-500">$</span> ./role_info.sh --validators
+                  </div>
+                  
+                  <div className="mb-8">
+                    <h3 className="text-xl font-bold text-blue-400 font-mono mb-4">VALIDATORS</h3>
+                    <p className="text-blue-300 font-mono text-sm leading-relaxed">
+                      Earn SOL by validating website uptime globally
                     </p>
                   </div>
 
-                  <div className="space-y-4 mb-10">
+                  <div className="space-y-3 mb-8">
                     {[
-                      'Earn SOL for every verification',
-                      'Choose your own monitoring work',
-                      'Instant blockchain payments',
-                      'Global earning opportunities',
-                      'Professional validator tools'
+                      'Earn SOL for each validation',
+                      'Automated monitoring tasks',
+                      'Global network participation',
+                      'Real-time payout tracking',
+                      'Reputation-based rewards'
                     ].map((feature, index) => (
-                      <div key={index} className="flex items-center text-slate-700">
-                        <div className="w-6 h-6 bg-gradient-to-r from-green-500 to-emerald-500 rounded-full flex items-center justify-center mr-4 flex-shrink-0 shadow-lg">
-                          <svg className="w-3 h-3 text-white font-bold" fill="none" stroke="currentColor" strokeWidth={3} viewBox="0 0 24 24">
-                            <path strokeLinecap="round" strokeLinejoin="round" d="M5 13l4 4L19 7" />
-                          </svg>
-                        </div>
-                        <span className="font-medium">{feature}</span>
+                      <div key={index} className="flex items-center text-blue-300 font-mono text-sm">
+                        <span className="text-blue-500 mr-3">✓</span>
+                        <span>{feature}</span>
                       </div>
                     ))}
                   </div>
 
-                  <div className="space-y-4">
-                    <div className="text-center text-sm font-bold text-purple-700 mb-6 px-4 py-3 bg-purple-50 border border-purple-200 rounded-2xl">
-                      💰 Earn Real SOL • Multiple Auth Options • Start Immediately
+                  <div className="space-y-3">
+                    <div className="bg-blue-900/20 border border-blue-500/30 rounded px-4 py-2 text-center">
+                      <div className="text-blue-400 font-mono text-xs">
+                        [INFO] Multiple authentication methods available
+                      </div>
                     </div>
                     
-                    {/* Primary CTA - Wallet Registration */}
                     <Link 
                       to="/validator-register"
-                      className="block w-full bg-gradient-to-r from-purple-600 to-pink-600 text-white font-bold py-4 px-6 rounded-2xl text-center shadow-2xl hover:shadow-purple-500/25 transition-all duration-300 transform hover:-translate-y-1"
+                      className="block w-full bg-blue-900/30 border border-blue-500 text-blue-400 font-mono py-2 px-4 rounded hover:bg-blue-900/50 transition-all duration-300 text-sm"
                     >
-                      <span className="flex items-center justify-center">
-                        <svg className="w-5 h-5 mr-2" fill="none" stroke="currentColor" viewBox="0 0 24 24">
-                          <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M13 10V3L4 14h7v7l9-11h-7z" />
-                        </svg>
-                        Start with Wallet
-                      </span>
+                      <span className="text-blue-500">$</span> ./wallet_auth.sh --phantom
                     </Link>
-                    
-                    {/* Email Registration Option */}
+
                     <Link 
-                      to="/validator-email-register"
-                      className="block w-full bg-gradient-to-r from-emerald-600 to-green-600 text-white font-bold py-4 px-6 rounded-2xl text-center shadow-2xl hover:shadow-green-500/25 transition-all duration-300 transform hover:-translate-y-1"
+                      to="/validator-email-login"
+                      className="block w-full bg-gray-800/50 border border-gray-600 text-gray-300 font-mono py-2 px-4 rounded hover:bg-gray-800 transition-all duration-300 text-sm"
                     >
-                      <span className="flex items-center justify-center">
-                        <svg className="w-5 h-5 mr-2" fill="none" stroke="currentColor" viewBox="0 0 24 24">
-                          <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M16 12a4 4 0 10-8 0 4 4 0 008 0zm0 0v1.5a2.5 2.5 0 005 0V12a9 9 0 10-9 9m4.5-1.206a8.959 8.959 0 01-4.5 1.207" />
-                        </svg>
-                        Start with Email
-                      </span>
+                      <span className="text-gray-500">$</span> ./email_auth.sh --traditional
                     </Link>
                     
-                    {/* Login Options */}
-                    <div className="grid grid-cols-2 gap-3">
-                      <Link 
-                        to="/validator-login"
-                        className="bg-white/80 backdrop-blur-md text-slate-900 font-bold py-3 px-4 rounded-xl text-center border-2 border-slate-200 hover:border-slate-300 shadow-lg hover:shadow-xl transition-all duration-300 text-sm"
-                      >
-                        <span className="flex items-center justify-center">
-                          <span className="text-lg mr-2">👻</span>
-                          Wallet Login
-                        </span>
-                      </Link>
-                      
-                      <Link 
-                        to="/validator-email-login"
-                        className="bg-white/80 backdrop-blur-md text-slate-900 font-bold py-3 px-4 rounded-xl text-center border-2 border-slate-200 hover:border-slate-300 shadow-lg hover:shadow-xl transition-all duration-300 text-sm"
-                      >
-                        <span className="flex items-center justify-center">
-                          <span className="text-lg mr-2">📧</span>
-                          Email Login
-                        </span>
-                      </Link>
-                    </div>
-                    
-                    <div className="text-xs text-slate-500 text-center font-medium">
-                      🔐 Choose Your Preferred Auth • Instant SOL Payments
+                    <div className="text-blue-300 font-mono text-xs text-center mt-4">
+                      New validator? <Link to="/validator-email-register" className="text-blue-400 hover:text-blue-300">./register.sh</Link>
                     </div>
                   </div>
                 </div>
@@ -349,70 +323,19 @@ function HomePage() {
           </div>
         </section>
 
-        {/* How It Works Section */}
-        <section id="how-it-works" className="py-32 px-6">
-          <div className="max-w-7xl mx-auto">
-            <div className="text-center mb-20">
-              <h2 className="text-4xl lg:text-6xl font-black text-slate-900 mb-6 tracking-tight">
-                How It 
-                <span className="bg-gradient-to-r from-indigo-600 to-purple-600 bg-clip-text text-transparent"> Works</span>
-              </h2>
-              <p className="text-xl text-slate-600 max-w-3xl mx-auto leading-relaxed font-medium">
-                A decentralized monitoring ecosystem where trust is verified by blockchain technology.
-              </p>
+        {/* Terminal Footer */}
+        <footer className="border-t border-green-500/30 bg-gray-900/50 py-12">
+          <div className="max-w-7xl mx-auto px-6 text-center">
+            <div className="text-green-400 font-mono mb-4">
+              <span className="text-green-500">$</span> ./about.sh --version
             </div>
-
-            <div className="grid lg:grid-cols-3 gap-12">
-              {[
-                {
-                  step: '01',
-                  title: 'Website Registration',
-                  description: 'Connect your wallet and add websites to monitor with custom reward settings.',
-                  icon: '🌐',
-                  gradient: 'from-blue-500 to-cyan-500'
-                },
-                {
-                  step: '02', 
-                  title: 'Validator Network',
-                  description: 'Global validators choose and verify your website uptime earning SOL rewards.',
-                  icon: '👥',
-                  gradient: 'from-purple-500 to-pink-500'
-                },
-                {
-                  step: '03',
-                  title: 'Real-time Results',
-                  description: 'Get instant notifications and detailed analytics powered by blockchain verification.',
-                  icon: '📊',
-                  gradient: 'from-green-500 to-emerald-500'
-                }
-              ].map((item, index) => (
-                <div key={index} className="text-center group">
-                  <div className={`w-20 h-20 bg-gradient-to-r ${item.gradient} rounded-3xl flex items-center justify-center mx-auto mb-8 shadow-2xl group-hover:scale-110 transition-transform duration-300`}>
-                    <span className="text-3xl">{item.icon}</span>
-                  </div>
-                  <div className="text-sm font-black text-slate-400 mb-4 tracking-widest">{item.step}</div>
-                  <h3 className="text-2xl font-black text-slate-900 mb-4">{item.title}</h3>
-                  <p className="text-slate-600 leading-relaxed font-medium">{item.description}</p>
-                </div>
-              ))}
+            <div className="text-green-300 font-mono text-sm">
+              Uptimex v1.0.0 - Decentralized Website Monitoring Platform
+              <br />
+              Built on Solana • Powered by Global Validators • Verified by Blockchain
             </div>
-          </div>
-        </section>
-
-        {/* Footer */}
-        <footer className="py-20 px-6 bg-slate-900">
-          <div className="max-w-7xl mx-auto text-center">
-            <div className="flex items-center justify-center space-x-3 mb-8">
-              <div className="w-12 h-12 bg-gradient-to-r from-indigo-600 to-purple-600 rounded-2xl flex items-center justify-center shadow-lg">
-                <span className="text-white font-bold text-xl">U</span>
-              </div>
-              <span className="text-3xl font-black text-white tracking-tight">Uptimex</span>
-            </div>
-            <p className="text-slate-400 font-medium mb-8 max-w-2xl mx-auto">
-              The future of website monitoring is decentralized. Join the revolution.
-            </p>
-            <div className="text-slate-500 text-sm font-medium">
-              © 2025 Uptimex. Built with 💜 for the Web3 community.
+            <div className="text-green-500 font-mono text-xs mt-4">
+              [INFO] System operational • All services running • Network healthy
             </div>
           </div>
         </footer>

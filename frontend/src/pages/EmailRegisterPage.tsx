@@ -55,7 +55,7 @@ function EmailRegisterPage() {
     if (name === 'email') {
       setEmailError('');
       if (value && !validateEmail(value)) {
-        setEmailError('Please enter a valid email address');
+        setEmailError('Invalid email format');
       }
     }
 
@@ -138,304 +138,265 @@ function EmailRegisterPage() {
   };
 
   return (
-    <div className="min-h-screen bg-gradient-to-br from-slate-50 via-blue-50 to-purple-50 relative overflow-hidden">
-      {/* Premium Background Pattern */}
-      <div className="absolute inset-0 bg-[url('data:image/svg+xml,%3Csvg%20width%3D%2260%22%20height%3D%2260%22%20viewBox%3D%220%200%2060%2060%22%20xmlns%3D%22http%3A//www.w3.org/2000/svg%22%3E%3Cg%20fill%3D%22none%22%20fill-rule%3D%22evenodd%22%3E%3Cg%20fill%3D%22%236366f1%22%20fill-opacity%3D%220.03%22%3E%3Ccircle%20cx%3D%2230%22%20cy%3D%2230%22%20r%3D%221.5%22/%3E%3C/g%3E%3C/g%3E%3C/svg%3E')] opacity-40"></div>
+    <div className="min-h-screen bg-black relative overflow-hidden font-mono">
+      {/* Terminal Grid Pattern */}
+      <div className="absolute inset-0 bg-[url('data:image/svg+xml,%3Csvg%20width%3D%2240%22%20height%3D%2240%22%20viewBox%3D%220%200%2040%2040%22%20xmlns%3D%22http%3A//www.w3.org/2000/svg%22%3E%3Cg%20fill%3D%22none%22%20fill-rule%3D%22evenodd%22%3E%3Cg%20fill%3D%22%2300ff00%22%20fill-opacity%3D%220.03%22%3E%3Crect%20x%3D%220%22%20y%3D%220%22%20width%3D%221%22%20height%3D%221%22/%3E%3C/g%3E%3C/g%3E%3C/svg%3E')] opacity-60"></div>
       
-      {/* Floating Elements */}
-      <div className="absolute top-20 left-10 w-64 h-64 bg-gradient-to-r from-indigo-400/10 to-purple-400/10 rounded-full blur-3xl animate-pulse"></div>
-      <div className="absolute bottom-20 right-10 w-80 h-80 bg-gradient-to-r from-blue-400/10 to-cyan-400/10 rounded-full blur-3xl animate-pulse animation-delay-2000"></div>
+      {/* Terminal Scanlines */}
+      <div className="absolute inset-0 bg-gradient-to-b from-transparent via-green-500/5 to-transparent animate-pulse"></div>
+      <div className="absolute inset-0 pointer-events-none">
+        <div className="absolute top-0 left-0 w-full h-0.5 bg-green-500/20 animate-pulse"></div>
+        <div className="absolute bottom-0 left-0 w-full h-0.5 bg-green-500/20 animate-pulse"></div>
+      </div>
 
       <div className="relative z-10 min-h-screen flex items-center justify-center px-6 py-12">
-        <div className="max-w-md w-full">
-          {/* Back Button */}
+        <div className="max-w-lg w-full">
+          {/* Terminal Back Button */}
           <Link 
             to="/"
-            className="inline-flex items-center text-slate-600 hover:text-slate-900 mb-8 transition-colors group font-medium"
+            className="inline-flex items-center text-green-400 hover:text-green-300 mb-8 transition-colors group font-mono text-sm"
           >
-            <svg className="w-5 h-5 mr-2 transform group-hover:-translate-x-1 transition-transform" fill="none" stroke="currentColor" viewBox="0 0 24 24">
-              <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M15 19l-7-7 7-7" />
-            </svg>
-            Back to Home
+            <span className="mr-2 text-green-500">$</span>
+            <span className="animate-pulse mr-1">cd</span>
+            <span className="group-hover:animate-pulse">..</span>
+            <span className="ml-2 animate-pulse">←</span>
           </Link>
 
-          {/* Main Card */}
-          <div className="bg-white/70 backdrop-blur-xl rounded-3xl p-10 border border-white/50 shadow-2xl">
-            <div className="text-center mb-10">
-              <div className="w-24 h-24 bg-gradient-to-r from-indigo-600 to-purple-600 rounded-3xl flex items-center justify-center mx-auto mb-8 shadow-2xl">
-                <svg className="w-12 h-12 text-white" fill="none" stroke="currentColor" viewBox="0 0 24 24">
-                  <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M19 21V5a2 2 0 00-2-2H7a2 2 0 00-2 2v16m14 0h2m-2 0h-5m-9 0H3m2 0h5M9 7h1m-1 4h1m4-4h1m-1 4h1m-5 10v-5a1 1 0 011-1h2a1 1 0 011 1v5m-4 0h4" />
-                </svg>
+          {/* Terminal Window */}
+          <div className="bg-gray-900 border border-green-500/30 rounded-lg shadow-2xl shadow-green-500/20">
+            {/* Terminal Header */}
+            <div className="bg-gray-800 px-4 py-3 rounded-t-lg border-b border-green-500/30 flex items-center">
+              <div className="flex space-x-2">
+                <div className="w-3 h-3 bg-red-500 rounded-full"></div>
+                <div className="w-3 h-3 bg-yellow-500 rounded-full"></div>
+                <div className="w-3 h-3 bg-green-500 rounded-full"></div>
               </div>
-              <h1 className="text-4xl font-black text-slate-900 mb-4 tracking-tight">
-                Create Account
-              </h1>
-              <p className="text-xl text-slate-600 leading-relaxed font-medium">
-                Join the platform and start monitoring your websites
-              </p>
-              <div className="mt-6 inline-flex items-center px-6 py-3 bg-gradient-to-r from-indigo-50 to-purple-50 border border-indigo-200 rounded-2xl">
-                <div className="w-3 h-3 bg-indigo-500 rounded-full mr-3 animate-pulse"></div>
-                <span className="text-indigo-700 text-sm font-bold">
-                  Website Owner Registration • Secure • Encrypted
-                </span>
+              <div className="flex-1 text-center">
+                <span className="text-green-400 font-mono text-sm">uptimex@terminal:~/auth/register</span>
               </div>
             </div>
-
-            {error && (
-              <div className="bg-red-50 border border-red-200 rounded-2xl p-6 mb-8">
-                <div className="flex items-start">
-                  <svg className="w-6 h-6 text-red-500 mr-3 mt-0.5" fill="none" stroke="currentColor" viewBox="0 0 24 24">
-                    <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M12 8v4m0 4h.01M21 12a9 9 0 11-18 0 9 9 0 0118 0z" />
-                  </svg>
-                  <div className="flex-1">
-                    <p className="text-red-800 font-medium">{error}</p>
-                  </div>
+            
+            {/* Terminal Content */}
+            <div className="p-8">
+              <div className="mb-8">
+                <div className="text-green-400 font-mono mb-4">
+                  <span className="text-green-500">$</span> ./register.sh --type=email --role=website_owner
                 </div>
-              </div>
-            )}
-
-            <form onSubmit={handleRegistration} className="space-y-6">
-              {/* Name Field */}
-              <div className="space-y-2">
-                <label htmlFor="name" className="block text-sm font-bold text-slate-700">
-                  Full Name
-                </label>
-                <div className="relative">
-                  <input
-                    type="text"
-                    id="name"
-                    name="name"
-                    value={formData.name}
-                    onChange={handleInputChange}
-                    className="w-full px-4 py-4 pl-12 bg-white border-2 border-slate-200 rounded-xl focus:outline-none focus:border-indigo-500 transition-all duration-300"
-                    placeholder="Enter your full name"
-                    required
-                  />
-                  <div className="absolute inset-y-0 left-0 pl-3 flex items-center pointer-events-none">
-                    <svg className="h-6 w-6 text-slate-400" fill="none" stroke="currentColor" viewBox="0 0 24 24">
-                      <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M16 7a4 4 0 11-8 0 4 4 0 018 0zM12 14a7 7 0 00-7 7h14a7 7 0 00-7-7z" />
-                    </svg>
+                <div className="text-green-300 font-mono text-sm mb-2">
+                  [INFO] Initializing user registration module...
+                </div>
+                <div className="text-green-300 font-mono text-sm mb-4">
+                  [INFO] Email registration protocol activated
+                </div>
+                <div className="border-l-2 border-green-500 pl-4 mb-6">
+                  <h1 className="text-xl font-mono text-green-400 mb-2">
+                    USER_REGISTRATION
+                  </h1>
+                  <p className="text-green-300 font-mono text-sm">
+                    &gt; Create new website owner account
+                  </p>
+                </div>
+                <div className="bg-green-900/20 border border-green-500/30 rounded px-4 py-2 mb-4">
+                  <div className="text-green-400 font-mono text-xs flex items-center">
+                    <span className="w-2 h-2 bg-green-500 rounded-full mr-2 animate-pulse"></span>
+                    STATUS: READY • ENCRYPTION: AES-256 • VALIDATION: ACTIVE
                   </div>
                 </div>
               </div>
 
-              {/* Email Field */}
-              <div className="space-y-2">
-                <label htmlFor="email" className="block text-sm font-bold text-slate-700">
-                  Email Address
-                </label>
-                <div className="relative">
-                  <input
-                    type="email"
-                    id="email"
-                    name="email"
-                    value={formData.email}
-                    onChange={handleInputChange}
-                    className={`w-full px-4 py-4 pl-12 bg-white border-2 rounded-xl focus:outline-none transition-all duration-300 ${
-                      emailError 
-                        ? 'border-red-300 focus:border-red-500' 
-                        : formData.email && validateEmail(formData.email)
-                        ? 'border-green-300 focus:border-green-500'
-                        : 'border-slate-200 focus:border-indigo-500'
-                    }`}
-                    placeholder="Enter your email address"
-                    required
-                  />
-                  <div className="absolute inset-y-0 left-0 pl-3 flex items-center pointer-events-none">
-                    <svg className="h-6 w-6 text-slate-400" fill="none" stroke="currentColor" viewBox="0 0 24 24">
-                      <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M16 12a4 4 0 10-8 0 4 4 0 008 0zm0 0v1.5a2.5 2.5 0 005 0V12a9 9 0 10-9 9m4.5-1.206a8.959 8.959 0 01-4.5 1.207" />
-                    </svg>
+              {error && (
+                <div className="bg-red-900/30 border border-red-500/50 rounded p-4 mb-6">
+                  <div className="text-red-400 font-mono text-sm">
+                    <span className="text-red-500">[ERROR]</span> {error}
                   </div>
-                  {formData.email && validateEmail(formData.email) && (
-                    <div className="absolute inset-y-0 right-0 pr-3 flex items-center">
-                      <svg className="h-5 w-5 text-green-500" fill="none" stroke="currentColor" viewBox="0 0 24 24">
-                        <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M5 13l4 4L19 7" />
-                      </svg>
+                </div>
+              )}
+
+              <form onSubmit={handleRegistration} className="space-y-6">
+                {/* Name Field */}
+                <div className="space-y-2">
+                  <div className="text-green-400 font-mono text-sm">
+                    <span className="text-green-500">$</span> Enter full name:
+                  </div>
+                  <div className="relative">
+                    <span className="text-green-500 font-mono absolute left-3 top-1/2 transform -translate-y-1/2 z-10">&gt;</span>
+                    <input
+                      type="text"
+                      id="name"
+                      name="name"
+                      value={formData.name}
+                      onChange={handleInputChange}
+                      className="w-full pl-8 pr-4 py-3 bg-black border border-green-500/30 rounded font-mono text-green-400 focus:outline-none focus:ring-1 focus:ring-green-500 transition-all duration-300"
+                      placeholder="John Doe"
+                      required
+                    />
+                  </div>
+                </div>
+
+                {/* Email Field */}
+                <div className="space-y-2">
+                  <div className="text-green-400 font-mono text-sm">
+                    <span className="text-green-500">$</span> Enter email:
+                  </div>
+                  <div className="relative">
+                    <span className="text-green-500 font-mono absolute left-3 top-1/2 transform -translate-y-1/2 z-10">&gt;</span>
+                    <input
+                      type="email"
+                      id="email"
+                      name="email"
+                      value={formData.email}
+                      onChange={handleInputChange}
+                      className={`w-full pl-8 pr-4 py-3 bg-black border rounded font-mono text-green-400 focus:outline-none focus:ring-1 transition-all duration-300 ${
+                        emailError 
+                          ? 'border-red-500 focus:ring-red-500' 
+                          : formData.email && validateEmail(formData.email)
+                          ? 'border-green-500 focus:ring-green-500'
+                          : 'border-green-500/30 focus:ring-green-500'
+                      }`}
+                      placeholder="user@example.com"
+                      required
+                    />
+                    {formData.email && validateEmail(formData.email) && (
+                      <span className="absolute right-3 top-1/2 transform -translate-y-1/2 text-green-500 font-mono">✓</span>
+                    )}
+                  </div>
+                  {emailError && (
+                    <div className="text-red-400 font-mono text-xs">
+                      [ERROR] {emailError}
                     </div>
                   )}
                 </div>
-                {emailError && (
-                  <p className="text-red-600 text-sm font-medium">{emailError}</p>
-                )}
-              </div>
 
-              {/* Password Field */}
-              <div className="space-y-2">
-                <label htmlFor="password" className="block text-sm font-bold text-slate-700">
-                  Password
-                </label>
-                <div className="relative">
-                  <input
-                    type={showPassword ? 'text' : 'password'}
-                    id="password"
-                    name="password"
-                    value={formData.password}
-                    onChange={handleInputChange}
-                    className={`w-full px-4 py-4 pl-12 pr-12 bg-white border-2 rounded-xl focus:outline-none transition-all duration-300 ${
-                      formData.password && isPasswordValid(passwordValidation)
-                        ? 'border-green-300 focus:border-green-500'
-                        : 'border-slate-200 focus:border-indigo-500'
-                    }`}
-                    placeholder="Create a secure password"
-                    required
-                  />
-                  <div className="absolute inset-y-0 left-0 pl-3 flex items-center pointer-events-none">
-                    <svg className="h-6 w-6 text-slate-400" fill="none" stroke="currentColor" viewBox="0 0 24 24">
-                      <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M12 15v2m-6 4h12a2 2 0 002-2v-6a2 2 0 00-2-2H6a2 2 0 00-2 2v6a2 2 0 002 2zm10-10V7a4 4 0 00-8 0v4h8z" />
-                    </svg>
+                {/* Password Field */}
+                <div className="space-y-2">
+                  <div className="text-green-400 font-mono text-sm">
+                    <span className="text-green-500">$</span> Create password:
                   </div>
-                  <button
-                    type="button"
-                    onClick={() => setShowPassword(!showPassword)}
-                    className="absolute inset-y-0 right-0 pr-3 flex items-center text-slate-400 hover:text-slate-600"
-                  >
-                    {showPassword ? (
-                      <svg className="h-5 w-5" fill="none" stroke="currentColor" viewBox="0 0 24 24">
-                        <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M13.875 18.825A10.05 10.05 0 0112 19c-4.478 0-8.268-2.943-9.543-7a9.97 9.97 0 011.563-3.029m5.858.908a3 3 0 114.243 4.243M9.878 9.878l4.242 4.242M9.878 9.878L8.465 8.465M9.878 9.878l.518.518m4.242 4.242l1.414 1.414M14.12 14.12l.518.518m-4.242-4.242l2.121-2.121m2.121 2.121L16.95 8.05m0 0l2.121-2.121M16.95 8.05l-2.121 2.121" />
-                      </svg>
-                    ) : (
-                      <svg className="h-5 w-5" fill="none" stroke="currentColor" viewBox="0 0 24 24">
-                        <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M15 12a3 3 0 11-6 0 3 3 0 016 0z" />
-                        <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M2.458 12C3.732 7.943 7.523 5 12 5c4.478 0 8.268 2.943 9.542 7-1.274 4.057-5.064 7-9.542 7-4.477 0-8.268-2.943-9.542-7z" />
-                      </svg>
-                    )}
-                  </button>
-                </div>
+                  <div className="relative">
+                    <span className="text-green-500 font-mono absolute left-3 top-1/2 transform -translate-y-1/2 z-10">&gt;</span>
+                    <input
+                      type={showPassword ? 'text' : 'password'}
+                      id="password"
+                      name="password"
+                      value={formData.password}
+                      onChange={handleInputChange}
+                      className={`w-full pl-8 pr-12 py-3 bg-black border rounded font-mono text-green-400 focus:outline-none focus:ring-1 transition-all duration-300 ${
+                        formData.password && isPasswordValid(passwordValidation)
+                          ? 'border-green-500 focus:ring-green-500'
+                          : 'border-green-500/30 focus:ring-green-500'
+                      }`}
+                      placeholder="Create secure password"
+                      required
+                    />
+                    <button
+                      type="button"
+                      onClick={() => setShowPassword(!showPassword)}
+                      className="absolute right-3 top-1/2 transform -translate-y-1/2 text-green-400 hover:text-green-300 font-mono text-xs"
+                    >
+                      {showPassword ? '[HIDE]' : '[SHOW]'}
+                    </button>
+                  </div>
 
-                {/* Password Validation Indicators */}
-                {formData.password && (
-                  <div className="mt-3 space-y-2">
-                    <p className="text-sm font-medium text-slate-700">Password Requirements:</p>
-                    <div className="grid grid-cols-2 gap-2">
-                      <div className={`flex items-center text-xs font-medium ${passwordValidation.minLength ? 'text-green-600' : 'text-slate-500'}`}>
-                        <svg className={`w-4 h-4 mr-2 ${passwordValidation.minLength ? 'text-green-500' : 'text-slate-400'}`} fill="none" stroke="currentColor" viewBox="0 0 24 24">
-                          <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d={passwordValidation.minLength ? "M5 13l4 4L19 7" : "M6 18L18 6M6 6l12 12"} />
-                        </svg>
-                        7+ characters
+                  {/* Password Validation */}
+                  {formData.password && (
+                    <div className="mt-3 space-y-1">
+                      <div className="text-green-400 font-mono text-xs">
+                        [INFO] Password requirements:
                       </div>
-                      <div className={`flex items-center text-xs font-medium ${passwordValidation.hasUppercase ? 'text-green-600' : 'text-slate-500'}`}>
-                        <svg className={`w-4 h-4 mr-2 ${passwordValidation.hasUppercase ? 'text-green-500' : 'text-slate-400'}`} fill="none" stroke="currentColor" viewBox="0 0 24 24">
-                          <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d={passwordValidation.hasUppercase ? "M5 13l4 4L19 7" : "M6 18L18 6M6 6l12 12"} />
-                        </svg>
-                        Uppercase letter
-                      </div>
-                      <div className={`flex items-center text-xs font-medium ${passwordValidation.hasLowercase ? 'text-green-600' : 'text-slate-500'}`}>
-                        <svg className={`w-4 h-4 mr-2 ${passwordValidation.hasLowercase ? 'text-green-500' : 'text-slate-400'}`} fill="none" stroke="currentColor" viewBox="0 0 24 24">
-                          <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d={passwordValidation.hasLowercase ? "M5 13l4 4L19 7" : "M6 18L18 6M6 6l12 12"} />
-                        </svg>
-                        Lowercase letter
-                      </div>
-                      <div className={`flex items-center text-xs font-medium ${passwordValidation.hasSpecialChar ? 'text-green-600' : 'text-slate-500'}`}>
-                        <svg className={`w-4 h-4 mr-2 ${passwordValidation.hasSpecialChar ? 'text-green-500' : 'text-slate-400'}`} fill="none" stroke="currentColor" viewBox="0 0 24 24">
-                          <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d={passwordValidation.hasSpecialChar ? "M5 13l4 4L19 7" : "M6 18L18 6M6 6l12 12"} />
-                        </svg>
-                        Special character
+                      <div className="grid grid-cols-2 gap-2 text-xs font-mono">
+                        <div className={passwordValidation.minLength ? 'text-green-400' : 'text-gray-500'}>
+                          {passwordValidation.minLength ? '✓' : '✗'} 7+ chars
+                        </div>
+                        <div className={passwordValidation.hasUppercase ? 'text-green-400' : 'text-gray-500'}>
+                          {passwordValidation.hasUppercase ? '✓' : '✗'} A-Z
+                        </div>
+                        <div className={passwordValidation.hasLowercase ? 'text-green-400' : 'text-gray-500'}>
+                          {passwordValidation.hasLowercase ? '✓' : '✗'} a-z
+                        </div>
+                        <div className={passwordValidation.hasSpecialChar ? 'text-green-400' : 'text-gray-500'}>
+                          {passwordValidation.hasSpecialChar ? '✓' : '✗'} !@#$
+                        </div>
                       </div>
                     </div>
-                  </div>
-                )}
-              </div>
-
-              {/* Confirm Password Field */}
-              <div className="space-y-2">
-                <label htmlFor="confirmPassword" className="block text-sm font-bold text-slate-700">
-                  Confirm Password
-                </label>
-                <div className="relative">
-                  <input
-                    type={showConfirmPassword ? 'text' : 'password'}
-                    id="confirmPassword"
-                    name="confirmPassword"
-                    value={formData.confirmPassword}
-                    onChange={handleInputChange}
-                    className={`w-full px-4 py-4 pl-12 pr-12 bg-white border-2 rounded-xl focus:outline-none transition-all duration-300 ${
-                      formData.confirmPassword && formData.password === formData.confirmPassword
-                        ? 'border-green-300 focus:border-green-500'
-                        : 'border-slate-200 focus:border-indigo-500'
-                    }`}
-                    placeholder="Confirm your password"
-                    required
-                  />
-                  <div className="absolute inset-y-0 left-0 pl-3 flex items-center pointer-events-none">
-                    <svg className="h-6 w-6 text-slate-400" fill="none" stroke="currentColor" viewBox="0 0 24 24">
-                      <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M9 12l2 2 4-4m6 2a9 9 0 11-18 0 9 9 0 0118 0z" />
-                    </svg>
-                  </div>
-                  <button
-                    type="button"
-                    onClick={() => setShowConfirmPassword(!showConfirmPassword)}
-                    className="absolute inset-y-0 right-0 pr-3 flex items-center text-slate-400 hover:text-slate-600"
-                  >
-                    {showConfirmPassword ? (
-                      <svg className="h-5 w-5" fill="none" stroke="currentColor" viewBox="0 0 24 24">
-                        <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M13.875 18.825A10.05 10.05 0 0112 19c-4.478 0-8.268-2.943-9.543-7a9.97 9.97 0 011.563-3.029m5.858.908a3 3 0 114.243 4.243M9.878 9.878l4.242 4.242M9.878 9.878L8.465 8.465M9.878 9.878l.518.518m4.242 4.242l1.414 1.414M14.12 14.12l.518.518m-4.242-4.242l2.121-2.121m2.121 2.121L16.95 8.05m0 0l2.121-2.121M16.95 8.05l-2.121 2.121" />
-                      </svg>
-                    ) : (
-                      <svg className="h-5 w-5" fill="none" stroke="currentColor" viewBox="0 0 24 24">
-                        <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M15 12a3 3 0 11-6 0 3 3 0 016 0z" />
-                        <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M2.458 12C3.732 7.943 7.523 5 12 5c4.478 0 8.268 2.943 9.542 7-1.274 4.057-5.064 7-9.542 7-4.477 0-8.268-2.943-9.542-7z" />
-                      </svg>
-                    )}
-                  </button>
+                  )}
                 </div>
-                {formData.confirmPassword && formData.password !== formData.confirmPassword && (
-                  <p className="text-red-600 text-sm font-medium">Passwords do not match</p>
-                )}
-              </div>
 
-              {/* Register Button */}
-              <button
-                type="submit"
-                disabled={isRegistering || !formData.name || !formData.email || !formData.password || !formData.confirmPassword || !validateEmail(formData.email) || !isPasswordValid(passwordValidation) || formData.password !== formData.confirmPassword}
-                className="group relative w-full bg-gradient-to-r from-indigo-600 to-purple-600 text-white font-bold py-5 px-8 rounded-2xl shadow-2xl hover:shadow-indigo-500/25 transition-all duration-300 disabled:opacity-50 disabled:cursor-not-allowed transform hover:-translate-y-1 hover:scale-105 disabled:transform-none"
-              >
-                <span className="relative z-10 flex items-center justify-center">
+                {/* Confirm Password Field */}
+                <div className="space-y-2">
+                  <div className="text-green-400 font-mono text-sm">
+                    <span className="text-green-500">$</span> Confirm password:
+                  </div>
+                  <div className="relative">
+                    <span className="text-green-500 font-mono absolute left-3 top-1/2 transform -translate-y-1/2 z-10">&gt;</span>
+                    <input
+                      type={showConfirmPassword ? 'text' : 'password'}
+                      id="confirmPassword"
+                      name="confirmPassword"
+                      value={formData.confirmPassword}
+                      onChange={handleInputChange}
+                      className={`w-full pl-8 pr-12 py-3 bg-black border rounded font-mono text-green-400 focus:outline-none focus:ring-1 transition-all duration-300 ${
+                        formData.confirmPassword && formData.password === formData.confirmPassword
+                          ? 'border-green-500 focus:ring-green-500'
+                          : 'border-green-500/30 focus:ring-green-500'
+                      }`}
+                      placeholder="Confirm your password"
+                      required
+                    />
+                    <button
+                      type="button"
+                      onClick={() => setShowConfirmPassword(!showConfirmPassword)}
+                      className="absolute right-3 top-1/2 transform -translate-y-1/2 text-green-400 hover:text-green-300 font-mono text-xs"
+                    >
+                      {showConfirmPassword ? '[HIDE]' : '[SHOW]'}
+                    </button>
+                  </div>
+                  {formData.confirmPassword && formData.password !== formData.confirmPassword && (
+                    <div className="text-red-400 font-mono text-xs">
+                      [ERROR] Passwords do not match
+                    </div>
+                  )}
+                </div>
+
+                {/* Register Button */}
+                <button
+                  type="submit"
+                  disabled={isRegistering || !formData.name || !formData.email || !formData.password || !formData.confirmPassword || !validateEmail(formData.email) || !isPasswordValid(passwordValidation) || formData.password !== formData.confirmPassword}
+                  className="w-full bg-green-900/30 border border-green-500 text-green-400 font-mono py-3 px-4 rounded hover:bg-green-900/50 focus:outline-none focus:ring-1 focus:ring-green-500 disabled:opacity-50 disabled:cursor-not-allowed transition-all duration-300"
+                >
                   {isRegistering ? (
-                    <>
-                      <div className="animate-spin rounded-full h-6 w-6 border-b-2 border-white mr-3"></div>
-                      Creating Account...
-                    </>
+                    <span>
+                      <span className="animate-pulse">[CREATING ACCOUNT...]</span>
+                    </span>
                   ) : (
-                    <>
-                      <span className="text-3xl mr-3">🚀</span>
-                      <span className="text-lg">Create Account</span>
-                    </>
+                    <span>
+                      <span className="text-green-500">$</span> ./create_user.sh --execute
+                    </span>
                   )}
-                </span>
-                <div className="absolute inset-0 bg-gradient-to-r from-indigo-700 to-purple-700 rounded-2xl opacity-0 group-hover:opacity-100 transition-opacity duration-300"></div>
-              </button>
-            </form>
+                </button>
+              </form>
 
-            {/* Alternative Registration Options */}
-            <div className="mt-8 border-t border-slate-200 pt-8">
-              <div className="text-center mb-6">
-                <p className="text-slate-600 font-medium">
-                  Prefer crypto wallet registration?
-                </p>
+              {/* Alternative Options */}
+              <div className="mt-8 pt-6 border-t border-green-500/30">
+                <div className="text-green-400 font-mono text-sm mb-4">
+                  [INFO] Alternative registration methods:
+                </div>
+                <Link 
+                  to="/register"
+                  className="block w-full bg-gray-800/50 border border-gray-600 text-gray-300 font-mono py-2 px-4 rounded hover:bg-gray-800 transition-all duration-300 mb-3"
+                >
+                  <span className="text-gray-500">$</span> ./wallet_register.sh --phantom
+                </Link>
+                
+                <div className="text-green-400 font-mono text-sm mb-2">
+                  [INFO] Already have an account? Login:
+                </div>
+                <Link 
+                  to="/email-login"
+                  className="block w-full bg-blue-900/30 border border-blue-500 text-blue-400 font-mono py-2 px-4 rounded hover:bg-blue-900/50 transition-all duration-300"
+                >
+                  <span className="text-blue-500">$</span> ./login.sh --type=email --role=website_owner
+                </Link>
               </div>
-              <Link 
-                to="/register"
-                className="w-full inline-flex items-center justify-center px-6 py-3 bg-white border-2 border-slate-300 text-slate-700 font-bold rounded-xl hover:border-slate-400 hover:bg-slate-50 transition-all duration-300"
-              >
-                <span className="text-2xl mr-3">👻</span>
-                Use Phantom Wallet Instead
-              </Link>
-            </div>
-
-            {/* Sign In Link */}
-            <div className="text-center mt-6">
-              <p className="text-slate-600 mb-4 font-medium">
-                Already have an account?
-              </p>
-              <Link 
-                to="/email-login"
-                className="inline-flex items-center justify-center px-8 py-3 bg-gradient-to-r from-emerald-600 to-teal-600 text-white font-bold rounded-xl hover:from-emerald-700 hover:to-teal-700 transition-all duration-300 transform hover:-translate-y-1"
-              >
-                Sign In with Email
-                <svg className="w-5 h-5 ml-2" fill="none" stroke="currentColor" viewBox="0 0 24 24">
-                  <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M17 8l4 4m0 0l-4 4m4-4H3" />
-                </svg>
-              </Link>
             </div>
           </div>
         </div>
