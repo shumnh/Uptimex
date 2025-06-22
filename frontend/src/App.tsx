@@ -2,6 +2,7 @@ import { BrowserRouter as Router, Routes, Route } from 'react-router-dom';
 import HomePage from './pages/HomePage';
 import LoginPage from './pages/LoginPage';
 import EmailLoginPage from './pages/EmailLoginPage';
+import EmailRegisterPage from './pages/EmailRegisterPage';
 import RegisterPage from './pages/RegisterPage';
 import DashboardPage from './pages/DashboardPage';
 import ValidatorPage from './pages/ValidatorPage';
@@ -20,6 +21,7 @@ function App() {
           <Route path="/" element={<HomePage />} />
           <Route path="/login" element={<LoginPage />} />
           <Route path="/email-login" element={<EmailLoginPage />} />
+          <Route path="/email-register" element={<EmailRegisterPage />} />
           <Route path="/register" element={<RegisterPage />} />
           <Route path="/validator-register" element={<ValidatorRegisterPage />} />
           <Route path="/validator-login" element={<ValidatorLoginPage />} />

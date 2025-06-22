@@ -191,30 +191,60 @@ function HomePage() {
 
                   <div className="space-y-4">
                     <div className="text-center text-sm font-bold text-indigo-700 mb-6 px-4 py-3 bg-indigo-50 border border-indigo-200 rounded-2xl">
-                      🚀 Professional Web3 Monitoring • Wallet-Only Authentication
+                      🚀 Professional Web3 Monitoring • Multiple Auth Options
                     </div>
                     
-                      <Link 
-                        to="/wallet-connect"
+                    {/* Primary CTA - Wallet Registration */}
+                    <Link 
+                      to="/wallet-connect"
                       className="block w-full bg-gradient-to-r from-indigo-600 to-purple-600 text-white font-bold py-4 px-6 rounded-2xl text-center shadow-2xl hover:shadow-indigo-500/25 transition-all duration-300 transform hover:-translate-y-1"
                     >
                       <span className="flex items-center justify-center">
                         <svg className="w-5 h-5 mr-2" fill="none" stroke="currentColor" viewBox="0 0 24 24">
                           <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M13.828 10.172a4 4 0 00-5.656 0l-4 4a4 4 0 105.656 5.656l1.102-1.102m-.758-4.899a4 4 0 005.656 0l4-4a4 4 0 00-5.656-5.656l-1.1 1.1" />
                         </svg>
-                        Connect Wallet
+                        Start with Wallet
                       </span>
-                      </Link>
-                    
-                    <Link 
-                      to="/register"
-                      className="block w-full bg-white/80 backdrop-blur-md text-slate-900 font-bold py-3 px-6 rounded-2xl text-center border-2 border-slate-200 hover:border-slate-300 shadow-lg hover:shadow-xl transition-all duration-300"
-                    >
-                      Create Account
                     </Link>
                     
+                    {/* Email Registration Option */}
+                    <Link 
+                      to="/email-register"
+                      className="block w-full bg-gradient-to-r from-emerald-600 to-teal-600 text-white font-bold py-4 px-6 rounded-2xl text-center shadow-2xl hover:shadow-emerald-500/25 transition-all duration-300 transform hover:-translate-y-1"
+                    >
+                      <span className="flex items-center justify-center">
+                        <svg className="w-5 h-5 mr-2" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                          <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M16 12a4 4 0 10-8 0 4 4 0 008 0zm0 0v1.5a2.5 2.5 0 005 0V12a9 9 0 10-9 9m4.5-1.206a8.959 8.959 0 01-4.5 1.207" />
+                        </svg>
+                        Start with Email
+                      </span>
+                    </Link>
+                    
+                    {/* Login Options */}
+                    <div className="grid grid-cols-2 gap-3">
+                      <Link 
+                        to="/login"
+                        className="bg-white/80 backdrop-blur-md text-slate-900 font-bold py-3 px-4 rounded-xl text-center border-2 border-slate-200 hover:border-slate-300 shadow-lg hover:shadow-xl transition-all duration-300 text-sm"
+                      >
+                        <span className="flex items-center justify-center">
+                          <span className="text-lg mr-2">👻</span>
+                          Wallet Login
+                        </span>
+                      </Link>
+                      
+                      <Link 
+                        to="/email-login"
+                        className="bg-white/80 backdrop-blur-md text-slate-900 font-bold py-3 px-4 rounded-xl text-center border-2 border-slate-200 hover:border-slate-300 shadow-lg hover:shadow-xl transition-all duration-300 text-sm"
+                      >
+                        <span className="flex items-center justify-center">
+                          <span className="text-lg mr-2">📧</span>
+                          Email Login
+                        </span>
+                      </Link>
+                    </div>
+                    
                     <div className="text-xs text-slate-500 text-center font-medium">
-                      🔐 Secure • Decentralized • No Passwords Required
+                      🔐 Choose Your Preferred Auth • Instant Web3 Monitoring
                     </div>
                   </div>
                 </div>
