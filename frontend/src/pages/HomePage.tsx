@@ -6,11 +6,11 @@ function HomePage() {
       {/* Terminal Grid Pattern */}
       <div className="absolute inset-0 bg-[url('data:image/svg+xml,%3Csvg%20width%3D%2240%22%20height%3D%2240%22%20viewBox%3D%220%200%2040%2040%22%20xmlns%3D%22http%3A//www.w3.org/2000/svg%22%3E%3Cg%20fill%3D%22none%22%20fill-rule%3D%22evenodd%22%3E%3Cg%20fill%3D%22%2300ff00%22%20fill-opacity%3D%220.03%22%3E%3Crect%20x%3D%220%22%20y%3D%220%22%20width%3D%221%22%20height%3D%221%22/%3E%3C/g%3E%3C/g%3E%3C/svg%3E')] opacity-60"></div>
       
-      {/* Terminal Scanlines */}
-      <div className="absolute inset-0 bg-gradient-to-b from-transparent via-green-500/5 to-transparent animate-pulse"></div>
+      {/* Terminal Scanlines - Blue/Green Mix */}
+      <div className="absolute inset-0 bg-gradient-to-b from-transparent via-blue-500/5 via-green-500/3 to-transparent animate-pulse"></div>
       <div className="absolute inset-0 pointer-events-none">
-        <div className="absolute top-0 left-0 w-full h-0.5 bg-green-500/20 animate-pulse"></div>
-        <div className="absolute bottom-0 left-0 w-full h-0.5 bg-green-500/20 animate-pulse"></div>
+        <div className="absolute top-0 left-0 w-full h-0.5 bg-gradient-to-r from-blue-500/20 to-green-500/20 animate-pulse"></div>
+        <div className="absolute bottom-0 left-0 w-full h-0.5 bg-gradient-to-r from-green-500/20 to-blue-500/20 animate-pulse"></div>
       </div>
 
       <div className="relative z-10">
@@ -18,15 +18,15 @@ function HomePage() {
         <nav className="absolute top-0 w-full z-20 p-6">
           <div className="max-w-7xl mx-auto flex justify-between items-center">
             <div className="flex items-center space-x-3">
-              <div className="w-10 h-10 bg-green-900/50 border border-green-500/50 rounded flex items-center justify-center">
-                <span className="text-green-400 font-mono font-bold text-lg">U</span>
+              <div className="w-10 h-10 bg-gradient-to-br from-blue-900/50 to-green-900/50 border border-blue-500/50 rounded flex items-center justify-center">
+                <span className="text-blue-400 font-mono font-bold text-lg">U</span>
               </div>
-              <span className="text-2xl font-bold text-green-400 font-mono tracking-tight">
+              <span className="text-2xl font-bold text-blue-400 font-mono tracking-tight">
                 <span className="text-green-500">$</span> uptimex.sh
               </span>
             </div>
             <div className="hidden md:flex items-center space-x-8">
-              <span className="text-green-400 font-mono text-sm hover:text-green-300 transition-colors cursor-pointer">
+              <span className="text-blue-400 font-mono text-sm hover:text-blue-300 transition-colors cursor-pointer">
                 ./features --list
               </span>
               <span className="text-green-400 font-mono text-sm hover:text-green-300 transition-colors cursor-pointer">
@@ -53,36 +53,36 @@ function HomePage() {
                 </div>
               </div>
               
-              <h1 className="text-4xl lg:text-6xl font-bold text-green-400 mb-8 leading-tight font-mono">
+              <h1 className="text-4xl lg:text-6xl font-bold text-blue-400 mb-8 leading-tight font-mono">
                 <span className="text-green-500">&gt;</span> DECENTRALIZED
                 <br />
-                <span className="text-green-300 ml-6">WEBSITE_MONITOR</span>
+                <span className="text-blue-300 ml-6">WEBSITE_MONITOR</span>
               </h1>
               
-              <div className="text-lg lg:text-xl text-green-300 mb-12 max-w-2xl leading-relaxed font-mono">
+              <div className="text-lg lg:text-xl text-blue-300 mb-12 max-w-2xl leading-relaxed font-mono">
                 <span className="text-green-500">[INFO]</span> Blockchain-verified monitoring
                 <br />
-                <span className="text-green-500">[INFO]</span> Global validator network earning SOL
+                <span className="text-blue-500">[INFO]</span> Global validator network earning SOL
                 <br />
                 <span className="text-green-500">[INFO]</span> Trustless uptime verification
               </div>
 
               {/* Terminal CTA Buttons */}
               <div className="space-y-4 mb-16">
-                <div className="text-green-400 font-mono text-sm mb-4">
+                <div className="text-blue-400 font-mono text-sm mb-4">
                   <span className="text-green-500">$</span> ./init_user.sh --select-role:
                 </div>
                 
                 <Link 
                   to="/register"
-                  className="block w-full bg-green-900/30 border border-green-500 text-green-400 font-mono py-3 px-6 rounded hover:bg-green-900/50 transition-all duration-300 mb-2"
+                  className="block w-full bg-gradient-to-r from-blue-900/30 to-green-900/30 border border-blue-500 text-blue-400 font-mono py-3 px-6 rounded hover:from-blue-900/50 hover:to-green-900/50 transition-all duration-300 mb-2"
                 >
                   <span className="text-green-500">[1]</span> ./website_owner.sh --start-monitoring
                 </Link>
                 
                 <Link 
                   to="/validator-register"
-                  className="block w-full bg-blue-900/30 border border-blue-500 text-blue-400 font-mono py-3 px-6 rounded hover:bg-blue-900/50 transition-all duration-300"
+                  className="block w-full bg-gradient-to-r from-green-900/30 to-blue-900/30 border border-green-500 text-green-400 font-mono py-3 px-6 rounded hover:from-green-900/50 hover:to-blue-900/50 transition-all duration-300"
                 >
                   <span className="text-blue-500">[2]</span> ./validator.sh --earn-sol
                 </Link>
@@ -90,17 +90,17 @@ function HomePage() {
 
               {/* Terminal Stats */}
               <div className="grid grid-cols-3 gap-4">
-                <div className="bg-gray-900/50 border border-green-500/30 rounded p-4 text-center">
-                  <div className="text-2xl font-bold text-green-400 font-mono">99.9%</div>
-                  <div className="text-green-500 text-xs font-mono uppercase tracking-wide">ACCURACY</div>
+                <div className="bg-gray-900/50 border border-blue-500/30 rounded p-4 text-center">
+                  <div className="text-2xl font-bold text-blue-400 font-mono">99.9%</div>
+                  <div className="text-blue-500 text-xs font-mono uppercase tracking-wide">ACCURACY</div>
                 </div>
                 <div className="bg-gray-900/50 border border-green-500/30 rounded p-4 text-center">
                   <div className="text-2xl font-bold text-green-400 font-mono">24/7</div>
                   <div className="text-green-500 text-xs font-mono uppercase tracking-wide">UPTIME</div>
                 </div>
-                <div className="bg-gray-900/50 border border-green-500/30 rounded p-4 text-center">
-                  <div className="text-2xl font-bold text-green-400 font-mono">GLOBAL</div>
-                  <div className="text-green-500 text-xs font-mono uppercase tracking-wide">NETWORK</div>
+                <div className="bg-gray-900/50 border border-blue-500/30 rounded p-4 text-center">
+                  <div className="text-2xl font-bold text-blue-400 font-mono">GLOBAL</div>
+                  <div className="text-blue-500 text-xs font-mono uppercase tracking-wide">NETWORK</div>
                 </div>
               </div>
             </div>

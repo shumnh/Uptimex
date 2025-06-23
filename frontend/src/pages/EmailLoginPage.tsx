@@ -124,11 +124,11 @@ function EmailLoginPage() {
       {/* Terminal Grid Pattern */}
       <div className="absolute inset-0 bg-[url('data:image/svg+xml,%3Csvg%20width%3D%2240%22%20height%3D%2240%22%20viewBox%3D%220%200%2040%2040%22%20xmlns%3D%22http%3A//www.w3.org/2000/svg%22%3E%3Cg%20fill%3D%22none%22%20fill-rule%3D%22evenodd%22%3E%3Cg%20fill%3D%22%2300ff00%22%20fill-opacity%3D%220.03%22%3E%3Crect%20x%3D%220%22%20y%3D%220%22%20width%3D%221%22%20height%3D%221%22/%3E%3C/g%3E%3C/g%3E%3C/svg%3E')] opacity-60"></div>
       
-      {/* Terminal Scanlines */}
-      <div className="absolute inset-0 bg-gradient-to-b from-transparent via-green-500/5 to-transparent animate-pulse"></div>
+      {/* Terminal Scanlines - Blue/Green Mix */}
+      <div className="absolute inset-0 bg-gradient-to-b from-transparent via-blue-500/5 via-green-500/3 to-transparent animate-pulse"></div>
       <div className="absolute inset-0 pointer-events-none">
-        <div className="absolute top-0 left-0 w-full h-0.5 bg-green-500/20 animate-pulse"></div>
-        <div className="absolute bottom-0 left-0 w-full h-0.5 bg-green-500/20 animate-pulse"></div>
+        <div className="absolute top-0 left-0 w-full h-0.5 bg-gradient-to-r from-blue-500/20 to-green-500/20 animate-pulse"></div>
+        <div className="absolute bottom-0 left-0 w-full h-0.5 bg-gradient-to-r from-green-500/20 to-blue-500/20 animate-pulse"></div>
       </div>
 
       <div className="relative z-10 min-h-screen flex items-center justify-center px-6">
@@ -145,16 +145,16 @@ function EmailLoginPage() {
           </Link>
 
           {/* Terminal Window */}
-          <div className="bg-gray-900 border border-green-500/30 rounded-lg shadow-2xl shadow-green-500/20">
+          <div className="bg-gray-900 border border-blue-500/30 rounded-lg shadow-2xl shadow-blue-500/20">
             {/* Terminal Header */}
-            <div className="bg-gray-800 px-4 py-3 rounded-t-lg border-b border-green-500/30 flex items-center">
+            <div className="bg-gray-800 px-4 py-3 rounded-t-lg border-b border-blue-500/30 flex items-center">
               <div className="flex space-x-2">
                 <div className="w-3 h-3 bg-red-500 rounded-full"></div>
                 <div className="w-3 h-3 bg-yellow-500 rounded-full"></div>
-                <div className="w-3 h-3 bg-green-500 rounded-full"></div>
+                <div className="w-3 h-3 bg-blue-500 rounded-full"></div>
               </div>
               <div className="flex-1 text-center">
-                <span className="text-green-400 font-mono text-sm">uptimex@terminal:~/auth/login</span>
+                <span className="text-blue-400 font-mono text-sm">uptimex@terminal:~/auth/login</span>
               </div>
             </div>
             
@@ -163,26 +163,26 @@ function EmailLoginPage() {
               <div className="grid lg:grid-cols-2 gap-8">
                 {/* Left Column - Terminal Info */}
                 <div>
-                  <div className="text-green-400 font-mono mb-4">
+                  <div className="text-blue-400 font-mono mb-4">
                     <span className="text-green-500">$</span> ./login.sh --type=email --role=website_owner
                   </div>
-                  <div className="text-green-300 font-mono text-sm mb-2">
+                  <div className="text-blue-300 font-mono text-sm mb-2">
                     [INFO] Initializing email authentication module...
                   </div>
                   <div className="text-green-300 font-mono text-sm mb-4">
                     [INFO] Secure login protocol activated
                   </div>
-                  <div className="border-l-2 border-green-500 pl-4 mb-6">
-                    <h1 className="text-xl font-mono text-green-400 mb-2">
+                  <div className="border-l-2 border-blue-500 pl-4 mb-6">
+                    <h1 className="text-xl font-mono text-blue-400 mb-2">
                       AUTHENTICATION_REQUIRED
                     </h1>
-                    <p className="text-green-300 font-mono text-sm">
+                    <p className="text-blue-300 font-mono text-sm">
                       &gt; Enter credentials to access website owner portal
                     </p>
                   </div>
-                  <div className="bg-green-900/20 border border-green-500/30 rounded px-4 py-2 mb-4">
-                    <div className="text-green-400 font-mono text-xs flex items-center">
-                      <span className="w-2 h-2 bg-green-500 rounded-full mr-2 animate-pulse"></span>
+                  <div className="bg-gradient-to-r from-blue-900/20 to-green-900/20 border border-blue-500/30 rounded px-4 py-2 mb-4">
+                    <div className="text-blue-400 font-mono text-xs flex items-center">
+                      <span className="w-2 h-2 bg-blue-500 rounded-full mr-2 animate-pulse"></span>
                       STATUS: READY • ENCRYPTION: AES-256 • PROTOCOL: HTTPS
                     </div>
                   </div>
