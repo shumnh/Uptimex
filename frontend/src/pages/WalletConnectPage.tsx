@@ -79,10 +79,10 @@ function WalletConnectPage() {
         <div className="absolute bottom-1/4 right-1/4 w-80 h-80 bg-blue-300 rounded-full mix-blend-multiply filter blur-3xl opacity-8 animate-pulse animation-delay-3000"></div>
       </div>
 
-      <div className="relative z-10 min-h-screen flex items-center justify-center px-8 py-12">
+      <div className="relative z-10 min-h-screen flex items-center justify-center px-8 py-6">
         <div className="max-w-6xl w-full">
           {/* Navigation */}
-          <div className="flex justify-between items-center mb-12">
+          <div className="flex justify-between items-center mb-6">
           <Link 
             to="/"
               className="inline-flex items-center text-slate-600 hover:text-slate-900 transition-colors group text-lg"
@@ -110,80 +110,80 @@ function WalletConnectPage() {
           </div>
 
           {/* Main Content Grid */}
-          <div className="grid lg:grid-cols-2 gap-16 items-center">
+          <div className="grid lg:grid-cols-2 gap-8 items-center">
             {/* Left Side - Information */}
-            <div className="space-y-8">
+            <div className="space-y-6">
               <div>
-                <div className="inline-flex items-center px-4 py-2 bg-slate-100 border border-slate-200 rounded-full mb-6">
+                <div className="inline-flex items-center px-4 py-2 bg-slate-100 border border-slate-200 rounded-full mb-4">
                   <div className="w-2 h-2 bg-slate-500 rounded-full mr-3 animate-pulse"></div>
                   <span className="text-slate-700 text-sm font-semibold">Premium Web3 Platform</span>
                 </div>
                 
-                <h1 className="text-5xl lg:text-6xl font-black text-slate-900 mb-6 leading-tight">
+                <h1 className="text-4xl lg:text-5xl font-black text-slate-900 mb-4 leading-tight">
                   Connect Your
                   <span className="bg-gradient-to-r from-slate-600 to-blue-600 bg-clip-text text-transparent"> Wallet</span>
                 </h1>
                 
-                <p className="text-xl text-slate-600 leading-relaxed mb-8">
+                <p className="text-lg text-slate-600 leading-relaxed mb-6">
                   Access your website monitoring dashboard with your Solana wallet. 
                   Secure, instant, and completely decentralized.
                 </p>
               </div>
 
               {/* Features */}
-              <div className="grid grid-cols-1 sm:grid-cols-2 gap-6">
-                <div className="bg-white/70 backdrop-blur-md rounded-2xl p-6 border border-white/50 shadow-lg">
-                  <div className="w-12 h-12 bg-gradient-to-r from-slate-600 to-slate-700 rounded-xl flex items-center justify-center mb-4">
-                    <svg className="w-6 h-6 text-white" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+              <div className="grid grid-cols-2 gap-4">
+                <div className="bg-white/70 backdrop-blur-md rounded-2xl p-4 border border-white/50 shadow-lg">
+                  <div className="w-10 h-10 bg-gradient-to-r from-slate-600 to-slate-700 rounded-xl flex items-center justify-center mb-3">
+                    <svg className="w-5 h-5 text-white" fill="none" stroke="currentColor" viewBox="0 0 24 24">
                       <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M12 15v2m-6 4h12a2 2 0 002-2v-6a2 2 0 00-2-2H6a2 2 0 00-2 2v6a2 2 0 002 2zm10-10V7a4 4 0 00-8 0v4h8z" />
                     </svg>
                   </div>
-                  <h3 className="text-slate-900 font-bold text-lg mb-2">Secure Authentication</h3>
-                  <p className="text-slate-600 text-sm">No passwords, no data breaches. Your wallet is your identity.</p>
+                  <h3 className="text-slate-900 font-semibold text-base mb-2">Secure Authentication</h3>
+                  <p className="text-slate-600 text-sm leading-relaxed">No passwords, no data breaches. Your wallet is your identity.</p>
                 </div>
 
-                <div className="bg-white/70 backdrop-blur-md rounded-2xl p-6 border border-white/50 shadow-lg">
-                  <div className="w-12 h-12 bg-gradient-to-r from-blue-600 to-indigo-600 rounded-xl flex items-center justify-center mb-4">
-                    <svg className="w-6 h-6 text-white" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                <div className="bg-white/70 backdrop-blur-md rounded-2xl p-4 border border-white/50 shadow-lg">
+                  <div className="w-10 h-10 bg-gradient-to-r from-blue-600 to-indigo-600 rounded-xl flex items-center justify-center mb-3">
+                    <svg className="w-5 h-5 text-white" fill="none" stroke="currentColor" viewBox="0 0 24 24">
                       <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M13 10V3L4 14h7v7l9-11h-7z" />
                     </svg>
                   </div>
-                  <h3 className="text-slate-900 font-bold text-lg mb-2">Lightning Fast</h3>
-                  <p className="text-slate-600 text-sm">Connect instantly and start monitoring your websites.</p>
+                  <h3 className="text-slate-900 font-semibold text-base mb-2">Lightning Fast</h3>
+                  <p className="text-slate-600 text-sm leading-relaxed">Connect instantly and start monitoring your websites.</p>
                 </div>
 
-                <div className="bg-white/70 backdrop-blur-md rounded-2xl p-6 border border-white/50 shadow-lg">
-                  <div className="w-12 h-12 bg-gradient-to-r from-emerald-600 to-green-600 rounded-xl flex items-center justify-center mb-4">
-                    <svg className="w-6 h-6 text-white" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                <div className="bg-white/70 backdrop-blur-md rounded-2xl p-4 border border-white/50 shadow-lg">
+                  <div className="w-10 h-10 bg-gradient-to-r from-emerald-600 to-green-600 rounded-xl flex items-center justify-center mb-3">
+                    <svg className="w-5 h-5 text-white" fill="none" stroke="currentColor" viewBox="0 0 24 24">
                       <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M9 12l2 2 4-4m6 2a9 9 0 11-18 0 9 9 0 0118 0z" />
                     </svg>
                   </div>
-                  <h3 className="text-slate-900 font-bold text-lg mb-2">Fully Decentralized</h3>
-                  <p className="text-slate-600 text-sm">Built on Solana blockchain for maximum transparency.</p>
+                  <h3 className="text-slate-900 font-semibold text-base mb-2">Fully Decentralized</h3>
+                  <p className="text-slate-600 text-sm leading-relaxed">Built on Solana blockchain for maximum transparency.</p>
                 </div>
 
-                <div className="bg-white/70 backdrop-blur-md rounded-2xl p-6 border border-white/50 shadow-lg">
-                  <div className="w-12 h-12 bg-gradient-to-r from-amber-500 to-orange-500 rounded-xl flex items-center justify-center mb-4">
-                    <svg className="w-6 h-6 text-white" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                <div className="bg-white/70 backdrop-blur-md rounded-2xl p-4 border border-white/50 shadow-lg">
+                  <div className="w-10 h-10 bg-gradient-to-r from-amber-500 to-orange-500 rounded-xl flex items-center justify-center mb-3">
+                    <svg className="w-5 h-5 text-white" fill="none" stroke="currentColor" viewBox="0 0 24 24">
                       <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M12 8c-1.657 0-3 .895-3 2s1.343 2 3 2 3 .895 3 2-1.343 2-3 2m0-8c1.11 0 2.08.402 2.599 1M12 8V7m0 1v8m0 0v1m0-1c-1.11 0-2.08-.402-2.599-1" />
                     </svg>
                   </div>
-                  <h3 className="text-slate-900 font-bold text-lg mb-2">Earn Rewards</h3>
-                  <p className="text-slate-600 text-sm">Get paid in crypto for monitoring websites as a validator.</p>
+                  <h3 className="text-slate-900 font-semibold text-base mb-2">Earn Rewards</h3>
+                  <p className="text-slate-600 text-sm leading-relaxed">Get paid in crypto for monitoring websites as a validator.</p>
                 </div>
               </div>
             </div>
 
             {/* Right Side - Wallet Connection */}
-            <div className="bg-white/80 backdrop-blur-md rounded-3xl p-12 border border-white/60 shadow-2xl">
-              <div className="text-center mb-10">
-                <div className="w-20 h-20 bg-gradient-to-r from-slate-600 to-blue-600 rounded-2xl flex items-center justify-center mx-auto mb-6 shadow-2xl">
-                  <span className="text-3xl">🔗</span>
+            <div className="bg-white/80 backdrop-blur-md rounded-3xl p-8 border border-white/60 shadow-2xl">
+              <div className="text-center mb-6">
+                <div className="w-16 h-16 bg-gradient-to-r from-slate-600 to-blue-600 rounded-2xl flex items-center justify-center mx-auto mb-4 shadow-2xl">
+                  <span className="text-2xl">🔗</span>
                 </div>
-                <h2 className="text-3xl font-bold text-slate-900 mb-4">
+                <h2 className="text-2xl font-bold text-slate-900 mb-3">
                   Website Owner Login
                 </h2>
-                <p className="text-slate-600 text-lg">
+                <p className="text-slate-600 text-base">
                   Connect your wallet to access your monitoring dashboard
               </p>
             </div>
@@ -209,22 +209,22 @@ function WalletConnectPage() {
               </div>
             )}
 
-              <div className="space-y-8">
+              <div className="space-y-6">
               {/* Phantom Wallet Connect */}
               <button
                 onClick={connectWallet}
                 disabled={isConnecting}
-                  className="group relative w-full bg-gradient-to-r from-slate-700 to-slate-800 text-white font-bold py-6 px-8 rounded-2xl shadow-2xl hover:shadow-slate-500/25 transition-all duration-300 disabled:opacity-50 disabled:cursor-not-allowed transform hover:-translate-y-1 hover:scale-105"
+                  className="group relative w-full bg-gradient-to-r from-slate-700 to-slate-800 text-white font-bold py-4 px-6 rounded-2xl shadow-2xl hover:shadow-slate-500/25 transition-all duration-300 disabled:opacity-50 disabled:cursor-not-allowed transform hover:-translate-y-1 hover:scale-105"
               >
-                  <span className="relative z-10 flex items-center justify-center text-xl">
+                  <span className="relative z-10 flex items-center justify-center text-lg">
                 {isConnecting ? (
                   <>
-                        <div className="animate-spin rounded-full h-6 w-6 border-b-2 border-white mr-4"></div>
+                        <div className="animate-spin rounded-full h-5 w-5 border-b-2 border-white mr-3"></div>
                     Connecting...
                   </>
                 ) : (
                   <>
-                        <span className="text-3xl mr-4">👻</span>
+                        <span className="text-2xl mr-3">👻</span>
                     Connect Phantom Wallet
                   </>
                 )}
@@ -233,13 +233,13 @@ function WalletConnectPage() {
               </button>
 
                 {/* Wallet Status */}
-                <div className="bg-slate-50 border border-slate-200 rounded-xl p-6">
+                <div className="bg-slate-50 border border-slate-200 rounded-xl p-4">
                   <div className="flex items-center">
-                    <div className="w-8 h-8 bg-slate-500 rounded-full flex items-center justify-center mr-4 flex-shrink-0">
-                      <span className="text-white text-sm font-bold">?</span>
+                    <div className="w-7 h-7 bg-slate-500 rounded-full flex items-center justify-center mr-3 flex-shrink-0">
+                      <span className="text-white text-xs font-bold">?</span>
                     </div>
                     <div className="flex-1">
-                      <h3 className="text-slate-800 font-semibold mb-2">Wallet Status</h3>
+                      <h3 className="text-slate-800 font-semibold mb-1 text-sm">Wallet Status</h3>
                       <p className="text-slate-600 text-sm leading-relaxed">
                         {typeof window !== 'undefined' && window.solana ? (
                           window.solana.isPhantom ? (
@@ -256,16 +256,16 @@ function WalletConnectPage() {
                 </div>
 
                 {/* Help Section */}
-                <div className="bg-blue-50 border border-blue-200 rounded-xl p-6">
+                <div className="bg-blue-50 border border-blue-200 rounded-xl p-4">
                   <div className="flex items-start">
-                    <div className="w-8 h-8 bg-blue-600 rounded-full flex items-center justify-center mr-4 flex-shrink-0">
-                      <svg className="w-4 h-4 text-white" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                    <div className="w-7 h-7 bg-blue-600 rounded-full flex items-center justify-center mr-3 flex-shrink-0">
+                      <svg className="w-3 h-3 text-white" fill="none" stroke="currentColor" viewBox="0 0 24 24">
                         <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M13 16h-1v-4h-1m1-4h.01M21 12a9 9 0 11-18 0 9 9 0 0118 0z" />
                       </svg>
                     </div>
                     <div className="flex-1">
-                      <h3 className="text-blue-800 font-semibold mb-2">New to Phantom?</h3>
-                      <p className="text-blue-700 text-sm leading-relaxed mb-3">
+                      <h3 className="text-blue-800 font-semibold mb-1 text-sm">New to Phantom?</h3>
+                      <p className="text-blue-700 text-xs leading-relaxed mb-2">
                         Phantom is a secure Solana wallet that stores your digital assets and allows you to interact with Web3 applications.
                       </p>
                       <a 
