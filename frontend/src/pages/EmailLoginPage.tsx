@@ -120,215 +120,220 @@ function EmailLoginPage() {
   };
 
   return (
-    <div className="min-h-screen bg-black relative overflow-hidden font-mono">
-      {/* Terminal Grid Pattern */}
-      <div className="absolute inset-0 bg-[url('data:image/svg+xml,%3Csvg%20width%3D%2240%22%20height%3D%2240%22%20viewBox%3D%220%200%2040%2040%22%20xmlns%3D%22http%3A//www.w3.org/2000/svg%22%3E%3Cg%20fill%3D%22none%22%20fill-rule%3D%22evenodd%22%3E%3Cg%20fill%3D%22%2300ff00%22%20fill-opacity%3D%220.03%22%3E%3Crect%20x%3D%220%22%20y%3D%220%22%20width%3D%221%22%20height%3D%221%22/%3E%3C/g%3E%3C/g%3E%3C/svg%3E')] opacity-60"></div>
-      
-      {/* Terminal Scanlines - Blue/Green Mix */}
-      <div className="absolute inset-0 bg-gradient-to-b from-transparent via-blue-500/5 via-green-500/3 to-transparent animate-pulse"></div>
-      <div className="absolute inset-0 pointer-events-none">
-        <div className="absolute top-0 left-0 w-full h-0.5 bg-gradient-to-r from-blue-500/20 to-green-500/20 animate-pulse"></div>
-        <div className="absolute bottom-0 left-0 w-full h-0.5 bg-gradient-to-r from-green-500/20 to-blue-500/20 animate-pulse"></div>
+    <div className="min-h-screen bg-gradient-to-br from-gray-900 via-black to-gray-800 flex items-center justify-center p-4 relative overflow-hidden">
+      {/* Animated background pattern */}
+      <div className="absolute inset-0 opacity-10">
+        <div className="absolute inset-0 bg-[radial-gradient(circle_at_25%_25%,#3b82f6_0%,transparent_70%)]"></div>
+        <div className="absolute inset-0 bg-[radial-gradient(circle_at_75%_75%,#8b5cf6_0%,transparent_70%)]"></div>
       </div>
+      
+      {/* Floating elements */}
+      <div className="absolute top-20 left-20 w-2 h-2 bg-blue-500 rounded-full animate-ping"></div>
+      <div className="absolute top-40 right-32 w-1 h-1 bg-purple-500 rounded-full animate-pulse"></div>
+      <div className="absolute bottom-32 left-1/4 w-1.5 h-1.5 bg-indigo-500 rounded-full animate-bounce"></div>
 
-      <div className="relative z-10 min-h-screen flex items-center justify-center px-6">
-        <div className="max-w-4xl w-full">
-          {/* Terminal Back Button */}
-          <Link 
-            to="/"
-            className="inline-flex items-center text-green-400 hover:text-green-300 mb-8 transition-colors group font-mono text-sm"
-          >
-            <span className="mr-2 text-green-500">$</span>
-            <span className="animate-pulse mr-1">cd</span>
-            <span className="group-hover:animate-pulse">..</span>
-            <span className="ml-2 animate-pulse">←</span>
-          </Link>
+      <div className="relative z-10 w-full max-w-md">
+        {/* Back button */}
+        <Link 
+          to="/"
+          className="inline-flex items-center text-gray-400 hover:text-white mb-8 transition-colors group"
+        >
+          <svg className="w-4 h-4 mr-2 group-hover:-translate-x-1 transition-transform" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+            <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M15 19l-7-7 7-7" />
+          </svg>
+          Back
+        </Link>
 
-          {/* Terminal Window */}
-          <div className="bg-gray-900 border border-blue-500/30 rounded-lg shadow-2xl shadow-blue-500/20">
-            {/* Terminal Header */}
-            <div className="bg-gray-800 px-4 py-3 rounded-t-lg border-b border-blue-500/30 flex items-center">
-              <div className="flex space-x-2">
-                <div className="w-3 h-3 bg-red-500 rounded-full"></div>
-                <div className="w-3 h-3 bg-yellow-500 rounded-full"></div>
-                <div className="w-3 h-3 bg-blue-500 rounded-full"></div>
-              </div>
-              <div className="flex-1 text-center">
-                <span className="text-blue-400 font-mono text-sm">uptimex@terminal:~/auth/login</span>
+        {/* Main card */}
+        <div className="bg-white/5 backdrop-blur-xl border border-white/10 rounded-3xl p-8 shadow-2xl">
+          {/* Header */}
+          <div className="text-center mb-8">
+            <div className="w-20 h-20 mx-auto mb-6 bg-gradient-to-br from-blue-500 to-purple-600 rounded-2xl flex items-center justify-center shadow-lg">
+              <svg className="w-10 h-10 text-white" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M9 12l2 2 4-4m5.618-4.016A11.955 11.955 0 0112 2.944a11.955 11.955 0 01-8.618 3.04A12.02 12.02 0 003 9c0 5.591 3.824 10.29 9 11.622 5.176-1.332 9-6.03 9-11.622 0-1.042-.133-2.052-.382-3.016z" />
+              </svg>
+            </div>
+            <h1 className="text-3xl font-bold text-white mb-2">Welcome Back</h1>
+            <p className="text-gray-400">Sign in to your UptimeX dashboard</p>
+          </div>
+
+          {/* Error message */}
+          {error && (
+            <div className="bg-red-500/10 border border-red-500/20 rounded-xl p-4 mb-6">
+              <div className="flex items-center">
+                <svg className="w-5 h-5 text-red-400 mr-3" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                  <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M12 8v4m0 4h.01M21 12a9 9 0 11-18 0 9 9 0 0118 0z" />
+                </svg>
+                <span className="text-red-300 text-sm">{error}</span>
               </div>
             </div>
-            
-            {/* Terminal Content */}
-            <div className="p-8">
-              <div className="grid lg:grid-cols-2 gap-8">
-                {/* Left Column - Terminal Info */}
-                <div>
-                  <div className="text-blue-400 font-mono mb-4">
-                    <span className="text-green-500">$</span> ./login.sh --type=email --role=website_owner
-                  </div>
-                  <div className="text-blue-300 font-mono text-sm mb-2">
-                    [INFO] Initializing email authentication module...
-                  </div>
-                  <div className="text-green-300 font-mono text-sm mb-4">
-                    [INFO] Secure login protocol activated
-                  </div>
-                  <div className="border-l-2 border-blue-500 pl-4 mb-6">
-                    <h1 className="text-xl font-mono text-blue-400 mb-2">
-                      AUTHENTICATION_REQUIRED
-                    </h1>
-                    <p className="text-blue-300 font-mono text-sm">
-                      &gt; Enter credentials to access website owner portal
-                    </p>
-                  </div>
-                  <div className="bg-gradient-to-r from-blue-900/20 to-green-900/20 border border-blue-500/30 rounded px-4 py-2 mb-4">
-                    <div className="text-blue-400 font-mono text-xs flex items-center">
-                      <span className="w-2 h-2 bg-blue-500 rounded-full mr-2 animate-pulse"></span>
-                      STATUS: READY • ENCRYPTION: AES-256 • PROTOCOL: HTTPS
-                    </div>
-                  </div>
+          )}
 
-                  {/* Alternative Options */}
-                  <div className="mt-8 pt-6 border-t border-green-500/30">
-                    <div className="text-green-400 font-mono text-sm mb-4">
-                      [INFO] Alternative authentication methods:
-                    </div>
-                    <Link 
-                      to="/login"
-                      className="block w-full bg-gray-800/50 border border-gray-600 text-gray-300 font-mono py-2 px-4 rounded hover:bg-gray-800 transition-all duration-300 mb-3 text-sm"
-                    >
-                      <span className="text-gray-500">$</span> ./wallet_auth.sh --phantom
-                    </Link>
-                    
-                    <div className="text-green-400 font-mono text-sm mb-2">
-                      [INFO] No account? Register new user:
-                    </div>
-                    <Link 
-                      to="/email-register"
-                      className="block w-full bg-blue-900/30 border border-blue-500 text-blue-400 font-mono py-2 px-4 rounded hover:bg-blue-900/50 transition-all duration-300 text-sm"
-                    >
-                      <span className="text-blue-500">$</span> ./register.sh --type=email --role=website_owner
-                    </Link>
+          {/* Form */}
+          <form onSubmit={handleLogin} className="space-y-6">
+            {/* Email field */}
+            <div>
+              <label htmlFor="email" className="block text-sm font-medium text-gray-300 mb-2">
+                Email Address
+              </label>
+              <div className="relative">
+                <input
+                  type="email"
+                  id="email"
+                  value={email}
+                  onChange={handleEmailChange}
+                  className={`w-full px-4 py-4 bg-white/5 border ${
+                    emailError 
+                      ? 'border-red-500/50' 
+                      : email && validateEmail(email)
+                      ? 'border-green-500/50'
+                      : 'border-white/10'
+                  } rounded-xl text-white placeholder-gray-500 focus:outline-none focus:border-blue-500/50 focus:ring-1 focus:ring-blue-500/25 transition-all`}
+                  placeholder="Enter your email"
+                  required
+                />
+                {email && validateEmail(email) && (
+                  <div className="absolute right-4 top-1/2 transform -translate-y-1/2">
+                    <svg className="w-5 h-5 text-green-400" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                      <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M5 13l4 4L19 7" />
+                    </svg>
                   </div>
-                </div>
+                )}
+              </div>
+              {emailError && (
+                <p className="text-red-400 text-sm mt-2">{emailError}</p>
+              )}
+            </div>
 
-                {/* Right Column - Login Form */}
-                <div>
-                  {error && (
-                    <div className="bg-red-900/30 border border-red-500/50 rounded p-4 mb-6">
-                      <div className="text-red-400 font-mono text-sm">
-                        <span className="text-red-500">[ERROR]</span> {error}
-                      </div>
-                    </div>
-                  )}
-
-                  <form onSubmit={handleLogin} className="space-y-6">
-                {/* Email Field */}
-                <div className="space-y-2">
-                  <div className="text-green-400 font-mono text-sm">
-                    <span className="text-green-500">$</span> Enter email:
-                  </div>
-                  <div className="relative">
-                    <span className="text-green-500 font-mono absolute left-3 top-1/2 transform -translate-y-1/2 z-10">&gt;</span>
-                    <input
-                      type="email"
-                      id="email"
-                      value={email}
-                      onChange={handleEmailChange}
-                      className={`w-full pl-8 pr-4 py-3 bg-black border rounded font-mono text-green-400 focus:outline-none focus:ring-1 transition-all duration-300 ${
-                        emailError 
-                          ? 'border-red-500 focus:ring-red-500' 
-                          : email && validateEmail(email)
-                          ? 'border-green-500 focus:ring-green-500'
-                          : 'border-green-500/30 focus:ring-green-500'
-                      }`}
-                      placeholder="user@example.com"
-                      required
-                    />
-                    {email && validateEmail(email) && (
-                      <span className="absolute right-3 top-1/2 transform -translate-y-1/2 text-green-500 font-mono">✓</span>
-                    )}
-                  </div>
-                  {emailError && (
-                    <div className="text-red-400 font-mono text-xs">
-                      [ERROR] {emailError}
-                    </div>
-                  )}
-                </div>
-
-                {/* Password Field */}
-                <div className="space-y-2">
-                  <div className="text-green-400 font-mono text-sm">
-                    <span className="text-green-500">$</span> Enter password:
-                  </div>
-                  <div className="relative">
-                    <span className="text-green-500 font-mono absolute left-3 top-1/2 transform -translate-y-1/2 z-10">&gt;</span>
-                    <input
-                      type={showPassword ? 'text' : 'password'}
-                      id="password"
-                      value={password}
-                      onChange={handlePasswordChange}
-                      className={`w-full pl-8 pr-12 py-3 bg-black border rounded font-mono text-green-400 focus:outline-none focus:ring-1 transition-all duration-300 ${
-                        password && isPasswordValid(passwordValidation)
-                          ? 'border-green-500 focus:ring-green-500'
-                          : 'border-green-500/30 focus:ring-green-500'
-                      }`}
-                      placeholder="Enter secure password"
-                      required
-                    />
-                    <button
-                      type="button"
-                      onClick={() => setShowPassword(!showPassword)}
-                      className="absolute right-3 top-1/2 transform -translate-y-1/2 text-green-400 hover:text-green-300 font-mono text-xs"
-                    >
-                      {showPassword ? '[HIDE]' : '[SHOW]'}
-                    </button>
-                  </div>
-
-                  {/* Password Validation */}
-                  {password && (
-                    <div className="mt-3 space-y-1">
-                      <div className="text-green-400 font-mono text-xs">
-                        [INFO] Password requirements:
-                      </div>
-                      <div className="grid grid-cols-2 gap-2 text-xs font-mono">
-                        <div className={passwordValidation.minLength ? 'text-green-400' : 'text-gray-500'}>
-                          {passwordValidation.minLength ? '✓' : '✗'} 7+ chars
-                        </div>
-                        <div className={passwordValidation.hasUppercase ? 'text-green-400' : 'text-gray-500'}>
-                          {passwordValidation.hasUppercase ? '✓' : '✗'} A-Z
-                        </div>
-                        <div className={passwordValidation.hasLowercase ? 'text-green-400' : 'text-gray-500'}>
-                          {passwordValidation.hasLowercase ? '✓' : '✗'} a-z
-                        </div>
-                        <div className={passwordValidation.hasSpecialChar ? 'text-green-400' : 'text-gray-500'}>
-                          {passwordValidation.hasSpecialChar ? '✓' : '✗'} !@#$
-                        </div>
-                      </div>
-                    </div>
-                  )}
-                </div>
-
-                {/* Login Button */}
+            {/* Password field */}
+            <div>
+              <label htmlFor="password" className="block text-sm font-medium text-gray-300 mb-2">
+                Password
+              </label>
+              <div className="relative">
+                <input
+                  type={showPassword ? 'text' : 'password'}
+                  id="password"
+                  value={password}
+                  onChange={handlePasswordChange}
+                  className={`w-full px-4 py-4 bg-white/5 border ${
+                    password && isPasswordValid(passwordValidation)
+                      ? 'border-green-500/50'
+                      : 'border-white/10'
+                  } rounded-xl text-white placeholder-gray-500 focus:outline-none focus:border-blue-500/50 focus:ring-1 focus:ring-blue-500/25 transition-all pr-12`}
+                  placeholder="Enter your password"
+                  required
+                />
                 <button
-                  type="submit"
-                  disabled={isLoggingIn || !email || !password || !validateEmail(email) || !isPasswordValid(passwordValidation)}
-                  className="w-full bg-green-900/30 border border-green-500 text-green-400 font-mono py-3 px-4 rounded hover:bg-green-900/50 focus:outline-none focus:ring-1 focus:ring-green-500 disabled:opacity-50 disabled:cursor-not-allowed transition-all duration-300"
+                  type="button"
+                  onClick={() => setShowPassword(!showPassword)}
+                  className="absolute right-4 top-1/2 transform -translate-y-1/2 text-gray-400 hover:text-white transition-colors"
                 >
-                  {isLoggingIn ? (
-                    <span>
-                      <span className="animate-pulse">[AUTHENTICATING...]</span>
-                    </span>
+                  {showPassword ? (
+                    <svg className="w-5 h-5" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                      <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M13.875 18.825A10.05 10.05 0 0112 19c-4.478 0-8.268-2.943-9.543-7a9.97 9.97 0 011.563-3.029m5.858.908a3 3 0 114.243 4.243M9.878 9.878l4.242 4.242M9.878 9.878L3 3m6.878 6.878L21 21" />
+                    </svg>
                   ) : (
-                    <span>
-                      <span className="text-green-500">$</span> ./authenticate.sh --execute
-                    </span>
+                    <svg className="w-5 h-5" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                      <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M15 12a3 3 0 11-6 0 3 3 0 016 0z" />
+                      <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M2.458 12C3.732 7.943 7.523 5 12 5c4.478 0 8.268 2.943 9.542 7-1.274 4.057-5.064 7-9.542 7-4.477 0-8.268-2.943-9.542-7z" />
+                    </svg>
                   )}
                 </button>
-              </form>
-                </div>
               </div>
+
+              {/* Password requirements */}
+              {password && (
+                <div className="mt-3 p-3 bg-white/5 rounded-lg border border-white/10">
+                  <p className="text-xs text-gray-400 mb-2">Password Requirements:</p>
+                  <div className="grid grid-cols-2 gap-2 text-xs">
+                    <div className={`flex items-center ${passwordValidation.minLength ? 'text-green-400' : 'text-gray-500'}`}>
+                      <svg className={`w-3 h-3 mr-1`} fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                        <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M5 13l4 4L19 7" />
+                      </svg>
+                      7+ characters
+                    </div>
+                    <div className={`flex items-center ${passwordValidation.hasUppercase ? 'text-green-400' : 'text-gray-500'}`}>
+                      <svg className={`w-3 h-3 mr-1`} fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                        <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M5 13l4 4L19 7" />
+                      </svg>
+                      Uppercase
+                    </div>
+                    <div className={`flex items-center ${passwordValidation.hasLowercase ? 'text-green-400' : 'text-gray-500'}`}>
+                      <svg className={`w-3 h-3 mr-1`} fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                        <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M5 13l4 4L19 7" />
+                      </svg>
+                      Lowercase
+                    </div>
+                    <div className={`flex items-center ${passwordValidation.hasSpecialChar ? 'text-green-400' : 'text-gray-500'}`}>
+                      <svg className={`w-3 h-3 mr-1`} fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                        <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M5 13l4 4L19 7" />
+                      </svg>
+                      Special char
+                    </div>
+                  </div>
+                </div>
+              )}
+            </div>
+
+            {/* Login button */}
+            <button
+              type="submit"
+              disabled={isLoggingIn || !email || !password || !validateEmail(email) || !isPasswordValid(passwordValidation)}
+              className="w-full bg-gradient-to-r from-blue-600 to-purple-600 hover:from-blue-700 hover:to-purple-700 disabled:from-gray-600 disabled:to-gray-700 text-white font-semibold py-4 px-6 rounded-xl transition-all duration-200 disabled:cursor-not-allowed shadow-lg hover:shadow-xl transform hover:-translate-y-0.5 disabled:transform-none"
+            >
+              {isLoggingIn ? (
+                <div className="flex items-center justify-center">
+                  <svg className="w-5 h-5 mr-3 animate-spin" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                    <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M4 4v5h.582m15.356 2A8.001 8.001 0 004.582 9m0 0H9m11 11v-5h-.581m0 0a8.003 8.003 0 01-15.357-2m15.357 2H15" />
+                  </svg>
+                  Signing in...
+                </div>
+              ) : (
+                'Sign In'
+              )}
+            </button>
+          </form>
+
+          {/* Divider */}
+          <div className="my-8 flex items-center">
+            <div className="flex-1 border-t border-white/10"></div>
+            <span className="px-4 text-gray-500 text-sm">or</span>
+            <div className="flex-1 border-t border-white/10"></div>
+          </div>
+
+          {/* Alternative options */}
+          <div className="space-y-4">
+            <Link
+              to="/login"
+              className="w-full bg-white/5 hover:bg-white/10 border border-white/10 hover:border-white/20 text-white font-medium py-3 px-4 rounded-xl transition-all duration-200 flex items-center justify-center"
+            >
+              <svg className="w-5 h-5 mr-3" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M3 10h18M7 15h1m4 0h1m-7 4h12a3 3 0 003-3V8a3 3 0 00-3-3H6a3 3 0 00-3 3v8a3 3 0 003 3z" />
+              </svg>
+              Connect Wallet Instead
+            </Link>
+
+            <div className="text-center">
+              <span className="text-gray-500 text-sm">Don't have an account? </span>
+              <Link 
+                to="/email-register"
+                className="text-blue-400 hover:text-blue-300 font-medium text-sm transition-colors"
+              >
+                Sign up here
+              </Link>
             </div>
           </div>
+        </div>
+
+        {/* Footer */}
+        <div className="text-center mt-8">
+          <p className="text-gray-500 text-sm flex items-center justify-center">
+            <svg className="w-4 h-4 mr-2" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+              <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M12 15v2m-6 4h12a2 2 0 002-2v-6a2 2 0 00-2-2H6a2 2 0 00-2 2v6a2 2 0 002 2zm10-10V7a4 4 0 00-8 0v4h8z" />
+            </svg>
+            Protected by enterprise-grade security
+          </p>
         </div>
       </div>
     </div>
